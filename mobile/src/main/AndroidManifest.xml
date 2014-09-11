@@ -42,7 +42,19 @@
         </activity>
         <activity
             android:name=".operations.details.DetailsResultsActivity"
-            android:label="@string/title_activity_details_results" >
+            android:label="@string/title_activity_details_results"
+            android:parentActivityName=".MovieCatalog" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.vwuilbea.mymoviecatalog.MovieCatalog" />
+        </activity>
+        <activity
+            android:name=".operations.add.AddToDBActivity"
+            android:label="@string/title_activity_add_to_db"
+            android:parentActivityName=".MovieCatalog" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.vwuilbea.mymoviecatalog.MovieCatalog" />
         </activity>
     </application>
 

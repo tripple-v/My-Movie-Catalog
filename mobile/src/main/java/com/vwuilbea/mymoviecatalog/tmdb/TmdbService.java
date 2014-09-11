@@ -1,7 +1,5 @@
 package com.vwuilbea.mymoviecatalog.tmdb;
 
-import android.widget.TextView;
-
 import com.vwuilbea.mymoviecatalog.MovieCatalog;
 import com.vwuilbea.mymoviecatalog.util.RestClient;
 
@@ -16,9 +14,9 @@ public class TmdbService {
     public static final String PREFIX_IMAGE = "https://image.tmdb.org/t/p/";
     public static final String PREFIX_REQUEST = "https://api.themoviedb.org";
 
-    public static final String SUFFIX_DETAILS = "/3/movie/";
     public static final String SUFFIX_SEARCH = "/3/search/movie";
-    public static final String SUFFIX_TEST = SUFFIX_DETAILS+"550";
+    public static final String SUFFIX_DETAILS = "/3/movie/";
+    public static final String SUFFIX_CREDITS = "/3/movie/{id}/credits";
 
     private static final String API_KEY = "77760f5193f0b833f1ffb4a3d3b297a3";
 
@@ -29,13 +27,7 @@ public class TmdbService {
     private static final String PARAM_QUERY = "query";
     private static final String PARAM_SORT_BY = "sort_by";
 
-    private RestClient.ExecutionListener executionListener;
-
-    public TmdbService(RestClient.ExecutionListener executionListener) {
-        this.executionListener = executionListener;
-    }
-
-    private void sendRequest(String suffix, Map<String, String> params) {
+    private static void sendRequest(String suffix, Map<String, String> params, RestClient.ExecutionListener executionListener) {
         RestClient client = new RestClient(PREFIX_REQUEST+suffix, executionListener);
         client.addHeader("content-type", "application/json");
         if(params!=null) {
@@ -52,18 +44,18 @@ public class TmdbService {
         }
     }
 
-    public void sendTestRequest() {
-        sendRequest(SUFFIX_TEST,null);
-    }
-
-    public void sendSearchRequest(String query) {
+    public static void sendSearchRequest(String query, RestClient.ExecutionListener executionListener) {
         Map<String, String> map = new HashMap<String, String>();
         map.put(PARAM_QUERY, query);
-        sendRequest(SUFFIX_SEARCH,map);
+        sendRequest(SUFFIX_SEARCH,map, executionListener);
     }
 
-    public void sendDetailsRequest(int id) {
-        sendRequest(SUFFIX_DETAILS+id,null);
+    public static void sendDetailsRequest(int id, RestClient.ExecutionListener executionListener) {
+        sendRequest(SUFFIX_DETAILS+id,null, executionListener);
+    }
+
+    public static void sendCreditsRequest(int id, RestClient.ExecutionListener executionListener) {
+        sendRequest(SUFFIX_CREDITS.replace("{id}",String.valueOf(id)),null, executionListener);
     }
 
 }

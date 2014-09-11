@@ -26,5 +26,8 @@
     <string name="genres">Genres :</string>
     <string name="overview">Synopsis :</string>
     <string name="language">en</string>
+    <string name="action_add_movie">Add the movie</string>
+    <string name="actors">Actors :</string>
+    <string name="title_activity_add_to_db">AddToDBActivity</string>
 
 </resources>

@@ -1,6 +1,27 @@
-<com.nirhart.parallaxscroll.views.ParallaxScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent">
+
+    <RelativeLayout
+        android:id="@+id/progress_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="visible">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+    </RelativeLayout>
+
+<com.nirhart.parallaxscroll.views.ParallaxScrollView
+    android:id="@+id/parallax_view"
+    android:visibility="invisible"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:parallax_factor="3.4"
@@ -38,9 +59,26 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/label_genre"
+                android:id="@+id/label_actors"
                 style="@style/label"
                 android:layout_below="@+id/text_title"
+                android:padding="5dp"
+                android:text="@string/actors"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/text_actors"
+                style="@style/text"
+                android:layout_below="@+id/text_title"
+                android:layout_toRightOf="@+id/label_actors"
+                android:padding="5dp"
+                android:text="@string/actors"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/label_genre"
+                style="@style/label"
+                android:layout_below="@+id/text_actors"
                 android:padding="5dp"
                 android:text="@string/genres"
                 tools:ignore="HardcodedText" />
@@ -48,7 +86,7 @@
             <TextView
                 android:id="@+id/text_genre"
                 style="@style/text"
-                android:layout_below="@+id/text_title"
+                android:layout_below="@+id/text_actors"
                 android:layout_toRightOf="@+id/label_genre"
                 android:padding="5dp"
                 android:text="@string/genres"
@@ -65,8 +103,7 @@
             <TextView
                 android:id="@+id/text_overview"
                 style="@style/text"
-                android:layout_below="@+id/text_genre"
-                android:layout_toRightOf="@+id/label_overview"
+                android:layout_below="@+id/label_overview"
                 android:padding="5dp"
                 android:text="@string/overview"
                 tools:ignore="HardcodedText" />
@@ -76,3 +113,4 @@
     </LinearLayout>
 
 </com.nirhart.parallaxscroll.views.ParallaxScrollView>
+</RelativeLayout>

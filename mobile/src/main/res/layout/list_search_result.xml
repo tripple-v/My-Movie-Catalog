@@ -31,11 +31,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/item_thumb_poster"
-        android:layout_toLeftOf="@+id/item_button"
+        android:layout_toLeftOf="@+id/item_button_add"
         android:layout_marginTop="5dp"
         android:text="@string/hello_world"
         android:textSize="@dimen/title_size"
         android:textStyle="bold"
+        android:maxLines="1"
     />
 
     <TextView
@@ -54,7 +55,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/item_thumb_poster"
-        android:layout_toLeftOf="@+id/item_button"
         android:layout_below="@id/item_year"
         android:layout_marginTop="5dp"
         android:text="@string/hello_world"

@@ -38,13 +38,13 @@ public class DetailsResponse {
     private static final String PARAM_VOTE_AVERAGE = "vote_average";
     private static final String PARAM_VOTE_COUNT = "vote_count";
 
-    private boolean adult;
+    private Boolean adult;
     private String backdropPath;
     private String belongsToCollection;
-    private int budget;
+    private Integer budget;
     private List<Genre> genres = new ArrayList<Genre>();
     private String homePage;
-    private int id;
+    private Integer id;
     private String imdbId;
     private String originalTitle;
     private String overview;
@@ -53,31 +53,31 @@ public class DetailsResponse {
     private List<ProductionCompany> productionCompanies = new ArrayList<ProductionCompany>();
     private List<ProductionCountry> productionCountries = new ArrayList<ProductionCountry>();
     private String releaseDate;
-    private int revenue;
-    private int runtime;
+    private Integer revenue;
+    private Integer runtime;
     private List<Language> languages = new ArrayList<Language>();
     private String status;
     private String tagline;
     private String title;
     private Double voteAverage;
-    private int voteCount;
+    private Integer voteCount;
 
     public DetailsResponse(String result) {
         try {
             JSONObject object = new JSONObject(result);
-            this.adult = object.getBoolean(PARAM_ADULT);
+            if(!object.isNull(PARAM_ADULT)) this.adult = object.getBoolean(PARAM_ADULT);
             this.backdropPath = object.getString(PARAM_BACKDROP_PATH);
             this.belongsToCollection = object.getString(PARAM_BELONGS_TO_COLLECTION);
-            this.budget = object.getInt(PARAM_BUDGET);
+            if(!object.isNull(PARAM_BUDGET)) this.budget = object.getInt(PARAM_BUDGET);
             JSONArray array = object.getJSONArray(PARAM_GENRES);
             for (int i = 0; i < array.length(); i++)
                 genres.add(new Genre(array.getJSONObject(i)));
             this.homePage = object.getString(PARAM_HOMEPAGE);
-            this.id = object.getInt(PARAM_ID);
+            if(!object.isNull(PARAM_ID)) this.id = object.getInt(PARAM_ID);
             this.imdbId = object.getString(PARAM_IMDB_ID);
             this.originalTitle = object.getString(PARAM_ORIGINAL_TITLE);
             this.overview = object.getString(PARAM_OVERVIEW);
-            this.popularity = object.getDouble(PARAM_POPULARITY);
+            if(!object.isNull(PARAM_POPULARITY)) this.popularity = object.getDouble(PARAM_POPULARITY);
             this.posterPath = object.getString(PARAM_POSTER_PATH);
             array = object.getJSONArray(PARAM_PRODUCTION_COMPANIES);
             for (int i = 0; i < array.length(); i++)
@@ -86,22 +86,22 @@ public class DetailsResponse {
             for (int i = 0; i < array.length(); i++)
                 productionCountries.add(new ProductionCountry(array.getJSONObject(i)));
             this.releaseDate = object.getString(PARAM_RELEASE_DATE);
-            this.revenue = object.getInt(PARAM_REVENUE);
-            this.runtime = object.getInt(PARAM_RUNTIME);
+            if(!object.isNull(PARAM_REVENUE)) this.revenue = object.getInt(PARAM_REVENUE);
+            if(!object.isNull(PARAM_RUNTIME)) this.runtime = object.getInt(PARAM_RUNTIME);
             array = object.getJSONArray(PARAM_LANGUAGES);
             for (int i = 0; i < array.length(); i++)
                 languages.add(new Language(array.getJSONObject(i)));
             this.status = object.getString(PARAM_STATUS);
             this.tagline = object.getString(PARAM_TAGLINE);
             this.title = object.getString(PARAM_TITLE);
-            this.voteAverage = object.getDouble(PARAM_VOTE_AVERAGE);
-            this.voteCount = object.getInt(PARAM_VOTE_COUNT);
+            if(!object.isNull(PARAM_VOTE_AVERAGE)) this.voteAverage = object.getDouble(PARAM_VOTE_AVERAGE);
+            if(!object.isNull(PARAM_VOTE_COUNT)) this.voteCount = object.getInt(PARAM_VOTE_COUNT);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean isAdult() {
+    public Boolean getAdult() {
         return adult;
     }
 
@@ -113,7 +113,7 @@ public class DetailsResponse {
         return belongsToCollection;
     }
 
-    public int getBudget() {
+    public Integer getBudget() {
         return budget;
     }
 
@@ -125,7 +125,7 @@ public class DetailsResponse {
         return homePage;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -153,16 +153,24 @@ public class DetailsResponse {
         return productionCompanies;
     }
 
+    public List<ProductionCountry> getProductionCountries() {
+        return productionCountries;
+    }
+
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    public int getRevenue() {
+    public Integer getRevenue() {
         return revenue;
     }
 
-    public int getRuntime() {
+    public Integer getRuntime() {
         return runtime;
+    }
+
+    public List<Language> getLanguages() {
+        return languages;
     }
 
     public String getStatus() {
@@ -181,7 +189,7 @@ public class DetailsResponse {
         return voteAverage;
     }
 
-    public int getVoteCount() {
+    public Integer getVoteCount() {
         return voteCount;
     }
 

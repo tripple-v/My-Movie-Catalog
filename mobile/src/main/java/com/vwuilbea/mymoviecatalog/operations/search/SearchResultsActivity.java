@@ -28,7 +28,6 @@ public class SearchResultsActivity
 
     private SearchAdapter adapter;
     private ListView listView;
-    private TmdbService tmdbService;
 
     private RestClient.ExecutionListener executionListener = new RestClient.ExecutionListener() {
         @Override
@@ -77,7 +76,6 @@ public class SearchResultsActivity
         Log.d(LOG,"onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
-        tmdbService = new TmdbService(executionListener);
         adapter = new SearchAdapter(this,R.layout.list_search_result);
         listView = (ListView) findViewById(R.id.layout_list);
         listView.setOnItemClickListener(this);
@@ -98,7 +96,7 @@ public class SearchResultsActivity
             String query = intent.getStringExtra(SearchManager.QUERY);
             setTitle(getResources().getString(R.string.search)+": "+query);
             query = query.trim();
-            tmdbService.sendSearchRequest(query);
+            TmdbService.sendSearchRequest(query, executionListener);
         }
     }
 
