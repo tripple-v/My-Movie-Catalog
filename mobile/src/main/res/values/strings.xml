@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Movie Catalog</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="test">test</string>
+    <string name="title_activity_movie_catalog">MovieCatalog</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="search_hint">Search movies</string>
+    <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string name="title_activity_test_search">TestSearch</string>
+    <string name="description_thumb_poster">Thumb of the movie\'s poster</string>
+    <string name="rating">Rating</string>
+    <string name="unknown">Unknown</string>
+    <string name="unknown_year">Unknown year</string>
+    <string name="no_result">No result</string>
+    <string name="title_activity_details_results">DetailsResultsActivity</string>
+    <string name="search">Search</string>
+    <string name="title">Title :</string>
+    <string name="genres">Genres :</string>
+    <string name="overview">Synopsis :</string>
+    <string name="language">en</string>
+
+</resources>

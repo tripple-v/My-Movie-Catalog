@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+
+    <ImageView
+        android:id="@+id/item_thumb_poster"
+        android:layout_width="@dimen/thumb_size"
+        android:layout_height="@dimen/thumb_size"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:src="@android:drawable/ic_menu_report_image"
+        android:contentDescription="@string/description_thumb_poster"
+    />
+
+    <ImageView
+        android:id="@+id/item_button_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:onClick="onClick"
+        android:background="@android:drawable/ic_input_add"
+    />
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_thumb_poster"
+        android:layout_toLeftOf="@+id/item_button"
+        android:layout_marginTop="5dp"
+        android:text="@string/hello_world"
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold"
+    />
+
+    <TextView
+        android:id="@+id/item_year"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_thumb_poster"
+        android:layout_below="@id/item_title"
+        android:layout_marginTop="5dp"
+        android:text="@string/hello_world"
+        android:textSize="@dimen/subtitle_size"
+        />
+
+    <TextView
+        android:id="@+id/item_rating"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_thumb_poster"
+        android:layout_toLeftOf="@+id/item_button"
+        android:layout_below="@id/item_year"
+        android:layout_marginTop="5dp"
+        android:text="@string/hello_world"
+        android:textSize="@dimen/subtitle_size"
+    />
+
+</RelativeLayout>
