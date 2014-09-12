@@ -1,16 +1,25 @@
 package com.vwuilbea.mymoviecatalog.operations.add;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.vwuilbea.mymoviecatalog.R;
-import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.Credit;
+import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
+import com.vwuilbea.mymoviecatalog.model.Role;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
 
+import java.util.List;
+
 public class AddToDBActivity extends Activity {
+
+    private static final String LOG = AddToDBActivity.class.getSimpleName();
+    private List<Role> roles;
 
     TextView test;
 
@@ -23,15 +32,18 @@ public class AddToDBActivity extends Activity {
         if(getIntent().getExtras() != null ) {
             CreditsResponse creditsResponse = (CreditsResponse) getIntent().getExtras().get("credits");
             if(creditsResponse!=null) {
-                credits = "Credits for movie '"+creditsResponse.getId()+"'\n";
-                for(Credit credit:creditsResponse.getCredits()) {
-                    credits+= credit+"\n";
+                credits = "Credits for movie '"+creditsResponse.getId()+"': \n\n";
+                roles = creditsResponse.getRoles();
+                for(Role role:roles) {
+                    credits+= role+"\n\n";
                 }
             }
             else credits = "credits extra is null";
         }
         else credits = "No extra";
         test.setText(credits);
+        GetDB getDB = new GetDB();
+        getDB.doInBackground(null);
     }
 
     @Override
@@ -51,5 +63,26 @@ public class AddToDBActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onDBReady(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        Log.i(LOG, "db is ready!");
+        if(roles!=null) {
+            roles.get(0).addInDB(dbW, dbR);
+        }
+
+    }
+
+    private class GetDB extends AsyncTask {
+
+        @Override
+        protected SQLiteDatabase doInBackground(Object[] params) {
+            DatabaseHelper databaseHelper = new DatabaseHelper(getBaseContext());
+            // Gets the data repository in write mode
+            SQLiteDatabase dbW = databaseHelper.getWritableDatabase();
+            SQLiteDatabase dbR = databaseHelper.getReadableDatabase();
+            onDBReady(dbW, dbR);
+            return null;
+        }
     }
 }

@@ -3,6 +3,9 @@ package com.vwuilbea.mymoviecatalog.tmdb.responses.credits;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.vwuilbea.mymoviecatalog.model.Role;
+import com.vwuilbea.mymoviecatalog.tmdb.TmdbFactory;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,17 +18,14 @@ import java.util.List;
  */
 public class CreditsResponse implements Parcelable {
 
-    public static final Parcelable.Creator<CreditsResponse> CREATOR = new Parcelable.Creator<CreditsResponse>()
-    {
+    public static final Parcelable.Creator<CreditsResponse> CREATOR = new Parcelable.Creator<CreditsResponse>() {
         @Override
-        public CreditsResponse createFromParcel(Parcel source)
-        {
+        public CreditsResponse createFromParcel(Parcel source) {
             return new CreditsResponse(source);
         }
 
         @Override
-        public CreditsResponse[] newArray(int size)
-        {
+        public CreditsResponse[] newArray(int size) {
             return new CreditsResponse[size];
         }
     };
@@ -36,11 +36,11 @@ public class CreditsResponse implements Parcelable {
     private static final String PARAM_CAST = "cast";
 
     private int id;
-    private List<Credit> credits = new ArrayList<Credit>();
+    private List<Role> roles = new ArrayList<Role>();
 
     public CreditsResponse(Parcel in) {
         this.id = in.readInt();
-        in.readList(this.credits, Credit.class.getClassLoader());
+        in.readList(this.roles, Role.class.getClassLoader());
     }
 
     public CreditsResponse(String result) {
@@ -49,7 +49,7 @@ public class CreditsResponse implements Parcelable {
             this.id = object.getInt(PARAM_ID);
             JSONArray array = object.getJSONArray(PARAM_CAST);
             for (int i = 0; i < array.length(); i++)
-                credits.add(new Credit(array.getJSONObject(i), this.id));
+                roles.add(TmdbFactory.getRoleFromCredit(new Credit(array.getJSONObject(i), this.id)));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -59,8 +59,8 @@ public class CreditsResponse implements Parcelable {
         return id;
     }
 
-    public List<Credit> getCredits() {
-        return credits;
+    public List<Role> getRoles() {
+        return roles;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class CreditsResponse implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
-        dest.writeList(credits);
+        dest.writeList(roles);
     }
 
 }

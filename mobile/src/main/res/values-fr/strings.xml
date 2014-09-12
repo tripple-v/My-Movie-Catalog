@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">My Movie Catalog</string>
+    <string name="action_add_movie">Ajouter la vidéo</string>
+    <string name="action_settings">Préférences</string>
+    <string name="label_actors">Acteurs :</string>
+    <string name="label_genres">Genres :</string>
+    <string name="label_overview">Résumé :</string>
+    <string name="label_title">Titre :</string>
     <string name="language">fr</string>
+    <string name="navigation_drawer_close">Fermer le volet de navigation</string>
+    <string name="navigation_drawer_open">Ouvrir le volet de navigation</string>
+    <string name="no_result">Aucun résultat</string>
+    <string name="rating">Note</string>
+    <string name="search">Recherche</string>
+    <string name="search_hint">Rechercher un film</string>
+    <string name="unknown">Inconnu</string>
+    <string name="unknown_year">Année inconnue</string>
 </resources>

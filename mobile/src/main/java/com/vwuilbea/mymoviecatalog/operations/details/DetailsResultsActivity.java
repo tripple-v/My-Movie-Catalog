@@ -14,9 +14,10 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.vwuilbea.mymoviecatalog.MovieCatalog;
 import com.vwuilbea.mymoviecatalog.R;
+import com.vwuilbea.mymoviecatalog.model.Actor;
+import com.vwuilbea.mymoviecatalog.model.Role;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
-import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.Credit;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.DetailsResponse;
 import com.vwuilbea.mymoviecatalog.util.RestClient;
@@ -67,19 +68,18 @@ public class DetailsResultsActivity extends Activity {
         public void onExecutionFinished(String url, String result) {
             Log.d(LOG, "url:" + url + ", result:" + result);
             creditsResponse = new CreditsResponse(result);
-            List<Credit> credits = creditsResponse.getCredits();
+            List<Role> roles = creditsResponse.getRoles();
             String creditsString = "";
             boolean first = true;
-            for (int i=0; i<Math.min(MAX_ACTORS_DISPLAYED,credits.size()); i++) {
-                Credit credit = credits.get(i);
-                if (first) {
-                    creditsString += credit.getName();
-                    first = false;
-                } else creditsString += ", " + credit.getName();
+            for (int i=0; i<Math.min(MAX_ACTORS_DISPLAYED, roles.size()); i++) {
+                Role role = roles.get(i);
+                Actor actor = role.getActor();
+                if (first) first = false;
+                else creditsString += ", ";
+                creditsString += actor.getFirstname() + " " + actor.getName().toUpperCase();
             }
             textActors.setText(creditsString);
             onRequestFinished(REQUEST_CREDITS);
-
         }
 
         @Override
