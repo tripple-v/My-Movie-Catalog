@@ -55,7 +55,7 @@
                 style="@style/text"
                 android:layout_toRightOf="@+id/label_title"
                 android:padding="5dp"
-                android:text="@string/label_title"
+                android:text="@string/unknown"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_below="@+id/text_title"
                 android:layout_toRightOf="@+id/label_actors"
                 android:padding="5dp"
-                android:text="@string/label_actors"
+                android:text="@string/unknown"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -89,7 +89,7 @@
                 android:layout_below="@+id/text_actors"
                 android:layout_toRightOf="@+id/label_genre"
                 android:padding="5dp"
-                android:text="@string/label_genres"
+                android:text="@string/unknown"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -105,7 +105,7 @@
                 style="@style/text"
                 android:layout_below="@+id/label_overview"
                 android:padding="5dp"
-                android:text="@string/label_overview"
+                android:text="@string/unavailable"
                 tools:ignore="HardcodedText" />
 
         </RelativeLayout>

@@ -24,14 +24,22 @@ public abstract class Entity
     protected List<Video> videos = new ArrayList<Video>();
 
     public Entity(int id) {
-        super();
-        this.id = id;
+        this(id, null);
     }
 
     public Entity(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
-        in.readList(this.videos,Video.class.getClassLoader());
+    }
+
+    protected Entity(int id, String name) {
+        this(id, name, null);
+    }
+
+    protected Entity(int id, String name, Video video) {
+        this.id = id;
+        this.name = name;
+        addVideo(video);
     }
 
     public int getId() {
@@ -59,7 +67,7 @@ public abstract class Entity
     }
 
     public void addVideo(Video video) {
-        this.videos.add(video);
+        if(video!=null && !this.videos.contains(video)) this.videos.add(video);
     }
 
     public void removeVideo(Video video) {
@@ -75,14 +83,29 @@ public abstract class Entity
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
-        dest.writeList(videos);
     }
 
     @Override
     public String toString() {
         return "id=" + id +
-                ", name='" + name + '\'' +
-                ", videos=" + videos;
+                ", name='" + name + '\'';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || ((Object) this).getClass() != o.getClass()) return false;
+
+        Entity entity = (Entity) o;
+
+        if (id != entity.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }
 

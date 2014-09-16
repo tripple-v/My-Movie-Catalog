@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,13 +19,26 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.SearchView;
 
+import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
+import com.vwuilbea.mymoviecatalog.model.Movie;
+import com.vwuilbea.mymoviecatalog.model.Series;
+import com.vwuilbea.mymoviecatalog.model.Video;
+import com.vwuilbea.mymoviecatalog.operations.details.DetailsResultsActivity;
 import com.vwuilbea.mymoviecatalog.operations.search.SearchResultsActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MovieCatalog extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+        DisplayVideosFragment.OnFragmentInteractionListener,
+        View.OnClickListener
+{
 
     private static final String LOG = MovieCatalog.class.getSimpleName();
+    public static final String PARAM_MOVIES = "movies";
+
     public static String LANGUAGE;
 
     /** Fragment managing the behaviors, interactions and presentation of the navigation drawer */
@@ -33,10 +47,16 @@ public class MovieCatalog extends Activity
     /** Used to store the last screen title. For use in {@link #restoreActionBar()} */
     private CharSequence mTitle;
 
+    //Is previous screen splash screen ?
+    private boolean firstResume=true;
+
+    private int currentPosition=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOG, "onCreate");
         super.onCreate(savedInstanceState);
+        setTitle(getString(R.string.title_cat_all));
         LANGUAGE = getResources().getString(R.string.language);
         setContentView(R.layout.activity_movie_catalog);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -47,37 +67,28 @@ public class MovieCatalog extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
         handleIntent(getIntent());
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        Log.d(LOG,"onNewIntent");
-        handleIntent(intent);
+    protected void onResume() {
+        super.onResume();
+        if(firstResume) {
+            firstResume = false;
+        }
+        else {
+            onNavigationDrawerItemSelected(currentPosition);
+        }
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        ArrayList<Video> videos = ((MyApplication) this.getApplication()).getAllVideos();
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, DisplayVideosFragment.newInstance(position,videos))
                 .commit();
-    }
-
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
     }
 
     public void restoreActionBar() {
@@ -86,7 +97,6 @@ public class MovieCatalog extends Activity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,6 +135,10 @@ public class MovieCatalog extends Activity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Dispatch the search action
+     * @param intent : it contains the search action
+     */
     private void handleIntent(Intent intent) {
         Log.d(LOG,"handleIntent:"+intent.getAction());
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -139,44 +153,34 @@ public class MovieCatalog extends Activity
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    @Override
+    public void onVideoClicked(Video video) {
+        Intent intent = new Intent(this, DetailsResultsActivity.class);
+        intent.putExtra(DetailsResultsActivity.PARAM_VIDEO, video);
+        intent.putExtra(DetailsResultsActivity.PARAM_MORE, false);
+        startActivity(intent);
+    }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_movie_catalog, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MovieCatalog) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+    @Override
+    public void onSectionAttached(int category) {
+        Log.d(LOG, "onSectionAttached: "+category);
+        switch (category) {
+            case DisplayVideosFragment.CATEGORY_ALL:
+                mTitle = getString(R.string.title_cat_all);
+                break;
+            case DisplayVideosFragment.CATEGORY_MOVIE :
+                mTitle = getString(R.string.title_cat_movies);
+                break;
+            case DisplayVideosFragment.CATEGORY_SERIES :
+                mTitle = getString(R.string.title_cat_series);
+                break;
+            default:
+                break;
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        Log.d( LOG,"Click on "+getResources().getResourceEntryName( v.getId() ) );
+    }
 }

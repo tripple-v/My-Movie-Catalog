@@ -3,8 +3,9 @@ package com.vwuilbea.mymoviecatalog.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
+import java.util.List;
 import java.util.HashSet;
 
 public class Country extends Entity {
@@ -23,36 +24,55 @@ public class Country extends Entity {
             return new Country[size];
         }
     };
+    private static int _ID;
 
-    private Set<Person> actors;
+    private List<Person> persons = new ArrayList<Person>();
+    private String iso;
 
     public Country(int id) {
-        super(id);
+        super(_ID++);
     }
 
     public Country(Parcel in) {
         super(in);
-        actors = new HashSet<Person>(Arrays.asList((Person[]) in.readArray(Person.class.getClassLoader())));
+        in.readList(persons, Person.class.getClassLoader());
+        iso = in.readString();
     }
 
-    public Set<Person> getActors() {
-        return actors;
+    public Country(String name, String iso) {
+        this(name,iso,null);
     }
 
-    public void setActors(Set<Person> actors) {
-        this.actors = actors;
+    public Country(String name, String iso, Person person) {
+        super(_ID++, name);
+        this.iso = iso;
+        addPerson(person);
+    }
+
+    public void addPerson(Person person) {
+        if(person!=null && !persons.contains(person)) persons.add(person);
+    }
+
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeArray(actors.toArray());
+        dest.writeList(persons);
+        dest.writeString(iso);
     }
 
     @Override
     public String toString() {
         return "Country{" +
-                "actors=" + actors +
+                "iso=" + iso +
+                ", persons=" + persons +
                 ", " + super.toString() +
                 '}';
     }

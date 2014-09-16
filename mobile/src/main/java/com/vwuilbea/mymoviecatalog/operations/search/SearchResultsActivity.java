@@ -2,19 +2,22 @@ package com.vwuilbea.mymoviecatalog.operations.search;
 
 import android.app.Activity;
 import android.app.SearchManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.vwuilbea.mymoviecatalog.MovieAdapter;
 import com.vwuilbea.mymoviecatalog.R;
+import com.vwuilbea.mymoviecatalog.model.Movie;
+import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.details.DetailsResultsActivity;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
-import com.vwuilbea.mymoviecatalog.tmdb.responses.SearchResponse;
+import com.vwuilbea.mymoviecatalog.tmdb.responses.SearchMovieResponse;
 import com.vwuilbea.mymoviecatalog.util.RestClient;
 
 
@@ -26,31 +29,30 @@ public class SearchResultsActivity
 
     private static final String LOG = SearchResultsActivity.class.getSimpleName();
 
-    private SearchAdapter adapter;
+    private MovieAdapter adapter;
     private ListView listView;
 
     private RestClient.ExecutionListener executionListener = new RestClient.ExecutionListener() {
         @Override
         public void onExecutionFinished(String url, String result) {
             Log.d(LOG, "execution of '"+url+"' finished.\nResult:"+result);
-            SearchResponse response = new SearchResponse(result);
-            if(response.getResults()!=null && response.getResults().size()>0) {
+            SearchMovieResponse response = new SearchMovieResponse(result);
+            if(response.getMovies().size()>0) {
                 String msg = "Response:";
                 msg+="\npage:"+response.getPage();
                 msg+="\ntotal pages:"+response.getTotalPages();
                 msg+="\ntotal results:"+response.getTotalResults();
-                for(SearchResponse.SearchResult searchResult:response.getResults()) {
-                    msg+="\nid:"+searchResult.getId();
-                    msg+="\ntitle:"+searchResult.getTitle();
-                    msg+="\noriginal title:"+searchResult.getOriginalTitle();
-                    msg+="\nbackdrop path:"+searchResult.getBackdropPath();
-                    msg+="\nposter path:"+searchResult.getPosterPath();
-                    msg+="\nrelease date:"+searchResult.getReleaseDate();
-                    msg+="\npopularity:"+searchResult.getPopularity();
-                    msg+="\nvote average:"+searchResult.getVoteAverage();
-                    msg+="\nvote count:"+searchResult.getVoteCount();
-                    adapter.add(searchResult);
+                for(Movie movie:response.getMovies()) {
+                    msg+="\nid:"+movie.getId();
+                    msg+="\ntitle:"+movie.getTitle();
+                    msg+="\noriginal title:"+movie.getOriginalTitle();
+                    msg+="\nposter path:"+movie.getPosterPath();
+                    msg+="\nreleaseDate:"+movie.getReleaseDate();
+                    msg+="\nvote average:"+movie.getVoteAverage();
+                    msg+="\nvote count:"+movie.getVoteCount();
+                    adapter.add(movie);
                 }
+                adapter.sort(Video.COMPARATOR_DATE);
                 Log.d(LOG,msg);
             }
             else {
@@ -73,10 +75,10 @@ public class SearchResultsActivity
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(LOG,"onCreate");
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_search_results);
-        adapter = new SearchAdapter(this,R.layout.list_search_result);
+        adapter = new MovieAdapter(this,R.layout.list_search_result);
         listView = (ListView) findViewById(R.id.layout_list);
         listView.setOnItemClickListener(this);
         listView.setAdapter(adapter);
@@ -85,7 +87,7 @@ public class SearchResultsActivity
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Log.d(LOG,"onNewIntent");
+        Log.d(LOG, "onNewIntent");
         super.onNewIntent(intent);
         handleIntent(intent);
     }
@@ -102,12 +104,11 @@ public class SearchResultsActivity
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        SearchResponse.SearchResult result = adapter.getItem(position);
+        Video video = adapter.getItem(position);
         Intent newIntent = new Intent();
         newIntent.setClass(this, DetailsResultsActivity.class);
-        newIntent.putExtra(DetailsResultsActivity.PARAM_MOVIE_ID, result.getId());
-        newIntent.putExtra(DetailsResultsActivity.PARAM_MOVIE_TITLE, result.getTitle());
-        newIntent.putExtra(DetailsResultsActivity.PARAM_MOVIE_POSTER_PATH, result.getPosterPath());
+        newIntent.putExtra(DetailsResultsActivity.PARAM_VIDEO, video);
+        newIntent.putExtra(DetailsResultsActivity.PARAM_MORE, true);
         startActivity(newIntent);
     }
 
@@ -117,5 +118,18 @@ public class SearchResultsActivity
             case R.id.item_button_add:
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,10 +1,12 @@
 package com.vwuilbea.mymoviecatalog.model;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
 
 public class Actor
@@ -30,14 +32,14 @@ public class Actor
         super(in);
     }
 
-    public boolean isInDb(SQLiteDatabase dbR) {
+    public int getFromDb(SQLiteDatabase dbR, boolean init) {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {MovieCatalogContract.ActorEntry._ID};
         String WHERE = MovieCatalogContract.ActorEntry._ID + "=?";
         String[] selectionArgs = {String.valueOf(getId())};
 
-        Cursor c = dbR.query(
+        Cursor cursor = dbR.query(
                 MovieCatalogContract.ActorEntry.TABLE_NAME,
                 projection,
                 WHERE,
@@ -46,7 +48,44 @@ public class Actor
                 null,
                 null
         );
-        return c.getCount()!=0;
+        if(cursor.getCount()>1) return DatabaseHelper.MULTIPLE_RESULTS;
+        if(init) initFromCursor(cursor);
+        else return cursor.getCount();
+        return DatabaseHelper.OK;
+    }
+
+    private void initFromCursor(Cursor cursor) {
+        cursor.moveToFirst();
+        name = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.ActorEntry.COLUMN_NAME));
+        firstname = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.ActorEntry.COLUMN_FIRSTNAME));
+        birthday = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.ActorEntry.COLUMN_BIRTHDAY));
+        profilePath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.ActorEntry.COLUMN_PROFILE_PATH));
+        country = new Country(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.ActorEntry.COLUMN_COUNTRY_ID)));
+    }
+
+    public boolean isInDb(SQLiteDatabase dbR) {
+        return getFromDb(dbR, false) != 0;
+    }
+
+    public int putInDB(SQLiteDatabase dbR, SQLiteDatabase dbW) {
+        if (!isInDb(dbR)) {
+            // Create a new map of values, where column names are the keys
+            ContentValues values = new ContentValues();
+            values.put(MovieCatalogContract.ActorEntry._ID, id);
+            values.put(MovieCatalogContract.ActorEntry.COLUMN_NAME, name);
+            values.put(MovieCatalogContract.ActorEntry.COLUMN_FIRSTNAME, firstname);
+            values.put(MovieCatalogContract.ActorEntry.COLUMN_BIRTHDAY, birthday);
+            values.put(MovieCatalogContract.ActorEntry.COLUMN_PROFILE_PATH, profilePath);
+            values.put(MovieCatalogContract.ActorEntry.COLUMN_COUNTRY_ID, country == null ? DatabaseHelper.ALREADY_IN_DB : country.getId());
+
+            // Insert the new row, returning the primary key value of the new row
+            long newRowId = dbW.insert(
+                    MovieCatalogContract.ActorEntry.TABLE_NAME,
+                    DatabaseHelper.NULL,
+                    values);
+            if(newRowId!=getId()) return DatabaseHelper.ERROR;
+        }
+        return DatabaseHelper.OK;
     }
 
     @Override

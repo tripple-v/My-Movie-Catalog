@@ -1,9 +1,13 @@
 package com.vwuilbea.mymoviecatalog.model;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
+import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
+import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
 
 /**
  * Created by Valentin on 31/08/2014.
@@ -34,17 +38,20 @@ public class Role
     private Video video;
     private String character;
 
+    public Role(String roleId) {
+        this(roleId, null, null, null);
+    }
+
     public Role(String roleId, Actor actor, Video video, String character) {
-        this.roleId = roleId;
-        this.actor = actor;
-        this.video = video;
-        this.character = character;
+        setRoleId(roleId);
+        setActor(actor);
+        setVideo(video);
+        setCharacter(character);
     }
 
     public Role(Parcel in) {
         this.roleId = in.readString();
         this.actor = in.readParcelable(Actor.class.getClassLoader());
-        this.video = in.readParcelable(Video.class.getClassLoader());
         this.character = in.readString();
     }
 
@@ -57,7 +64,6 @@ public class Role
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(roleId);
         dest.writeParcelable(actor, flags);
-        dest.writeParcelable(video, flags);
         dest.writeString(character);
     }
 
@@ -82,7 +88,10 @@ public class Role
     }
 
     public void setVideo(Video video) {
-        this.video = video;
+        if(video!=null) {
+            this.video = video;
+            video.addRole(this);
+        }
     }
 
     public String getCharacter() {
@@ -93,8 +102,51 @@ public class Role
         this.character = character;
     }
 
-    public void addInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
-        Log.d(LOG,"Actor '"+actor.getLongName()+"' is in DB: "+actor.isInDb(dbR));
+
+
+    public int getFromDb(SQLiteDatabase dbR, boolean init) {
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = MovieCatalogContract.RoleEntry.ALL_COLUMNS;
+        String WHERE = MovieCatalogContract.RoleEntry._ID + "=?";
+        String[] selectionArgs = {String.valueOf(getRoleId())};
+
+        Cursor cursor = dbR.query(
+                MovieCatalogContract.RoleEntry.TABLE_NAME,
+                projection,
+                WHERE,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        if(cursor.getCount()>1) return DatabaseHelper.MULTIPLE_RESULTS;
+        if(init && cursor.getCount()>0) initFromCursor(dbR, cursor);
+        else return cursor.getCount();
+        return DatabaseHelper.OK;
+    }
+
+    private void initFromCursor(SQLiteDatabase dbR, Cursor cursor) {
+        cursor.moveToFirst();
+        setCharacter( cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.RoleEntry.COLUMN_CHARACTER)) );
+        addActorFromDB(dbR, cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.RoleEntry.COLUMN_ACTOR_ID)));
+    }
+
+    protected void addActorFromDB(SQLiteDatabase dbR, int actorId) {
+        Actor actor = new Actor(actorId);
+        actor.getFromDb(dbR, true);
+        setActor(actor);
+    }
+
+    public boolean isInDb(SQLiteDatabase dbR) {
+        return getFromDb(dbR, false) != 0;
+    }
+
+    public void putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        int actorRes = actor.putInDB(dbR, dbW);
+        if(actorRes == DatabaseHelper.OK) {
+
+        }
     }
 
     @Override
@@ -102,7 +154,6 @@ public class Role
         return "Role{" +
                 "roleId='" + roleId + '\'' +
                 ", actor=" + actor +
-                ", video=" + video +
                 ", character='" + character + '\'' +
                 '}';
     }

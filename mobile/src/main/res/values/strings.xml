@@ -8,9 +8,9 @@
     <string name="title_activity_movie_catalog" translatable="false">MovieCatalog</string>
     <string name="title_activity_search_results" translatable="false">SearchResultsActivity</string>
     <string name="title_activity_test_search" translatable="false">TestSearch</string>
-    <string name="title_section1" translatable="false">Section 1</string>
-    <string name="title_section2" translatable="false">Section 2</string>
-    <string name="title_section3" translatable="false">Section 3</string>
+    <string name="title_section1">Display all</string>
+    <string name="title_section2">All movies</string>
+    <string name="title_section3">All series</string>
 
     <!-- Activities -->
     <string name="action_example" translatable="false">Example action</string>
@@ -38,5 +38,15 @@
     <string name="unknown">Unknown</string>
     <string name="unknown_year">Unknown year</string>
     <string name="action_add_movie">Add the video</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="title_activity_splash_screen" translatable="false">SplashScreenActivity</string>
+    <string name="title_activity_fullscreen" translatable="false">FullscreenActivity</string>
+    <string name="dummy_button" translatable="false">Dummy Button</string>
+    <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_cat_all">My videos</string>
+    <string name="title_cat_movies">My movies</string>
+    <string name="title_cat_series">My series</string>
+    <string name="action_delete_movie">Delete this movie from catalog</string>
 
 </resources>

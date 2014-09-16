@@ -5,18 +5,26 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <activity
+            android:name=".SplashScreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/FullscreenTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".MovieCatalog"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -25,37 +33,22 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
         <activity
             android:name=".operations.search.SearchResultsActivity"
-            android:label="@string/title_activity_search_results"
-            android:launchMode="singleTop"
-            android:parentActivityName=".MovieCatalog" >
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MovieCatalog" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
+            android:label="@string/title_activity_search_results" >
         </activity>
+
         <activity
             android:name=".operations.details.DetailsResultsActivity"
-            android:label="@string/title_activity_details_results"
-            android:parentActivityName=".MovieCatalog" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.vwuilbea.mymoviecatalog.MovieCatalog" />
+            android:label="@string/title_activity_details_results" >
         </activity>
+
         <activity
             android:name=".operations.add.AddToDBActivity"
-            android:label="@string/title_activity_add_to_db"
-            android:parentActivityName=".MovieCatalog" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.vwuilbea.mymoviecatalog.MovieCatalog" />
+            android:label="@string/title_activity_add_to_db" >
         </activity>
+
     </application>
 
 </manifest>

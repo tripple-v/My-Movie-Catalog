@@ -29,6 +29,10 @@ public class ProductionCompany extends Entity
         super(in);
     }
 
+    public ProductionCompany(int id, String name) {
+        super(id, name);
+    }
+
     @Override
     public String toString() {
         return "ProductionCompany{" +

@@ -1,21 +1,20 @@
 package com.vwuilbea.mymoviecatalog.tmdb.responses;
 
-import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
+import com.vwuilbea.mymoviecatalog.model.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by Valentin on 04/09/2014.
  */
-public class SearchResponse {
+public class SearchMovieResponse {
 
-    private static final String LOG = SearchResponse.class.getSimpleName();
+    private static final String LOG = SearchMovieResponse.class.getSimpleName();
 
     private static final String PARAM_PAGE = "page";
     private static final String PARAM_TOTAL_PAGE = "total_pages";
@@ -36,18 +35,17 @@ public class SearchResponse {
     private int page;
     private int totalPages;
     private int totalResults;
-    private List<SearchResult> results;
+    private List<Movie> movies = new ArrayList<Movie>();
 
-    public SearchResponse(String result) {
+    public SearchMovieResponse(String result) {
         try {
             JSONObject object = new JSONObject(result);
             this.page = object.getInt(PARAM_PAGE);
             this.totalPages = object.getInt(PARAM_TOTAL_PAGE);
             this.totalResults = object.getInt(PARAM_TOTAL_RESULTS);
-            this.results = new ArrayList<SearchResult>();
             JSONArray array = object.getJSONArray(PARAM_RESULTS);
             for (int i = 0; i < array.length(); i++)
-                results.add(new SearchResult(array.getJSONObject(i)));
+                movies.add(new SearchResult(array.getJSONObject(i)).getMovie());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -65,8 +63,8 @@ public class SearchResponse {
         return totalResults;
     }
 
-    public List<SearchResult> getResults() {
-        return results;
+    public List<Movie> getMovies() {
+        return movies;
     }
 
     public class SearchResult  implements Comparable{
@@ -97,6 +95,11 @@ public class SearchResponse {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        public Movie getMovie() {
+            return new Movie(id, title, originalTitle,  null, null, 0, releaseDate, null, null, null, null, null, null, null, null, adult,
+                    posterPath, 0, voteAverage, voteCount);
         }
 
         public boolean isAdult() {

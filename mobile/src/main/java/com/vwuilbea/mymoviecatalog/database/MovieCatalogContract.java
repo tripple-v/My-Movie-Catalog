@@ -55,6 +55,8 @@ public class MovieCatalogContract {
         public static final String TABLE_NAME = "genre";
         public static final String COLUMN_NAME = "name";
 
+        public static final String[] ALL_COLUMNS = {_ID, COLUMN_NAME};
+
         // Genre table Create Statements
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME
@@ -86,7 +88,7 @@ public class MovieCatalogContract {
         public static final String COLUMN_TAG_LINE = "tag_line";
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_RUNTIME = "runtime";
-        public static final String COLUMN_YEAR = "year";
+        public static final String COLUMN_DATE = "release_date";
         public static final String COLUMN_LANGUAGE = "language";
         public static final String COLUMN_SUBTITLE = "subtitle";
         public static final String COLUMN_LOCATION_ID = "location_id";
@@ -95,6 +97,12 @@ public class MovieCatalogContract {
         public static final String COLUMN_BUDGET = "budget";
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_VOTE_COUNT = "vote_count";
+
+        public static final String[] ALL_COLUMNS = {
+                _ID, COLUMN_TITLE, COLUMN_ORIGINAL_TITLE, COLUMN_TAG_LINE, COLUMN_OVERVIEW, COLUMN_RUNTIME,
+                COLUMN_DATE, COLUMN_LANGUAGE, COLUMN_SUBTITLE, COLUMN_LOCATION_ID, COLUMN_ADULT, COLUMN_POSTER_PATH,
+                COLUMN_BUDGET, COLUMN_VOTE_AVERAGE, COLUMN_VOTE_COUNT
+        };
 
         // Movie table Create Statements
         public static final String CREATE_TABLE = "CREATE TABLE "
@@ -105,7 +113,7 @@ public class MovieCatalogContract {
                 + COLUMN_TAG_LINE + TYPE_TEXT + ","
                 + COLUMN_OVERVIEW + TYPE_TEXT + ","
                 + COLUMN_RUNTIME + TYPE_INTEGER + ","
-                + COLUMN_YEAR + TYPE_INTEGER + ","
+                + COLUMN_DATE + TYPE_TEXT + ","
                 + COLUMN_LANGUAGE + TYPE_TEXT + ","
                 + COLUMN_SUBTITLE + TYPE_TEXT + ","
                 + COLUMN_LOCATION_ID + TYPE_INTEGER + ","
@@ -156,7 +164,7 @@ public class MovieCatalogContract {
         public static final String COLUMN_TAG_LINE = "tag_line";
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_RUNTIME = "runtime";
-        public static final String COLUMN_YEAR = "year";
+        public static final String COLUMN_DATE = "release_date";
         public static final String COLUMN_LANGUAGE = "language";
         public static final String COLUMN_SUBTITLE = "subtitle";
         public static final String COLUMN_LOCATION_ID = "location_id";
@@ -176,7 +184,7 @@ public class MovieCatalogContract {
                 + COLUMN_TAG_LINE + TYPE_TEXT + ","
                 + COLUMN_OVERVIEW + TYPE_TEXT + ","
                 + COLUMN_RUNTIME + TYPE_INTEGER + ","
-                + COLUMN_YEAR + TYPE_INTEGER + ","
+                + COLUMN_DATE + TYPE_TEXT + ","
                 + COLUMN_LANGUAGE + TYPE_TEXT + ","
                 + COLUMN_SUBTITLE + TYPE_TEXT + ","
                 + COLUMN_LOCATION_ID + TYPE_INTEGER + ","
@@ -194,6 +202,7 @@ public class MovieCatalogContract {
         public static final String COLUMN_VIDEO_ID = "video_id";
         public static final String COLUMN_ACTOR_ID = "actor_id";
         public static final String COLUMN_CHARACTER = "character";
+        public static final String[] ALL_COLUMNS = { _ID, COLUMN_ACTOR_ID, COLUMN_VIDEO_ID, COLUMN_CHARACTER};
 
         // Role table Create Statements
         public static final String CREATE_TABLE = "CREATE TABLE "
@@ -205,6 +214,25 @@ public class MovieCatalogContract {
                 + ")";
     }
 
+    /* Inner class that defines the table VideoGenre */
+    public static abstract class VideoGenreEntry implements BaseColumns {
+        public static final String TABLE_NAME = "videoGenre";
+        public static final String COLUMN_VIDEO_ID = "video_id";
+        public static final String COLUMN_GENRE_ID = "genre_id";
+        public static final String[] ALL_COLUMNS = { COLUMN_VIDEO_ID, COLUMN_GENRE_ID};
+
+        // VideoCountry table Create Statements
+        public static final String CREATE_TABLE = "CREATE TABLE "
+                + TABLE_NAME
+                + "(" + COLUMN_GENRE_ID + TYPE_INTEGER + ","
+                + COLUMN_VIDEO_ID + TYPE_INTEGER
+                + ", PRIMARY KEY ("
+                + COLUMN_GENRE_ID + ","
+                + COLUMN_VIDEO_ID + ")"
+                + ")";
+
+    }
+
     /* Inner class that defines the table VideoCountry */
     public static abstract class VideoCountryEntry implements BaseColumns {
         public static final String TABLE_NAME = "videoCountry";
@@ -214,8 +242,8 @@ public class MovieCatalogContract {
         // VideoCountry table Create Statements
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME
-                + "(" + COLUMN_COUNTRY_ID + TYPE_TEXT + ","
-                + COLUMN_VIDEO_ID + TYPE_TEXT
+                + "(" + COLUMN_COUNTRY_ID + TYPE_INTEGER + ","
+                + COLUMN_VIDEO_ID + TYPE_INTEGER
                 + ", PRIMARY KEY ("
                 + COLUMN_COUNTRY_ID + ","
                 + COLUMN_VIDEO_ID + ")"
@@ -231,8 +259,8 @@ public class MovieCatalogContract {
         // VideoProduction table Create Statements
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME
-                + "(" + COLUMN_PRODUCTION_ID + TYPE_TEXT + ","
-                + COLUMN_VIDEO_ID + TYPE_TEXT
+                + "(" + COLUMN_PRODUCTION_ID + TYPE_INTEGER + ","
+                + COLUMN_VIDEO_ID + TYPE_INTEGER
                 + ", PRIMARY KEY ("
                 + COLUMN_PRODUCTION_ID + ","
                 + COLUMN_VIDEO_ID + ")"
@@ -248,8 +276,8 @@ public class MovieCatalogContract {
         // VideoRealisator table Create Statements
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME
-                + "(" + COLUMN_REALISATOR_ID + TYPE_TEXT + ","
-                + COLUMN_VIDEO_ID + TYPE_TEXT
+                + "(" + COLUMN_REALISATOR_ID + TYPE_INTEGER + ","
+                + COLUMN_VIDEO_ID + TYPE_INTEGER
                 + ", PRIMARY KEY ("
                 + COLUMN_REALISATOR_ID + ","
                 + COLUMN_VIDEO_ID + ")"

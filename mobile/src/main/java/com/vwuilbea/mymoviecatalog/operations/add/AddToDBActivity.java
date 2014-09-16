@@ -9,41 +9,64 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.vwuilbea.mymoviecatalog.MyApplication;
 import com.vwuilbea.mymoviecatalog.R;
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
+import com.vwuilbea.mymoviecatalog.model.Movie;
 import com.vwuilbea.mymoviecatalog.model.Role;
-import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
+import com.vwuilbea.mymoviecatalog.model.Video;
 
 import java.util.List;
 
 public class AddToDBActivity extends Activity {
 
     private static final String LOG = AddToDBActivity.class.getSimpleName();
-    private List<Role> roles;
+    private static final long ERROR = -1;
+
+    public static final String PARAM_VIDEO = "video";
+
+    private Video video;
 
     TextView test;
+
+    private DatabaseHelper.DBListener dbListener = new DatabaseHelper.DBListener() {
+        @Override
+        public void onReady(SQLiteDatabase dbR, SQLiteDatabase dbW) {
+            Log.d(LOG, "db is ready!");
+            if(video!=null) {
+                long res = ((MyApplication) AddToDBActivity.this.getApplication()).addVideo(video, true, dbW, dbR);
+                if(res == MyApplication.ERROR)
+                    Log.d(LOG, "An error occurred when add video '"+video.getId()+"' on DB");
+                else if(res == MyApplication.OK) {
+                    Log.d(LOG, "video '" + video.getId() + "' has been added on DB (" + res + ")");
+                }
+            }
+        }
+        public void aa() {}
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_add_to_db);
         test = (TextView) findViewById(R.id.text_credits);
         String credits;
         if(getIntent().getExtras() != null ) {
-            CreditsResponse creditsResponse = (CreditsResponse) getIntent().getExtras().get("credits");
-            if(creditsResponse!=null) {
-                credits = "Credits for movie '"+creditsResponse.getId()+"': \n\n";
-                roles = creditsResponse.getRoles();
+            video = (Video) getIntent().getExtras().get(PARAM_VIDEO);
+            if(video!=null) {
+                List<Role> roles = video.getRoles();
+                credits = "Credits for video '"+video.getId()+"': \n\n";
                 for(Role role:roles) {
                     credits+= role+"\n\n";
                 }
             }
-            else credits = "credits extra is null";
+            else credits = "video extra is null";
         }
         else credits = "No extra";
         test.setText(credits);
-        GetDB getDB = new GetDB();
-        getDB.doInBackground(null);
+        DatabaseHelper dbHelper = new DatabaseHelper(this, dbListener);
+        dbHelper.getDB();
     }
 
     @Override
@@ -55,34 +78,13 @@ public class AddToDBActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_settings :
+                return true;
+            case android.R.id.home :
+                onBackPressed();
+                break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void onDBReady(SQLiteDatabase dbW, SQLiteDatabase dbR) {
-        Log.i(LOG, "db is ready!");
-        if(roles!=null) {
-            roles.get(0).addInDB(dbW, dbR);
-        }
-
-    }
-
-    private class GetDB extends AsyncTask {
-
-        @Override
-        protected SQLiteDatabase doInBackground(Object[] params) {
-            DatabaseHelper databaseHelper = new DatabaseHelper(getBaseContext());
-            // Gets the data repository in write mode
-            SQLiteDatabase dbW = databaseHelper.getWritableDatabase();
-            SQLiteDatabase dbR = databaseHelper.getReadableDatabase();
-            onDBReady(dbW, dbR);
-            return null;
-        }
     }
 }

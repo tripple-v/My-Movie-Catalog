@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:onClick="onClick"
-        android:background="@android:drawable/ic_input_add"
+        android:src="@android:drawable/ic_delete"
     />
 
     <TextView

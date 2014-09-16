@@ -1,57 +1,50 @@
 package com.vwuilbea.mymoviecatalog.model;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
+import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
 
-public class Video
-    implements Parcelable
-{
+public abstract class Video
+        implements Parcelable {
 
-    public static final Parcelable.Creator<Video> CREATOR = new Parcelable.Creator<Video>()
-    {
-        @Override
-        public Video createFromParcel(Parcel source)
-        {
-            return new Video(source);
-        }
+    protected int id;
+    protected String title;
+    protected String originalTitle;
+    protected String tagline;
+    protected String overview;
+    protected Integer runtime;
+    protected String releaseDate;
+    protected List<Genre> genres = new ArrayList<Genre>();
+    protected List<Role> roles = new ArrayList<Role>();
+    protected List<Realisator> realisators = new ArrayList<Realisator>();
+    protected List<Country> countries = new ArrayList<Country>();
+    protected List<ProductionCompany> productionCompanies = new ArrayList<ProductionCompany>();
+    protected String language;
+    protected String subtitle;
+    protected Location location;
+    protected boolean adult;
+    protected String posterPath;
+    protected Integer budget;
+    protected double voteAverage;
+    protected Integer voteCount;
 
-        @Override
-        public Video[] newArray(int size)
-        {
-            return new Video[size];
-        }
-    };
-
-	private int id;
-	private String title;
-	private String originalTitle;
-	private String tagline;
-	private String overview;
-	private Genre genre;
-	private int runtime;
-	private int year;
-	private List<Role> roles = new ArrayList<Role>();
-	private List<Realisator> realisators = new ArrayList<Realisator>();
-	private List<Country> countries = new ArrayList<Country>();
-	private List<ProductionCompany> productionCompanies = new ArrayList<ProductionCompany>();
-	private String language;
-	private String subtitle;
-	private Location location;
-	private boolean adult;
-	private String posterPath;
-	private int budget;
-	private double voteAverage;
-	private int voteCount;
-
-    public Video(int id){
-		super();
-	}
+    public Video(int id) {
+        super();
+        this.id = id;
+    }
 
     public Video(Parcel in) {
         id = in.readInt();
@@ -59,13 +52,13 @@ public class Video
         originalTitle = in.readString();
         tagline = in.readString();
         overview = in.readString();
-        genre = in.readParcelable(Genre.class.getClassLoader());
         runtime = in.readInt();
-        year = in.readInt();
-        in.readList(roles,Role.class.getClassLoader());
-        in.readList(realisators,Realisator.class.getClassLoader());
-        in.readList(countries,Country.class.getClassLoader());
-        in.readList(productionCompanies,ProductionCompany.class.getClassLoader());
+        releaseDate = in.readString();
+        in.readList(genres, Genre.class.getClassLoader());
+        in.readList(roles, Role.class.getClassLoader());
+        in.readList(realisators, Realisator.class.getClassLoader());
+        in.readList(countries, Country.class.getClassLoader());
+        in.readList(productionCompanies, ProductionCompany.class.getClassLoader());
         language = in.readString();
         subtitle = in.readString();
         location = in.readParcelable(Location.class.getClassLoader());
@@ -74,6 +67,38 @@ public class Video
         budget = in.readInt();
         voteAverage = in.readDouble();
         voteCount = in.readInt();
+
+        for (Genre genre : genres) genre.addVideo(this);
+        for (Role role : roles) role.setVideo(this);
+        for (Realisator realisator : realisators) realisator.addVideo(this);
+        for (Country country : countries) country.addVideo(this);
+        for (ProductionCompany prod : productionCompanies) prod.addVideo(this);
+        if (location != null) location.addVideo(this);
+    }
+
+    public Video(int id, String title, String originalTitle, String tagline, String overview, int runtime, String releaseDate, List<Genre> genres,
+                 List<Role> roles, List<Realisator> realisators, List<Country> countries, List<ProductionCompany> productionCompanies,
+                 String language, String subtitle, Location location, boolean adult, String posterPath, int budget, double voteAverage, int voteCount) {
+        this.id = id;
+        this.title = title;
+        this.originalTitle = originalTitle;
+        this.tagline = tagline;
+        this.overview = overview;
+        this.runtime = runtime;
+        this.releaseDate = releaseDate;
+        this.genres = genres;
+        this.roles = roles;
+        this.realisators = realisators;
+        this.countries = countries;
+        this.productionCompanies = productionCompanies;
+        this.language = language;
+        this.subtitle = subtitle;
+        this.location = location;
+        this.adult = adult;
+        this.posterPath = posterPath;
+        this.budget = budget;
+        this.voteAverage = voteAverage;
+        this.voteCount = voteCount;
     }
 
     @Override
@@ -88,16 +113,16 @@ public class Video
         dest.writeString(originalTitle);
         dest.writeString(tagline);
         dest.writeString(overview);
-        dest.writeParcelable(genre, flags);
         dest.writeInt(runtime);
-        dest.writeInt(year);
-        dest.writeArray(roles.toArray());
+        dest.writeString(releaseDate);
+        dest.writeList(genres);
+        dest.writeList(roles);
         dest.writeList(realisators);
         dest.writeList(countries);
         dest.writeList(productionCompanies);
         dest.writeString(language);
         dest.writeString(subtitle);
-        dest.writeParcelable(location,flags);
+        dest.writeParcelable(location, flags);
         dest.writeString(String.valueOf(adult));
         dest.writeString(posterPath);
         dest.writeInt(budget);
@@ -145,28 +170,44 @@ public class Video
         this.overview = overview;
     }
 
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
-    public int getRuntime() {
+    public Integer getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(int runtime) {
+    public void setRuntime(Integer runtime) {
         this.runtime = runtime;
     }
 
-    public int getYear() {
-        return year;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void addGenre(Genre genre) {
+        if (genre != null) {
+            genre.addVideo(this);
+            if (!genres.contains(genre))
+                genres.add(genre);
+        }
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        if (genres != null) {
+            this.genres = genres;
+            for (Genre genre : genres) genre.addVideo(this);
+        }
+    }
+
+    public void addRole(Role role) {
+        if (role != null && !roles.contains(role))
+            roles.add(role);
     }
 
     public List<Role> getRoles() {
@@ -174,7 +215,9 @@ public class Video
     }
 
     public void setRoles(List<Role> roles) {
-        this.roles = roles;
+        if (roles != null) {
+            this.roles = roles;
+        }
     }
 
     public List<Realisator> getRealisators() {
@@ -241,11 +284,11 @@ public class Video
         this.posterPath = posterPath;
     }
 
-    public int getBudget() {
+    public Integer getBudget() {
         return budget;
     }
 
-    public void setBudget(int budget) {
+    public void setBudget(Integer budget) {
         this.budget = budget;
     }
 
@@ -257,11 +300,11 @@ public class Video
         this.voteAverage = voteAverage;
     }
 
-    public int getVoteCount() {
+    public Integer getVoteCount() {
         return voteCount;
     }
 
-    public void setVoteCount(int voteCount) {
+    public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
     }
 
@@ -273,9 +316,9 @@ public class Video
                 ", originalTitle='" + originalTitle + '\'' +
                 ", tagline='" + tagline + '\'' +
                 ", overview='" + overview + '\'' +
-                ", genre=" + genre +
+                ", genres=" + genres +
                 ", runtime=" + runtime +
-                ", year=" + year +
+                ", releaseDate=" + releaseDate +
                 ", roles=" + roles +
                 ", realisators=" + realisators +
                 ", countries=" + countries +
@@ -289,6 +332,83 @@ public class Video
                 ", voteAverage=" + voteAverage +
                 ", voteCount=" + voteCount +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || ((Object) this).getClass() != o.getClass()) return false;
+
+        Video video = (Video) o;
+        return id == video.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    public static final Comparator<Video> COMPARATOR_DATE = new Comparator<Video>() {
+        @Override
+        public int compare(Video video1, Video video2) {
+            return video2.getReleaseDate().compareTo(video1.getReleaseDate());
+        }
+
+        public void aa() {
+        }
+    };
+
+    protected void addGenreFromDB(SQLiteDatabase dbR) {
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID};
+        String WHERE = MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID + "=?";
+        String[] selectionArgs = {String.valueOf(getId())};
+
+        Cursor cursor = dbR.query(
+                MovieCatalogContract.VideoGenreEntry.TABLE_NAME,
+                projection,
+                WHERE,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (cursor.moveToNext()) {
+                Genre genre = new Genre(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID)));
+                genre.getFromDb(dbR, true);
+                addGenre(genre);
+            }
+        }
+    }
+
+    protected void addRoleFromDB(SQLiteDatabase dbR) {
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {MovieCatalogContract.RoleEntry._ID};
+        String WHERE = MovieCatalogContract.RoleEntry.COLUMN_VIDEO_ID + "=?";
+        String[] selectionArgs = {String.valueOf(getId())};
+
+        Cursor cursor = dbR.query(
+                MovieCatalogContract.RoleEntry.TABLE_NAME,
+                projection,
+                WHERE,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (cursor.moveToNext()) {
+                Role role = new Role(cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID)));
+                role.getFromDb(dbR, true);
+                addRole(role);
+            }
+        }
     }
 }
 

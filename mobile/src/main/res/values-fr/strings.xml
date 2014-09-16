@@ -16,4 +16,12 @@
     <string name="search_hint">Rechercher un film</string>
     <string name="unknown">Inconnu</string>
     <string name="unknown_year">Année inconnue</string>
+    <string name="unavailable">Indisponible</string>
+    <string name="action_delete_movie">Retirer la vidéo</string>
+    <string name="title_cat_all">Mes vidéos</string>
+    <string name="title_cat_movies">Mes films</string>
+    <string name="title_cat_series">Mes séries</string>
+    <string name="title_section1">Tout afficher</string>
+    <string name="title_section2">Tous les films</string>
+    <string name="title_section3">Toutes les séries</string>
 </resources>

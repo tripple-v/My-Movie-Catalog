@@ -10,11 +10,12 @@ import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.Credit;
  */
 public class TmdbFactory {
 
-    public static Role getRoleFromCredit(Credit credit) {
+    private static final String LOG = TmdbFactory.class.getSimpleName();
+
+    public static Role getRoleFromCredit(Credit credit, Video video) {
         String roleId = credit.getCreditId();
         String character = credit.getCharacter();
         String[] name = credit.getName().split(" ");
-        Video video = new Video(credit.getVideoId());
         Actor actor = new Actor(credit.getId());
         if(name.length>1) {
             actor.setFirstname(name[0]);

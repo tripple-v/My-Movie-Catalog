@@ -1,5 +1,11 @@
 package com.vwuilbea.mymoviecatalog.tmdb.responses;
 
+import com.vwuilbea.mymoviecatalog.model.Country;
+import com.vwuilbea.mymoviecatalog.model.Genre;
+import com.vwuilbea.mymoviecatalog.model.Movie;
+import com.vwuilbea.mymoviecatalog.model.ProductionCompany;
+import com.vwuilbea.mymoviecatalog.model.Video;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +57,7 @@ public class DetailsResponse {
     private Double popularity;
     private String posterPath;
     private List<ProductionCompany> productionCompanies = new ArrayList<ProductionCompany>();
-    private List<ProductionCountry> productionCountries = new ArrayList<ProductionCountry>();
+    private List<Country> countries = new ArrayList<Country>();
     private String releaseDate;
     private Integer revenue;
     private Integer runtime;
@@ -62,7 +68,7 @@ public class DetailsResponse {
     private Double voteAverage;
     private Integer voteCount;
 
-    public DetailsResponse(String result) {
+    public DetailsResponse(String result, Video video) {
         try {
             JSONObject object = new JSONObject(result);
             if(!object.isNull(PARAM_ADULT)) this.adult = object.getBoolean(PARAM_ADULT);
@@ -71,7 +77,7 @@ public class DetailsResponse {
             if(!object.isNull(PARAM_BUDGET)) this.budget = object.getInt(PARAM_BUDGET);
             JSONArray array = object.getJSONArray(PARAM_GENRES);
             for (int i = 0; i < array.length(); i++)
-                genres.add(new Genre(array.getJSONObject(i)));
+                genres.add(new GenreResult(array.getJSONObject(i)).getGenre());
             this.homePage = object.getString(PARAM_HOMEPAGE);
             if(!object.isNull(PARAM_ID)) this.id = object.getInt(PARAM_ID);
             this.imdbId = object.getString(PARAM_IMDB_ID);
@@ -81,10 +87,10 @@ public class DetailsResponse {
             this.posterPath = object.getString(PARAM_POSTER_PATH);
             array = object.getJSONArray(PARAM_PRODUCTION_COMPANIES);
             for (int i = 0; i < array.length(); i++)
-                productionCompanies.add(new ProductionCompany(array.getJSONObject(i)));
+                productionCompanies.add(new ProductionCompanyResult(array.getJSONObject(i)).getProductionCompany());
             array = object.getJSONArray(PARAM_PRODUCTION_COUNTRIES);
             for (int i = 0; i < array.length(); i++)
-                productionCountries.add(new ProductionCountry(array.getJSONObject(i)));
+                countries.add(new ProductionCountryResult(array.getJSONObject(i)).getCountry());
             this.releaseDate = object.getString(PARAM_RELEASE_DATE);
             if(!object.isNull(PARAM_REVENUE)) this.revenue = object.getInt(PARAM_REVENUE);
             if(!object.isNull(PARAM_RUNTIME)) this.runtime = object.getInt(PARAM_RUNTIME);
@@ -99,6 +105,25 @@ public class DetailsResponse {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        fillVideo(video);
+    }
+
+    public void fillVideo(Video movie) {
+        movie.setAdult(adult);
+        movie.setBudget(budget);
+        movie.setOriginalTitle(originalTitle);
+        movie.setOverview(overview);
+        movie.setPosterPath(posterPath);
+        movie.setGenres(genres);
+        movie.setProductionCompanies(productionCompanies);
+        movie.setCountries(countries);
+        movie.setReleaseDate(releaseDate);
+        movie.setRuntime(runtime);
+        if(languages.size()>0) movie.setLanguage(languages.get(0).getIso());
+        movie.setTagline(tagline);
+        movie.setTitle(title);
+        movie.setVoteAverage(voteAverage);
+        movie.setVoteCount(voteCount);
     }
 
     public Boolean getAdult() {
@@ -153,8 +178,8 @@ public class DetailsResponse {
         return productionCompanies;
     }
 
-    public List<ProductionCountry> getProductionCountries() {
-        return productionCountries;
+    public List<Country> getCountries() {
+        return countries;
     }
 
     public String getReleaseDate() {
@@ -193,7 +218,9 @@ public class DetailsResponse {
         return voteCount;
     }
 
-    public class Genre {
+
+
+    public class GenreResult {
 
         private static final String PARAM_GENRE_ID = "id";
         private static final String PARAM_GENRE_NAME = "name";
@@ -201,7 +228,7 @@ public class DetailsResponse {
         private int id;
         private String name;
 
-        Genre(JSONObject object) {
+        GenreResult(JSONObject object) {
             try {
                 this.id = object.getInt(PARAM_GENRE_ID);
                 this.name = object.getString(PARAM_GENRE_NAME);
@@ -210,6 +237,14 @@ public class DetailsResponse {
             }
         }
 
+        public Genre getGenre() {
+            return new Genre(id,name);
+        }
+
+        public Genre getGenre(Video video) {
+            return new Genre(id,name,video);
+        }
+
         public int getId() {
             return id;
         }
@@ -219,7 +254,7 @@ public class DetailsResponse {
         }
     }
 
-    public class ProductionCompany {
+    public class ProductionCompanyResult {
 
         private static final String PARAM_PROD_ID = "id";
         private static final String PARAM_PROD_NAME = "name";
@@ -227,7 +262,7 @@ public class DetailsResponse {
         private int id;
         private String name;
 
-        ProductionCompany(JSONObject object) {
+        ProductionCompanyResult(JSONObject object) {
             try {
                 this.id = object.getInt(PARAM_PROD_ID);
                 this.name = object.getString(PARAM_PROD_NAME);
@@ -236,6 +271,10 @@ public class DetailsResponse {
             }
         }
 
+        public ProductionCompany getProductionCompany() {
+            return new ProductionCompany(id, name);
+        }
+
         public int getId() {
             return id;
         }
@@ -245,7 +284,7 @@ public class DetailsResponse {
         }
     }
 
-    public class ProductionCountry {
+    public class ProductionCountryResult {
 
         private static final String PARAM_COUNTRY_ISO = "iso_3166_1";
         private static final String PARAM_COUNTRY_NAME = "name";
@@ -253,13 +292,17 @@ public class DetailsResponse {
         private String iso;
         private String name;
 
-        ProductionCountry(JSONObject object) {
+        ProductionCountryResult(JSONObject object) {
             try {
                 this.iso = object.getString(PARAM_COUNTRY_ISO);
                 this.name = object.getString(PARAM_COUNTRY_NAME);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        public Country getCountry() {
+            return new Country(iso, name);
         }
 
         public String getIso() {
