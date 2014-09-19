@@ -2,7 +2,7 @@
 
 <searchable
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:label="@string/search"
-    android:hint="@string/search_hint">
+    android:label="@string/action_add_movie"
+    android:hint="@string/add_hint">
 
 </searchable>

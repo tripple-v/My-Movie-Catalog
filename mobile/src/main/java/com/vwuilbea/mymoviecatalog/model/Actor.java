@@ -5,12 +5,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
 
 public class Actor
         extends Person {
+
+    private static final String LOG = Actor.class.getSimpleName();
 
     public static final Parcelable.Creator<Actor> CREATOR = new Parcelable.Creator<Actor>() {
         @Override
@@ -33,9 +36,8 @@ public class Actor
     }
 
     public int getFromDb(SQLiteDatabase dbR, boolean init) {
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {MovieCatalogContract.ActorEntry._ID};
+        Log.d(LOG, "getFromDb, actor : " + getLongName());
+        String[] projection = MovieCatalogContract.ActorEntry.ALL_COLUMNS;
         String WHERE = MovieCatalogContract.ActorEntry._ID + "=?";
         String[] selectionArgs = {String.valueOf(getId())};
 
@@ -61,6 +63,7 @@ public class Actor
         birthday = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.ActorEntry.COLUMN_BIRTHDAY));
         profilePath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.ActorEntry.COLUMN_PROFILE_PATH));
         country = new Country(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.ActorEntry.COLUMN_COUNTRY_ID)));
+        Log.d(LOG, "initFromCursor, actor : " + this);
     }
 
     public boolean isInDb(SQLiteDatabase dbR) {

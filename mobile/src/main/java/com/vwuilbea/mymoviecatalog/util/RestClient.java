@@ -113,10 +113,6 @@ public class RestClient {
                 String result = EntityUtils.toString(entity);
                 Log.d("ExecutePost", "URL:" + url + ", header: " + headerName + ":" + headerValue + ",\nresult:" + result);
                 return result;
-            } catch (UnsupportedEncodingException e) {
-                if (executionListener != null) executionListener.onExecutionFailed(url, e);
-            } catch (ClientProtocolException e) {
-                if (executionListener != null) executionListener.onExecutionFailed(url, e);
             } catch (IOException e) {
                 if (executionListener != null) executionListener.onExecutionFailed(url, e);
             }
@@ -130,7 +126,7 @@ public class RestClient {
 
         @Override
         protected void onPostExecute(String result) {
-            if (executionListener != null) executionListener.onExecutionFinished(url, result);
+            if (executionListener != null && result!=null) executionListener.onExecutionFinished(url, result);
         }
     }
 

@@ -3,10 +3,12 @@ package com.vwuilbea.mymoviecatalog;
 import android.app.Activity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -32,12 +34,13 @@ import java.util.List;
 
 public class MovieCatalog extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        DisplayVideosFragment.OnFragmentInteractionListener,
-        View.OnClickListener
+        DisplayVideosFragment.OnFragmentInteractionListener
 {
 
     private static final String LOG = MovieCatalog.class.getSimpleName();
-    public static final String PARAM_MOVIES = "movies";
+
+    //Used to startActivityForResult
+    public static final int REQUEST_SEARCH = 0;
 
     public static String LANGUAGE;
 
@@ -67,7 +70,6 @@ public class MovieCatalog extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-        handleIntent(getIntent());
     }
 
     @Override
@@ -135,21 +137,14 @@ public class MovieCatalog extends Activity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Dispatch the search action
-     * @param intent : it contains the search action
-     */
-    private void handleIntent(Intent intent) {
-        Log.d(LOG,"handleIntent:"+intent.getAction());
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Intent newIntent = new Intent();
-            newIntent.setClass(this,SearchResultsActivity.class);
-            newIntent.putExtra(SearchManager.QUERY,query);
-            newIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            newIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(newIntent);
-            finish();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(LOG, "onActivityResult: "+ requestCode + ", resultCode:"+resultCode);
+        switch (requestCode) {
+            case REQUEST_SEARCH:
+                if(resultCode == RESULT_CANCELED) onBackPressed();
+                break;
+            default: break;
         }
     }
 
@@ -177,10 +172,5 @@ public class MovieCatalog extends Activity
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        Log.d( LOG,"Click on "+getResources().getResourceEntryName( v.getId() ) );
     }
 }

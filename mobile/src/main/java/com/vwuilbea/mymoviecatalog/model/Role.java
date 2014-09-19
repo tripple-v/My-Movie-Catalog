@@ -1,5 +1,6 @@
 package com.vwuilbea.mymoviecatalog.model;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
@@ -105,8 +106,7 @@ public class Role
 
 
     public int getFromDb(SQLiteDatabase dbR, boolean init) {
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
+        Log.d(LOG, "getFromDb, role : "+getRoleId());
         String[] projection = MovieCatalogContract.RoleEntry.ALL_COLUMNS;
         String WHERE = MovieCatalogContract.RoleEntry._ID + "=?";
         String[] selectionArgs = {String.valueOf(getRoleId())};
@@ -128,7 +128,8 @@ public class Role
 
     private void initFromCursor(SQLiteDatabase dbR, Cursor cursor) {
         cursor.moveToFirst();
-        setCharacter( cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.RoleEntry.COLUMN_CHARACTER)) );
+        setCharacter(cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.RoleEntry.COLUMN_CHARACTER)));
+        Log.d(LOG, "initFromCursor, character : " + getCharacter());
         addActorFromDB(dbR, cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.RoleEntry.COLUMN_ACTOR_ID)));
     }
 
@@ -142,11 +143,24 @@ public class Role
         return getFromDb(dbR, false) != 0;
     }
 
-    public void putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+    public int putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
         int actorRes = actor.putInDB(dbR, dbW);
         if(actorRes == DatabaseHelper.OK) {
+            // Create a new map of values, where column names are the keys
+            ContentValues values = new ContentValues();
+            values.put(MovieCatalogContract.RoleEntry._ID, roleId);
+            values.put(MovieCatalogContract.RoleEntry.COLUMN_ACTOR_ID, actor.getId());
+            values.put(MovieCatalogContract.RoleEntry.COLUMN_VIDEO_ID, video.getId());
 
+            // Insert the new row, returning the primary key value of the new row
+            long newRowId = dbW.insert(
+                    MovieCatalogContract.RoleEntry.TABLE_NAME,
+                    DatabaseHelper.NULL,
+                    values);
+            Log.d(LOG,"new row insert : "+newRowId);
+            if(newRowId==-1) return DatabaseHelper.ERROR;
         }
+        return DatabaseHelper.OK;
     }
 
     @Override

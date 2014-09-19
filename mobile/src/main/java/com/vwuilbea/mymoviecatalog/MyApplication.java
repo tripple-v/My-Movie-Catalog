@@ -1,10 +1,14 @@
 package com.vwuilbea.mymoviecatalog;
 
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.model.Movie;
+import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 
 import java.util.ArrayList;
@@ -15,10 +19,31 @@ import java.util.List;
  */
 public class MyApplication extends Application {
 
+    private static final String LOG = MyApplication.class.getSimpleName();
+
     public static final int ERROR = DatabaseHelper.ERROR;
     public static final int OK = DatabaseHelper.OK;
 
     private ArrayList<Video> allVideos = new ArrayList<Video>();
+    private SQLiteDatabase dbW, dbR;
+
+    public void initializeDB(final DBListener listener) {
+        DatabaseHelper dbHelper = new DatabaseHelper(this, new DatabaseHelper.DBListener() {
+            @Override
+            public void onReady(SQLiteDatabase dbR, SQLiteDatabase dbW) {
+                setDbR(dbR);
+                setDbW(dbW);
+                addVideos(Movie.getMoviesFromDb(dbR));
+                addVideos(new ArrayList<Series>());
+                Log.d(LOG, "Get " + allVideos.size() + " movies");
+                listener.onReady();
+            }
+
+            public void aa() {
+            }
+        });
+        dbHelper.getDB();
+    }
 
     public ArrayList<Video> getAllVideos() {
         return allVideos;
@@ -28,12 +53,12 @@ public class MyApplication extends Application {
         this.allVideos = allVideos;
     }
 
-    public int addVideo(Video video, boolean putInDB, SQLiteDatabase dbW, SQLiteDatabase dbR) {
+    public int addVideo(Video video, boolean putInDB) {
         if (video != null && !allVideos.contains(video)) {
-            if(putInDB && dbW!=null && dbR!=null) {
-                if(video instanceof Movie) {
-                     int res = ((Movie) video).putInDB(dbW, dbR);
-                    if(res==ERROR) return ERROR;
+            if (putInDB && dbW != null && dbR != null) {
+                if (video instanceof Movie) {
+                    int res = ((Movie) video).putInDB(dbW, dbR);
+                    if (res == ERROR) return ERROR;
                 }
             }
             allVideos.add(video);
@@ -47,10 +72,10 @@ public class MyApplication extends Application {
                 allVideos.add(video);
     }
 
-    public int removeVideo(Video video, boolean fromDB, SQLiteDatabase dbW) {
-        if(video!=null && allVideos.contains(video)) {
-            if(fromDB && dbW!=null) {
-                if(video instanceof Movie) {
+    public int removeVideo(Video video, boolean fromDB) {
+        if (video != null && allVideos.contains(video)) {
+            if (fromDB && dbW != null) {
+                if (video instanceof Movie) {
                     int res = ((Movie) video).removeFromDB(dbW);
                     if(res<1) return ERROR;
                 }
@@ -59,4 +84,25 @@ public class MyApplication extends Application {
         }
         return OK;
     }
+
+    public SQLiteDatabase getDbW() {
+        return dbW;
+    }
+
+    public void setDbW(SQLiteDatabase dbW) {
+        this.dbW = dbW;
+    }
+
+    public SQLiteDatabase getDbR() {
+        return dbR;
+    }
+
+    public void setDbR(SQLiteDatabase dbR) {
+        this.dbR = dbR;
+    }
+
+    public interface DBListener {
+        public void onReady();
+    }
+
 }

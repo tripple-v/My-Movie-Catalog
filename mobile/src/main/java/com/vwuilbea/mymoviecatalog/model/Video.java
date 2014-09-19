@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
@@ -20,12 +21,14 @@ import java.util.HashSet;
 public abstract class Video
         implements Parcelable {
 
+    private static final String LOG = Video.class.getSimpleName();
+
     protected int id;
     protected String title;
     protected String originalTitle;
     protected String tagline;
     protected String overview;
-    protected Integer runtime;
+    protected int runtime;
     protected String releaseDate;
     protected List<Genre> genres = new ArrayList<Genre>();
     protected List<Role> roles = new ArrayList<Role>();
@@ -37,9 +40,10 @@ public abstract class Video
     protected Location location;
     protected boolean adult;
     protected String posterPath;
-    protected Integer budget;
+    protected String coverPath;
+    protected int budget;
     protected double voteAverage;
-    protected Integer voteCount;
+    protected int voteCount;
 
     public Video(int id) {
         super();
@@ -64,6 +68,7 @@ public abstract class Video
         location = in.readParcelable(Location.class.getClassLoader());
         adult = Boolean.parseBoolean(in.readString());
         posterPath = in.readString();
+        coverPath = in.readString();
         budget = in.readInt();
         voteAverage = in.readDouble();
         voteCount = in.readInt();
@@ -74,31 +79,6 @@ public abstract class Video
         for (Country country : countries) country.addVideo(this);
         for (ProductionCompany prod : productionCompanies) prod.addVideo(this);
         if (location != null) location.addVideo(this);
-    }
-
-    public Video(int id, String title, String originalTitle, String tagline, String overview, int runtime, String releaseDate, List<Genre> genres,
-                 List<Role> roles, List<Realisator> realisators, List<Country> countries, List<ProductionCompany> productionCompanies,
-                 String language, String subtitle, Location location, boolean adult, String posterPath, int budget, double voteAverage, int voteCount) {
-        this.id = id;
-        this.title = title;
-        this.originalTitle = originalTitle;
-        this.tagline = tagline;
-        this.overview = overview;
-        this.runtime = runtime;
-        this.releaseDate = releaseDate;
-        this.genres = genres;
-        this.roles = roles;
-        this.realisators = realisators;
-        this.countries = countries;
-        this.productionCompanies = productionCompanies;
-        this.language = language;
-        this.subtitle = subtitle;
-        this.location = location;
-        this.adult = adult;
-        this.posterPath = posterPath;
-        this.budget = budget;
-        this.voteAverage = voteAverage;
-        this.voteCount = voteCount;
     }
 
     @Override
@@ -125,6 +105,7 @@ public abstract class Video
         dest.writeParcelable(location, flags);
         dest.writeString(String.valueOf(adult));
         dest.writeString(posterPath);
+        dest.writeString(coverPath);
         dest.writeInt(budget);
         dest.writeDouble(voteAverage);
         dest.writeInt(voteCount);
@@ -170,11 +151,11 @@ public abstract class Video
         this.overview = overview;
     }
 
-    public Integer getRuntime() {
+    public int getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(Integer runtime) {
+    public void setRuntime(int runtime) {
         this.runtime = runtime;
     }
 
@@ -228,12 +209,31 @@ public abstract class Video
         this.realisators = realisators;
     }
 
+    public void addCountry(Country country) {
+        if(country != null) {
+            country.addVideo(this);
+            if(!countries.contains(country))
+                countries.add(country);
+        }
+    }
+
     public List<Country> getCountries() {
         return countries;
     }
 
     public void setCountries(List<Country> countries) {
-        this.countries = countries;
+        if(countries!=null) {
+            this.countries = countries;
+            for(Country country:countries) country.addVideo(this);
+        }
+    }
+
+    public void addProductionCompany(ProductionCompany company) {
+        if(company!=null) {
+            company.addVideo(this);
+            if(!productionCompanies.contains(company))
+                productionCompanies.add(company);
+        }
     }
 
     public List<ProductionCompany> getProductionCompanies() {
@@ -241,7 +241,10 @@ public abstract class Video
     }
 
     public void setProductionCompanies(List<ProductionCompany> productionCompanies) {
-        this.productionCompanies = productionCompanies;
+        if(productionCompanies!=null) {
+            this.productionCompanies = productionCompanies;
+            for(ProductionCompany company:productionCompanies) company.addVideo(this);
+        }
     }
 
     public String getLanguage() {
@@ -284,11 +287,19 @@ public abstract class Video
         this.posterPath = posterPath;
     }
 
-    public Integer getBudget() {
+    public String getCoverPath() {
+        return coverPath;
+    }
+
+    public void setCoverPath(String coverPath) {
+        this.coverPath = coverPath;
+    }
+
+    public int getBudget() {
         return budget;
     }
 
-    public void setBudget(Integer budget) {
+    public void setBudget(int budget) {
         this.budget = budget;
     }
 
@@ -300,11 +311,11 @@ public abstract class Video
         this.voteAverage = voteAverage;
     }
 
-    public Integer getVoteCount() {
+    public int getVoteCount() {
         return voteCount;
     }
 
-    public void setVoteCount(Integer voteCount) {
+    public void setVoteCount(int voteCount) {
         this.voteCount = voteCount;
     }
 
@@ -360,8 +371,7 @@ public abstract class Video
     };
 
     protected void addGenreFromDB(SQLiteDatabase dbR) {
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
+        Log.d(LOG, "addGenreFromDB");
         String[] projection = {MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID};
         String WHERE = MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID + "=?";
         String[] selectionArgs = {String.valueOf(getId())};
@@ -375,19 +385,20 @@ public abstract class Video
                 null,
                 null
         );
+        Log.d(LOG, "cursor count:"+cursor.getCount());
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
+            do {
                 Genre genre = new Genre(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID)));
                 genre.getFromDb(dbR, true);
                 addGenre(genre);
             }
+            while (cursor.moveToNext());
         }
     }
 
     protected void addRoleFromDB(SQLiteDatabase dbR) {
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
+        Log.d(LOG, "addRoleFromDB");
         String[] projection = {MovieCatalogContract.RoleEntry._ID};
         String WHERE = MovieCatalogContract.RoleEntry.COLUMN_VIDEO_ID + "=?";
         String[] selectionArgs = {String.valueOf(getId())};
@@ -401,13 +412,14 @@ public abstract class Video
                 null,
                 null
         );
+        Log.d(LOG, "cursor count:"+cursor.getCount());
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
-                Role role = new Role(cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID)));
+            do {
+                Role role = new Role(cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.RoleEntry._ID)));
                 role.getFromDb(dbR, true);
                 addRole(role);
-            }
+            } while (cursor.moveToNext());
         }
     }
 }

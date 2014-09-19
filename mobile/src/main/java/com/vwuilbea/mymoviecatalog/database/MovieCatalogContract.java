@@ -27,6 +27,10 @@ public class MovieCatalogContract {
         public static final String COLUMN_COUNTRY_ID = "country_id";
         public static final String COLUMN_PROFILE_PATH = "profile_path";
 
+        public static final String[] ALL_COLUMNS = {
+                _ID, COLUMN_NAME, COLUMN_FIRSTNAME, COLUMN_BIRTHDAY, COLUMN_COUNTRY_ID, COLUMN_PROFILE_PATH
+        };
+
         // Actor table Create Statements
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME
@@ -94,6 +98,7 @@ public class MovieCatalogContract {
         public static final String COLUMN_LOCATION_ID = "location_id";
         public static final String COLUMN_ADULT = "adult";
         public static final String COLUMN_POSTER_PATH = "poster_path";
+        public static final String COLUMN_COVER_PATH = "cover_path";
         public static final String COLUMN_BUDGET = "budget";
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_VOTE_COUNT = "vote_count";
@@ -101,7 +106,7 @@ public class MovieCatalogContract {
         public static final String[] ALL_COLUMNS = {
                 _ID, COLUMN_TITLE, COLUMN_ORIGINAL_TITLE, COLUMN_TAG_LINE, COLUMN_OVERVIEW, COLUMN_RUNTIME,
                 COLUMN_DATE, COLUMN_LANGUAGE, COLUMN_SUBTITLE, COLUMN_LOCATION_ID, COLUMN_ADULT, COLUMN_POSTER_PATH,
-                COLUMN_BUDGET, COLUMN_VOTE_AVERAGE, COLUMN_VOTE_COUNT
+                COLUMN_COVER_PATH, COLUMN_BUDGET, COLUMN_VOTE_AVERAGE, COLUMN_VOTE_COUNT
         };
 
         // Movie table Create Statements
@@ -119,6 +124,7 @@ public class MovieCatalogContract {
                 + COLUMN_LOCATION_ID + TYPE_INTEGER + ","
                 + COLUMN_ADULT + TYPE_BOOLEAN + ","
                 + COLUMN_POSTER_PATH + TYPE_TEXT + ","
+                + COLUMN_COVER_PATH + TYPE_TEXT + ","
                 + COLUMN_BUDGET + TYPE_INTEGER + ","
                 + COLUMN_VOTE_AVERAGE+ TYPE_REAL + ","
                 + COLUMN_VOTE_COUNT+ TYPE_INTEGER + ")";
@@ -170,6 +176,7 @@ public class MovieCatalogContract {
         public static final String COLUMN_LOCATION_ID = "location_id";
         public static final String COLUMN_ADULT = "adult";
         public static final String COLUMN_POSTER_PATH = "poster_path";
+        public static final String COLUMN_COVER_PATH = "cover_path";
         public static final String COLUMN_BUDGET = "budget";
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_VOTE_COUNT = "vote_count";
@@ -190,6 +197,7 @@ public class MovieCatalogContract {
                 + COLUMN_LOCATION_ID + TYPE_INTEGER + ","
                 + COLUMN_ADULT + TYPE_BOOLEAN + ","
                 + COLUMN_POSTER_PATH + TYPE_TEXT + ","
+                + COLUMN_COVER_PATH + TYPE_TEXT + ","
                 + COLUMN_BUDGET + TYPE_INTEGER + ","
                 + COLUMN_VOTE_AVERAGE+ TYPE_REAL + ","
                 + COLUMN_VOTE_COUNT+ TYPE_INTEGER + ","

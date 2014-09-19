@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
@@ -15,6 +16,8 @@ import java.util.List;
 public class Movie
         extends Video
 {
+
+    private static final String LOG = Movie.class.getSimpleName();
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>()
     {
@@ -31,19 +34,12 @@ public class Movie
         }
     };
 
-	public Movie(int id){
+    public Movie(int id){
 		super(id);
 	}
 
     public Movie(Parcel in) {
         super(in);
-    }
-
-    public Movie(int id, String title, String originalTitle, String tagline, String overview, int runtime, String releaseDate, List<Genre> genres,
-                 List<Role> roles, List<Realisator> realisators, List<Country> countries, List<ProductionCompany> productionCompanies,
-                 String language, String subtitle, Location location, boolean adult, String posterPath, int budget, double voteAverage, int voteCount) {
-        super(id, title, originalTitle, tagline, overview, runtime, releaseDate, genres, roles, realisators, countries, productionCompanies,
-                language, subtitle, location, adult, posterPath, budget, voteAverage, voteCount);
     }
 
     public Movie(Cursor cursor, SQLiteDatabase dbR) {
@@ -91,6 +87,7 @@ public class Movie
     }
 
     private void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
+        Log.d(LOG, "initFromCursor, movie : "+getId());
         title = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_TITLE));
         originalTitle = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_ORIGINAL_TITLE));
         tagline = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_TAG_LINE));
@@ -101,6 +98,7 @@ public class Movie
         subtitle = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_SUBTITLE));
         adult = Boolean.parseBoolean(cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_ADULT)));
         posterPath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_POSTER_PATH));
+        coverPath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_COVER_PATH));
         budget = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_BUDGET));
         voteAverage = cursor.getDouble(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_VOTE_AVERAGE));
         voteCount = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry.COLUMN_VOTE_COUNT));
@@ -130,6 +128,7 @@ public class Movie
             }
             values.put(MovieCatalogContract.MovieEntry.COLUMN_ADULT, adult);
             values.put(MovieCatalogContract.MovieEntry.COLUMN_POSTER_PATH, posterPath);
+            values.put(MovieCatalogContract.MovieEntry.COLUMN_COVER_PATH, coverPath);
             values.put(MovieCatalogContract.MovieEntry.COLUMN_BUDGET, budget);
             values.put(MovieCatalogContract.MovieEntry.COLUMN_VOTE_AVERAGE, voteAverage);
             values.put(MovieCatalogContract.MovieEntry.COLUMN_VOTE_COUNT, voteCount);
@@ -152,12 +151,20 @@ public class Movie
     }
 
     public int removeFromDB(SQLiteDatabase dbW) {
-        // Define 'where' part of query.
         String selection = MovieCatalogContract.MovieEntry._ID + " LIKE ?";
-        // Specify arguments in placeholder order.
         String[] selectionArgs = { String.valueOf(id) };
-        // Issue SQL statement.
+        removeDependencies(dbW, selectionArgs);
         return dbW.delete(MovieCatalogContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
+    private void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
+        String selection;
+        //VideoGenres
+        selection = MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID+ " LIKE ?";
+        dbW.delete(MovieCatalogContract.VideoGenreEntry.TABLE_NAME, selection, selectionArgs);
+        //Roles
+        selection = MovieCatalogContract.RoleEntry.COLUMN_VIDEO_ID+ " LIKE ?";
+        dbW.delete(MovieCatalogContract.RoleEntry.TABLE_NAME, selection, selectionArgs);
     }
 }
 

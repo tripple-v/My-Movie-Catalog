@@ -6,11 +6,32 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
 
-    <dimen name="thumb_size">100dp</dimen>
-    <dimen name="title_size">20sp</dimen>
-    <dimen name="subtitle_size">15sp</dimen>
+    <dimen name="minimum_margin">5dp</dimen>
+    <dimen name="standard_margin">5dp</dimen>
 
-    <dimen name="picture_size">300dp</dimen>
+    <!-- In list view -->
+    <dimen name="thumb_height_list">100dp</dimen>
+    <dimen name="thumb_width_list">75dp</dimen>
+    <dimen name="title_size_list">15sp</dimen>
+    <dimen name="subtitle_size_list">10sp</dimen>
+    <dimen name="rating_width_list">100dp</dimen>
+    <dimen name="rating_height_list">50dp</dimen>
+    <!-- Layer list -->
+    <dimen name="layer_margin_bottom">2dp</dimen>
+    <dimen name="layer_radius">0dp</dimen>
+
+    <!-- In details activity -->
+    <dimen name="cover_height_details">230dp</dimen>
     <dimen name="label_text_size">20sp</dimen>
+    <dimen name="picture_size">300dp</dimen>
+    <dimen name="rating_width_details">100dp</dimen>
+    <dimen name="rating_height_details">50dp</dimen>
+    <dimen name="section_title_size_details">25sp</dimen>
+    <dimen name="subtitle_mini_size_details">10sp</dimen>
+    <dimen name="subtitle_size_details">15sp</dimen>
+    <dimen name="text_size">15sp</dimen>
+    <dimen name="title_size_details">20sp</dimen>
+    <dimen name="thumb_height_details">150dp</dimen>
+    <dimen name="thumb_width_details">100dp</dimen>
 
 </resources>

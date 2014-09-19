@@ -21,52 +21,19 @@ import java.util.List;
 public class AddToDBActivity extends Activity {
 
     private static final String LOG = AddToDBActivity.class.getSimpleName();
-    private static final long ERROR = -1;
 
     public static final String PARAM_VIDEO = "video";
-
-    private Video video;
-
-    TextView test;
-
-    private DatabaseHelper.DBListener dbListener = new DatabaseHelper.DBListener() {
-        @Override
-        public void onReady(SQLiteDatabase dbR, SQLiteDatabase dbW) {
-            Log.d(LOG, "db is ready!");
-            if(video!=null) {
-                long res = ((MyApplication) AddToDBActivity.this.getApplication()).addVideo(video, true, dbW, dbR);
-                if(res == MyApplication.ERROR)
-                    Log.d(LOG, "An error occurred when add video '"+video.getId()+"' on DB");
-                else if(res == MyApplication.OK) {
-                    Log.d(LOG, "video '" + video.getId() + "' has been added on DB (" + res + ")");
-                }
-            }
-        }
-        public void aa() {}
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_add_to_db);
-        test = (TextView) findViewById(R.id.text_credits);
-        String credits;
         if(getIntent().getExtras() != null ) {
-            video = (Video) getIntent().getExtras().get(PARAM_VIDEO);
+            Video video = (Video) getIntent().getExtras().get(PARAM_VIDEO);
             if(video!=null) {
-                List<Role> roles = video.getRoles();
-                credits = "Credits for video '"+video.getId()+"': \n\n";
-                for(Role role:roles) {
-                    credits+= role+"\n\n";
-                }
+                addVideo(video);
+                finish();
             }
-            else credits = "video extra is null";
         }
-        else credits = "No extra";
-        test.setText(credits);
-        DatabaseHelper dbHelper = new DatabaseHelper(this, dbListener);
-        dbHelper.getDB();
     }
 
     @Override
@@ -86,5 +53,14 @@ public class AddToDBActivity extends Activity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addVideo(Video video) {
+        long res = ((MyApplication) AddToDBActivity.this.getApplication()).addVideo(video, true);
+        if(res == MyApplication.ERROR)
+            Log.d(LOG, "An error occurred when add video '" + video.getTitle() + "' ("+video.getId()+") on DB");
+        else if(res == MyApplication.OK) {
+            Log.d(LOG, "video '" + video.getTitle() + "' ("+video.getId()+") has been added on DB");
+        }
     }
 }

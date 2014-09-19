@@ -23,8 +23,8 @@
         </activity>
 
         <activity
-            android:name=".MovieCatalog"
-            android:label="@string/app_name" >
+            android:name=".operations.search.SearchResultsActivity"
+            android:label="@string/title_activity_search_results" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -35,8 +35,11 @@
         </activity>
 
         <activity
-            android:name=".operations.search.SearchResultsActivity"
-            android:label="@string/title_activity_search_results" >
+            android:name=".MovieCatalog"
+            android:label="@string/title_activity_movie_catalog" >
+            <!-- enable the search dialog to send searches to SearchableActivity -->
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".operations.search.SearchResultsActivity" />
         </activity>
 
         <activity

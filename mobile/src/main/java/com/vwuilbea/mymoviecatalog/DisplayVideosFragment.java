@@ -1,12 +1,16 @@
 package com.vwuilbea.mymoviecatalog;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,7 +23,9 @@ import java.util.List;
 
 
 public class DisplayVideosFragment extends Fragment
-        implements AdapterView.OnItemClickListener {
+        implements AdapterView.OnItemClickListener,
+        View.OnClickListener
+{
 
     private static final String LOG = DisplayVideosFragment.class.getSimpleName();
 
@@ -33,6 +39,7 @@ public class DisplayVideosFragment extends Fragment
 
     private int category;
     private  ArrayList<Video> allVideos;
+    private Video selectedVideo;
 
     private  MovieAdapter adapter;
 
@@ -74,7 +81,8 @@ public class DisplayVideosFragment extends Fragment
                             displayedVideos.add(video);
                 }
             }
-            adapter = new MovieAdapter(getActivity(), R.layout.list_search_result, displayedVideos);
+            adapter = new MovieAdapter(getActivity(), R.layout.list_search_result, displayedVideos, this);
+            adapter.sort(Video.COMPARATOR_DATE);
         }
     }
 
@@ -83,8 +91,9 @@ public class DisplayVideosFragment extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_display_movies, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.text_no_content);
         ListView listView = (ListView) rootView.findViewById(R.id.videos_list);
+        TextView textView = (TextView) rootView.findViewById(R.id.text_no_content);
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         if(adapter.isEmpty()) {
@@ -120,6 +129,44 @@ public class DisplayVideosFragment extends Fragment
         Video video = adapter.getItem(position);
         if(mListener!=null) mListener.onVideoClicked(video);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.item_button_corner:
+                selectedVideo = (Video) v.getTag();
+                if(mListener!=null && MovieAdapter.DELETE.equals(v.getContentDescription()))
+                    deleteVideo();
+                break;
+            default: break;
+        }
+    }
+
+    private void deleteVideo() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(getString(R.string.confirmation))
+                .setPositiveButton("Yes", removeListener)
+                .setNegativeButton("No", removeListener)
+                .show();
+    }
+
+    private DialogInterface.OnClickListener removeListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    int res = ((MyApplication) getActivity().getApplication()).removeVideo(selectedVideo, true);
+                    if(res == MyApplication.OK)  adapter.remove(selectedVideo);
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+            selectedVideo = null;
+        }
+        public void aa(){}
+    };
 
     public interface OnFragmentInteractionListener {
 

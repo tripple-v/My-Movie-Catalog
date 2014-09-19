@@ -5,7 +5,7 @@
     <string name="action_settings">Préférences</string>
     <string name="label_actors">Acteurs :</string>
     <string name="label_genres">Genres :</string>
-    <string name="label_overview">Résumé :</string>
+    <string name="label_overview">Résumé</string>
     <string name="label_title">Titre :</string>
     <string name="language">fr</string>
     <string name="navigation_drawer_close">Fermer le volet de navigation</string>
@@ -24,4 +24,11 @@
     <string name="title_section1">Tout afficher</string>
     <string name="title_section2">Tous les films</string>
     <string name="title_section3">Toutes les séries</string>
+    <string name="httpErrorIO">"Impossible d\'établir une communication avec le serveur. Veuillez réessayer ultérieurement."</string>
+    <string name="confirmation">Etes vous sûr ?</string>
+    <string name="label_rating">Note</string>
+    <string name="label_year">Année</string>
+    <string name="too_much_results">Trop de résultats, veuillez affiner votre recherche.</string>
+    <string name="action_add_a_movie">Ajouter une vidéo</string>
+    <string name="add_hint">Titre de la vidéo à ajouter</string>
 </resources>

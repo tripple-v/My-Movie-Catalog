@@ -48,14 +48,9 @@ public class SplashScreenActivity extends Activity {
         }
     };
 
-    private DatabaseHelper.DBListener listener = new DatabaseHelper.DBListener() {
+    private MyApplication.DBListener listener = new MyApplication.DBListener() {
         @Override
-        public void onReady(SQLiteDatabase dbR, SQLiteDatabase dbW) {
-            List<Movie> movies = Movie.getMoviesFromDb(dbR);
-            ((MyApplication) SplashScreenActivity.this.getApplication()).addVideos(movies);
-            List<Series> series = new ArrayList<Series>();
-            ((MyApplication) SplashScreenActivity.this.getApplication()).addVideos(series);
-            Log.d(LOG, "Get "+movies.size()+" movies");
+        public void onReady() {
             isDBReady = true;
             if(isTimerFinished) startApp();
         }
@@ -68,8 +63,7 @@ public class SplashScreenActivity extends Activity {
         timer.start();
         setContentView(R.layout.activity_splash_screen);
         getActionBar().hide();
-        DatabaseHelper dbHelper = new DatabaseHelper(this, listener);
-        dbHelper.getDB();
+        ((MyApplication) getApplication()).initializeDB(listener);
     }
 
     private void startApp() {

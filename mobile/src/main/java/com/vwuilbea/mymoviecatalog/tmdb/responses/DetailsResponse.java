@@ -44,183 +44,56 @@ public class DetailsResponse {
     private static final String PARAM_VOTE_AVERAGE = "vote_average";
     private static final String PARAM_VOTE_COUNT = "vote_count";
 
-    private Boolean adult;
-    private String backdropPath;
-    private String belongsToCollection;
-    private Integer budget;
-    private List<Genre> genres = new ArrayList<Genre>();
-    private String homePage;
-    private Integer id;
-    private String imdbId;
-    private String originalTitle;
-    private String overview;
-    private Double popularity;
-    private String posterPath;
-    private List<ProductionCompany> productionCompanies = new ArrayList<ProductionCompany>();
-    private List<Country> countries = new ArrayList<Country>();
-    private String releaseDate;
-    private Integer revenue;
-    private Integer runtime;
-    private List<Language> languages = new ArrayList<Language>();
-    private String status;
-    private String tagline;
-    private String title;
-    private Double voteAverage;
-    private Integer voteCount;
+    private static String belongsToCollection;
+    private static String homePage;
+    private static String imdbId;
+    private static Double popularity;
+    private static Integer revenue;
+    private static List<Language> languages = new ArrayList<Language>();
+    private static String status;
 
-    public DetailsResponse(String result, Video video) {
+    public static void parse(String result, Video video) {
         try {
             JSONObject object = new JSONObject(result);
-            if(!object.isNull(PARAM_ADULT)) this.adult = object.getBoolean(PARAM_ADULT);
-            this.backdropPath = object.getString(PARAM_BACKDROP_PATH);
-            this.belongsToCollection = object.getString(PARAM_BELONGS_TO_COLLECTION);
-            if(!object.isNull(PARAM_BUDGET)) this.budget = object.getInt(PARAM_BUDGET);
+            if(!object.isNull(PARAM_ADULT)) video.setAdult(object.getBoolean(PARAM_ADULT));
+            video.setCoverPath(object.getString(PARAM_BACKDROP_PATH));
+            belongsToCollection = object.getString(PARAM_BELONGS_TO_COLLECTION);
+            if(!object.isNull(PARAM_BUDGET)) video.setBudget(object.getInt(PARAM_BUDGET));
             JSONArray array = object.getJSONArray(PARAM_GENRES);
             for (int i = 0; i < array.length(); i++)
-                genres.add(new GenreResult(array.getJSONObject(i)).getGenre());
-            this.homePage = object.getString(PARAM_HOMEPAGE);
-            if(!object.isNull(PARAM_ID)) this.id = object.getInt(PARAM_ID);
-            this.imdbId = object.getString(PARAM_IMDB_ID);
-            this.originalTitle = object.getString(PARAM_ORIGINAL_TITLE);
-            this.overview = object.getString(PARAM_OVERVIEW);
-            if(!object.isNull(PARAM_POPULARITY)) this.popularity = object.getDouble(PARAM_POPULARITY);
-            this.posterPath = object.getString(PARAM_POSTER_PATH);
+                video.addGenre(new GenreResult(array.getJSONObject(i)).getGenre());
+            homePage = object.getString(PARAM_HOMEPAGE);
+            imdbId = object.getString(PARAM_IMDB_ID);
+            video.setOriginalTitle(object.getString(PARAM_ORIGINAL_TITLE));
+            video.setOverview(object.getString(PARAM_OVERVIEW));
+            if(!object.isNull(PARAM_POPULARITY)) popularity = object.getDouble(PARAM_POPULARITY);
+            video.setPosterPath(object.getString(PARAM_POSTER_PATH));
             array = object.getJSONArray(PARAM_PRODUCTION_COMPANIES);
             for (int i = 0; i < array.length(); i++)
-                productionCompanies.add(new ProductionCompanyResult(array.getJSONObject(i)).getProductionCompany());
+                video.addProductionCompany(new ProductionCompanyResult(array.getJSONObject(i)).getProductionCompany());
             array = object.getJSONArray(PARAM_PRODUCTION_COUNTRIES);
             for (int i = 0; i < array.length(); i++)
-                countries.add(new ProductionCountryResult(array.getJSONObject(i)).getCountry());
-            this.releaseDate = object.getString(PARAM_RELEASE_DATE);
-            if(!object.isNull(PARAM_REVENUE)) this.revenue = object.getInt(PARAM_REVENUE);
-            if(!object.isNull(PARAM_RUNTIME)) this.runtime = object.getInt(PARAM_RUNTIME);
+                video.addCountry(new ProductionCountryResult(array.getJSONObject(i)).getCountry());
+            video.setReleaseDate(object.getString(PARAM_RELEASE_DATE));
+            if(!object.isNull(PARAM_REVENUE)) revenue = object.getInt(PARAM_REVENUE);
+            if(!object.isNull(PARAM_RUNTIME)) video.setRuntime(object.getInt(PARAM_RUNTIME));
             array = object.getJSONArray(PARAM_LANGUAGES);
             for (int i = 0; i < array.length(); i++)
                 languages.add(new Language(array.getJSONObject(i)));
-            this.status = object.getString(PARAM_STATUS);
-            this.tagline = object.getString(PARAM_TAGLINE);
-            this.title = object.getString(PARAM_TITLE);
-            if(!object.isNull(PARAM_VOTE_AVERAGE)) this.voteAverage = object.getDouble(PARAM_VOTE_AVERAGE);
-            if(!object.isNull(PARAM_VOTE_COUNT)) this.voteCount = object.getInt(PARAM_VOTE_COUNT);
+            if(languages.size()>0) video.setLanguage(languages.get(0).getIso());
+            status = object.getString(PARAM_STATUS);
+            video.setTagline(object.getString(PARAM_TAGLINE));
+            video.setTitle(object.getString(PARAM_TITLE));
+            if(!object.isNull(PARAM_VOTE_AVERAGE)) video.setVoteAverage(object.getDouble(PARAM_VOTE_AVERAGE));
+            if(!object.isNull(PARAM_VOTE_COUNT)) video.setVoteCount(object.getInt(PARAM_VOTE_COUNT));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        fillVideo(video);
-    }
-
-    public void fillVideo(Video movie) {
-        movie.setAdult(adult);
-        movie.setBudget(budget);
-        movie.setOriginalTitle(originalTitle);
-        movie.setOverview(overview);
-        movie.setPosterPath(posterPath);
-        movie.setGenres(genres);
-        movie.setProductionCompanies(productionCompanies);
-        movie.setCountries(countries);
-        movie.setReleaseDate(releaseDate);
-        movie.setRuntime(runtime);
-        if(languages.size()>0) movie.setLanguage(languages.get(0).getIso());
-        movie.setTagline(tagline);
-        movie.setTitle(title);
-        movie.setVoteAverage(voteAverage);
-        movie.setVoteCount(voteCount);
-    }
-
-    public Boolean getAdult() {
-        return adult;
-    }
-
-    public String getBackdropPath() {
-        return backdropPath;
-    }
-
-    public String getBelongsToCollection() {
-        return belongsToCollection;
-    }
-
-    public Integer getBudget() {
-        return budget;
-    }
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public String getHomePage() {
-        return homePage;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getImdbId() {
-        return imdbId;
-    }
-
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
-
-    public String getOverview() {
-        return overview;
-    }
-
-    public Double getPopularity() {
-        return popularity;
-    }
-
-    public String getPosterPath() {
-        return posterPath;
-    }
-
-    public List<ProductionCompany> getProductionCompanies() {
-        return productionCompanies;
-    }
-
-    public List<Country> getCountries() {
-        return countries;
-    }
-
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public Integer getRevenue() {
-        return revenue;
-    }
-
-    public Integer getRuntime() {
-        return runtime;
-    }
-
-    public List<Language> getLanguages() {
-        return languages;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getTagline() {
-        return tagline;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Double getVoteAverage() {
-        return voteAverage;
-    }
-
-    public Integer getVoteCount() {
-        return voteCount;
     }
 
 
 
-    public class GenreResult {
+    public static class GenreResult {
 
         private static final String PARAM_GENRE_ID = "id";
         private static final String PARAM_GENRE_NAME = "name";
@@ -254,7 +127,7 @@ public class DetailsResponse {
         }
     }
 
-    public class ProductionCompanyResult {
+    public static class ProductionCompanyResult {
 
         private static final String PARAM_PROD_ID = "id";
         private static final String PARAM_PROD_NAME = "name";
@@ -284,7 +157,7 @@ public class DetailsResponse {
         }
     }
 
-    public class ProductionCountryResult {
+    public static class ProductionCountryResult {
 
         private static final String PARAM_COUNTRY_ISO = "iso_3166_1";
         private static final String PARAM_COUNTRY_NAME = "name";
@@ -314,7 +187,7 @@ public class DetailsResponse {
         }
     }
 
-    public class Language {
+    public static class Language {
 
         private static final String PARAM_LANGUAGE_ISO = "iso_639_1";
         private static final String PARAM_LANGUAGE_NAME = "name";

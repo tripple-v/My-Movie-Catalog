@@ -25,6 +25,7 @@ public class TmdbService {
     private static final String PARAM_API_KEY = "api_key";
     private static final String PARAM_LANGUAGE = "language";
     private static final String PARAM_QUERY = "query";
+    private static final String PARAM_PAGE = "page";
     private static final String PARAM_SORT_BY = "sort_by";
 
     private static void sendRequest(String suffix, Map<String, String> params, RestClient.ExecutionListener executionListener) {
@@ -45,8 +46,13 @@ public class TmdbService {
     }
 
     public static void sendSearchRequest(String query, RestClient.ExecutionListener executionListener) {
+        sendSearchRequest(query, "1", executionListener);
+    }
+
+    public static void sendSearchRequest(String query, String page, RestClient.ExecutionListener executionListener) {
         Map<String, String> map = new HashMap<String, String>();
         map.put(PARAM_QUERY, query);
+        map.put(PARAM_PAGE, page);
         sendRequest(SUFFIX_MOVIE_SEARCH,map, executionListener);
     }
 
