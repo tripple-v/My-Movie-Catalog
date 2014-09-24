@@ -12,8 +12,7 @@ import org.json.JSONObject;
 
 
 public class Credit
-        implements Comparable,
-        Parcelable
+        implements Comparable
 {
 
     private static final String PARAM_ID = "id";
@@ -51,7 +50,6 @@ public class Credit
     public Credit(JSONObject object, int videoId) {
         try {
             this.videoId = videoId;
-            this.castId = object.getInt(PARAM_CAST_ID);
             this.character = object.getString(PARAM_CAST_CHARACTER);
             this.creditId = object.getString(PARAM_CAST_CREDIT_ID);
             this.id = object.getInt(PARAM_ID);
@@ -65,7 +63,6 @@ public class Credit
 
     public Credit(Parcel in) {
         this.videoId = in.readInt();
-        this.castId = in.readInt();
         this.character = in.readString();
         this.creditId = in.readString();
         this.id = in.readInt();
@@ -76,10 +73,6 @@ public class Credit
 
     public int getVideoId() {
         return videoId;
-    }
-
-    public int getCastId() {
-        return castId;
     }
 
     public String getCharacter() {
@@ -96,10 +89,6 @@ public class Credit
 
     public String getName() {
         return name;
-    }
-
-    public int getOrder() {
-        return order;
     }
 
     public String getProfilePath() {
@@ -125,22 +114,5 @@ public class Credit
                 ", order=" + order +
                 ", profilePath='" + profilePath + '\'' +
                 '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(videoId);
-        dest.writeInt(castId);
-        dest.writeString(character);
-        dest.writeString(creditId);
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeInt(order);
-        dest.writeString(profilePath);
     }
 }

@@ -1,11 +1,14 @@
 package com.vwuilbea.mymoviecatalog.model;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.BaseColumns;
 import android.util.Log;
 
+import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
 
 import java.util.ArrayList;
@@ -106,6 +109,62 @@ public abstract class Entity
     @Override
     public int hashCode() {
         return id;
+    }
+
+    protected abstract String getTableName();
+    protected abstract String[] getAllColumns();
+
+    public int getFromDb(SQLiteDatabase dbR, boolean init) {
+        String[] projection = getAllColumns();
+        String WHERE = BaseColumns._ID + "=?";
+        String[] selectionArgs = {String.valueOf(getId())};
+
+
+        Cursor cursor = dbR.query(
+                getTableName(),
+                projection,
+                WHERE,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        if(cursor.getCount()>1) return DatabaseHelper.MULTIPLE_RESULTS;
+        if(init && cursor.getCount()>0) initFromCursor(cursor);
+        else return cursor.getCount();
+        return DatabaseHelper.OK;
+    }
+
+    public int putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        if (!isInDb(dbR)) {
+            // Insert the new row, returning the primary key value of the new row
+            long newRowId = dbW.insert(
+                    getTableName(),
+                    DatabaseHelper.NULL,
+                    getContentValues());
+            Log.d(LOG, "new '"+getTableName()+"' row added: '" + newRowId + "'");
+
+            if (newRowId != id)
+                return DatabaseHelper.ERROR;
+        }
+        return DatabaseHelper.OK;
+    }
+
+    protected void initFromCursor(Cursor cursor) {
+        cursor.moveToFirst();
+        name = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.EntityEntry.COLUMN_NAME));
+    }
+
+    public boolean isInDb(SQLiteDatabase dbR) {
+        return getFromDb(dbR, false) != 0;
+    }
+
+    protected ContentValues getContentValues() {
+            // Create a new map of values, where column names are the keys
+            ContentValues values = new ContentValues();
+            values.put(MovieCatalogContract.EntityEntry._ID, id);
+            values.put(MovieCatalogContract.EntityEntry.COLUMN_NAME, name);
+            return values;
     }
 }
 

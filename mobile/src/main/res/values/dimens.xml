@@ -10,6 +10,7 @@
     <dimen name="standard_margin">5dp</dimen>
 
     <!-- In list view -->
+    <dimen name="padding_text">5dp</dimen>
     <dimen name="thumb_height_list">100dp</dimen>
     <dimen name="thumb_width_list">75dp</dimen>
     <dimen name="title_size_list">15sp</dimen>
@@ -24,14 +25,17 @@
     <dimen name="cover_height_details">230dp</dimen>
     <dimen name="label_text_size">20sp</dimen>
     <dimen name="picture_size">300dp</dimen>
+    <dimen name="radio_button_width">65dp</dimen>
     <dimen name="rating_width_details">100dp</dimen>
     <dimen name="rating_height_details">50dp</dimen>
     <dimen name="section_title_size_details">25sp</dimen>
     <dimen name="subtitle_mini_size_details">10sp</dimen>
+    <dimen name="subtitle_medium_size_details">12sp</dimen>
     <dimen name="subtitle_size_details">15sp</dimen>
     <dimen name="text_size">15sp</dimen>
     <dimen name="title_size_details">20sp</dimen>
     <dimen name="thumb_height_details">150dp</dimen>
     <dimen name="thumb_width_details">100dp</dimen>
+    <dimen name="icon_size">20dp</dimen>
 
 </resources>

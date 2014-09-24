@@ -18,6 +18,10 @@ public class TmdbService {
     public static final String SUFFIX_MOVIE_DETAILS = "/3/movie/";
     public static final String SUFFIX_MOVIE_CREDITS = "/3/movie/{id}/credits";
 
+    public static final String SUFFIX_SERIES_SEARCH = "/3/search/tv";
+    public static final String SUFFIX_SERIES_DETAILS = "/3/tv/";
+    public static final String SUFFIX_SERIES_CREDITS = "/3/tv/{id}/credits";
+
     private static final String API_KEY = "77760f5193f0b833f1ffb4a3d3b297a3";
 
     public static final String[] POSTER_SIZES = {"w45","w154","w185","w342","w500","w780"};
@@ -45,23 +49,26 @@ public class TmdbService {
         }
     }
 
-    public static void sendSearchRequest(String query, RestClient.ExecutionListener executionListener) {
-        sendSearchRequest(query, "1", executionListener);
+    public static void sendSearchRequest(String query, RestClient.ExecutionListener executionListener, boolean isMovie) {
+        sendSearchRequest(query, "1", executionListener, isMovie);
     }
 
-    public static void sendSearchRequest(String query, String page, RestClient.ExecutionListener executionListener) {
+    public static void sendSearchRequest(String query, String page, RestClient.ExecutionListener executionListener, boolean isMovie) {
         Map<String, String> map = new HashMap<String, String>();
         map.put(PARAM_QUERY, query);
         map.put(PARAM_PAGE, page);
-        sendRequest(SUFFIX_MOVIE_SEARCH,map, executionListener);
+        String suffix = isMovie ? SUFFIX_MOVIE_SEARCH : SUFFIX_SERIES_SEARCH;
+        sendRequest(suffix,map, executionListener);
     }
 
-    public static void sendDetailsRequest(int id, RestClient.ExecutionListener executionListener) {
-        sendRequest(SUFFIX_MOVIE_DETAILS +id,null, executionListener);
+    public static void sendDetailsRequest(int id, RestClient.ExecutionListener executionListener, boolean isMovie) {
+        String suffix = isMovie ? SUFFIX_MOVIE_DETAILS : SUFFIX_SERIES_DETAILS;
+        sendRequest(suffix +id,null, executionListener);
     }
 
-    public static void sendCreditsRequest(int id, RestClient.ExecutionListener executionListener) {
-        sendRequest(SUFFIX_MOVIE_CREDITS.replace("{id}",String.valueOf(id)),null, executionListener);
+    public static void sendCreditsRequest(int id, RestClient.ExecutionListener executionListener, boolean isMovie) {
+        String suffix = isMovie ? SUFFIX_MOVIE_CREDITS : SUFFIX_SERIES_CREDITS;
+        sendRequest(suffix.replace("{id}",String.valueOf(id)),null, executionListener);
     }
 
 }

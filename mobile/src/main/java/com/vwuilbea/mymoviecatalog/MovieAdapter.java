@@ -2,7 +2,6 @@ package com.vwuilbea.mymoviecatalog;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.Rating;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.vwuilbea.mymoviecatalog.model.Genre;
+import com.vwuilbea.mymoviecatalog.model.Movie;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.search.SearchResultsActivity;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
@@ -40,6 +40,7 @@ public class MovieAdapter extends ArrayAdapter<Video> {
     private static String PREFIX_IMAGE = TmdbService.PREFIX_IMAGE+TmdbService.POSTER_SIZES[3];
     private boolean contextSearch=true;
     private View.OnClickListener clickListener;
+    private static int[] logosHD =  { R.drawable.logo_720p, R.drawable.logo_1080p, R.drawable.logo_4k};
 
     public MovieAdapter(Context context, int resourceId) {
         this(context,resourceId,new ArrayList<Video>());
@@ -80,14 +81,7 @@ public class MovieAdapter extends ArrayAdapter<Video> {
 
         if(vi==null) {
             vi = inflater.inflate(this.resourceId, null);
-            holder = new SearchHolder();
-            holder.thumbPoster = (ImageView)vi.findViewById(R.id.item_thumb_poster);
-            holder.cornerButton = (ImageView) vi.findViewById(R.id.item_button_corner);
-            holder.title = (TextView) vi.findViewById(R.id.item_title);
-            holder.rating = (TextView) vi.findViewById(R.id.item_rating);
-            holder.ratingBar = (RatingBar) vi.findViewById(R.id.rating_bar);
-            holder.year = (TextView) vi.findViewById(R.id.item_year);
-            holder.genres = (TextView) vi.findViewById(R.id.item_genres);
+            holder = new SearchHolder(vi);
             vi.setTag(holder);
         }
         else {
@@ -96,7 +90,9 @@ public class MovieAdapter extends ArrayAdapter<Video> {
 
         List<Video> videos = getVideos();
         Video video = getItem(position);
+        boolean isKnownVideo = videos.contains(video);
 
+        /* Poster image */
         String posterPath = video.getPosterPath();
         if(posterPath!=null && !posterPath.equals("null"))
             Picasso.with(getContext())
@@ -104,32 +100,30 @@ public class MovieAdapter extends ArrayAdapter<Video> {
                     .fit()
                     .placeholder(android.R.drawable.ic_menu_report_image)
                     .into(holder.thumbPoster);
+        /* *********** */
+
+        //Title
         holder.title.setText(video.getTitle());
+
+        /* Rate well format */
         String rateS = "( ";
-        //rateS += video.getVoteAverage()+"/10, ";
         DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(LOCALE);
         rateS += formatter.format(video.getVoteCount()) + " ";
         if(video.getVoteCount()>1) rateS += getContext().getString(R.string.votes);
         else rateS += getContext().getString(R.string.vote);
         rateS += " )";
         holder.rating.setText(rateS);
-        holder.ratingBar.setRating((float) video.getVoteAverage() / 2);
 
+        holder.ratingBar.setRating(video.getVoteAverage()/2);
+        /* ************** */
+
+        /* Date */
         String date = video.getReleaseDate();
         if(date == null || date.equals("null")) date = getContext().getResources().getString(R.string.unknown_year);
         holder.year.setText(date);
+        /* **** */
 
-        if(videos.contains(video)){
-            holder.cornerButton.setImageResource(android.R.drawable.ic_delete);
-            holder.cornerButton.setContentDescription(DELETE);
-        }
-        else {
-            holder.cornerButton.setImageResource(android.R.drawable.ic_input_add);
-            holder.cornerButton.setContentDescription(ADD);
-        }
-        if(clickListener !=null) holder.cornerButton.setOnClickListener(clickListener);
-        holder.cornerButton.setTag(video);
-
+        /* Genres */
         String genres = "";
         String delim = "";
         for(Genre genre:video.getGenres()) {
@@ -139,10 +133,44 @@ public class MovieAdapter extends ArrayAdapter<Video> {
             }
         }
         holder.genres.setText(genres);
+        /* ****** */
+
+        //Badge to differentiate movie/series
+        String type = video instanceof Movie ? getContext().getString(R.string.movie) : getContext().getString(R.string.series);
+        holder.videoType.setText(type);
+
+        /* Fields depend on the context */
+        if(isKnownVideo){
+            holder.cornerButton.setImageResource(android.R.drawable.ic_delete);
+            holder.cornerButton.setContentDescription(DELETE);
+            if(video.isThreeD()) holder.logo3d.setVisibility(View.VISIBLE);
+            else holder.logo3d.setVisibility(View.INVISIBLE);
+            //Show quality logo only if HD
+            int quality = video.getQuality();
+            if(quality > Video.Quality.NORMAL.getId()) {
+                int logoId = logosHD[quality- Video.Quality.NORMAL.getId()-1];
+                holder.logoHD.setImageResource(logoId);
+            }
+            else {
+                holder.logoHD.setVisibility(View.INVISIBLE);
+            }
+        }
+        else {
+            holder.cornerButton.setImageResource(android.R.drawable.ic_input_add);
+            holder.cornerButton.setContentDescription(ADD);
+            holder.logo3d.setVisibility(View.INVISIBLE);
+            holder.logoHD.setVisibility(View.INVISIBLE);
+        }
+        holder.cornerButton.setTag(video);
+        if(clickListener !=null) holder.cornerButton.setOnClickListener(clickListener);
+        /* ************************** */
 
         return vi;
     }
 
+    /**
+     * Static class to hold views
+     */
     private static class SearchHolder {
         ImageView thumbPoster;
         ImageView cornerButton;
@@ -151,5 +179,21 @@ public class MovieAdapter extends ArrayAdapter<Video> {
         TextView year;
         RatingBar ratingBar;
         TextView genres;
+        TextView videoType;
+        ImageView logo3d;
+        ImageView logoHD;
+
+        public SearchHolder(View vi) {
+            thumbPoster = (ImageView)vi.findViewById(R.id.item_thumb_poster);
+            cornerButton = (ImageView) vi.findViewById(R.id.item_button_corner);
+            title = (TextView) vi.findViewById(R.id.item_title);
+            rating = (TextView) vi.findViewById(R.id.item_rating);
+            ratingBar = (RatingBar) vi.findViewById(R.id.rating_bar);
+            year = (TextView) vi.findViewById(R.id.item_year);
+            genres = (TextView) vi.findViewById(R.id.item_genres);
+            videoType = (TextView) vi.findViewById(R.id.item_video_type);
+            logo3d = (ImageView) vi.findViewById(R.id.item_3d);
+            logoHD = (ImageView) vi.findViewById(R.id.item_quality);
+        }
     }
 }

@@ -3,6 +3,8 @@ package com.vwuilbea.mymoviecatalog.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
+
 public class ProductionCompany extends Entity
 {
 
@@ -38,6 +40,16 @@ public class ProductionCompany extends Entity
         return "ProductionCompany{" +
                 super.toString() +
                 '}';
+    }
+
+    @Override
+    protected String getTableName() {
+        return MovieCatalogContract.ProductionCompanyEntry.TABLE_NAME;
+    }
+
+    @Override
+    protected String[] getAllColumns() {
+        return MovieCatalogContract.ProductionCompanyEntry.ALL_COLUMNS;
     }
 }
 

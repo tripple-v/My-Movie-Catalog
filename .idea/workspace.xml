@@ -18,11 +18,17 @@
       <config>
         <devices>
           <device id="Nexus 5" />
+          <device id="Nexus 10" />
           <device id="wear_round" />
         </devices>
       </config>
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/mobile/src/main/res/layout/list_search_result.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/wear/src/main/res/layout/round_activity_main_activity_wear.xml">
         <config>
           <theme>@android:style/Theme.DeviceDefault</theme>
@@ -31,6 +37,7 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.vwuilbea.mymoviecatalog" />
   </component>
   <component name="ChangeListManager">
@@ -96,50 +103,146 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="activity_details_results.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_details_results.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
+      <file leaf-file-name="DatabaseHelper.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/DatabaseHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.6296296" vertical-offset="1069" max-vertical-offset="2788">
-              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="651" max-vertical-offset="1496">
+              <caret line="66" column="77" selection-start-line="66" selection-start-column="77" selection-end-line="66" selection-end-column="77" />
+              <folding>
+                <element signature="method#DatabaseHelper#0;class#DatabaseHelper#0" expanded="false" />
+                <element signature="method#onDowngrade#0;class#DatabaseHelper#0" expanded="false" />
+                <element signature="method#getDB#0;class#DatabaseHelper#0" expanded="false" />
+                <element signature="class#DBListener#0;class#DatabaseHelper#0" expanded="false" />
+                <element signature="class#GetDB#0;class#DatabaseHelper#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dimens.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/dimens.xml">
+      <file leaf-file-name="MovieCatalogContract.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/MovieCatalogContract.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="22" max-vertical-offset="731">
-              <caret line="29" column="47" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="972" max-vertical-offset="1989">
+              <caret line="259" column="47" selection-start-line="259" selection-start-column="47" selection-end-line="259" selection-end-column="47" />
+              <folding>
+                <element signature="method#MovieCatalogContract#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#VideoEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#PersonEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#ActorEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#CountryEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#GenreEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#LocationEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#MovieEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#ProductionCompanyEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#RealisatorEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#SeriesEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#RoleEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#VideoGenreEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#VideoCountryEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#PersonCountryEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#VideoProductionEntry#0;class#MovieCatalogContract#0" expanded="false" />
+                <element signature="class#VideoRealisatorEntry#0;class#MovieCatalogContract#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DetailsResultsActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/details/DetailsResultsActivity.java">
+      <file leaf-file-name="Video.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Video.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35693642" vertical-offset="2456" max-vertical-offset="3553">
-              <caret line="217" column="49" selection-start-line="217" selection-start-column="49" selection-end-line="217" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="3592" max-vertical-offset="4335">
+              <caret line="610" column="19" selection-start-line="610" selection-start-column="19" selection-end-line="610" selection-end-column="19" />
+              <folding>
+                <element signature="class#Quality#0;class#Video#0" expanded="false" />
+                <element signature="method#Video#0;class#Video#0" expanded="false" />
+                <element signature="method#Video#1;class#Video#0" expanded="false" />
+                <element signature="method#Video#2;class#Video#0" expanded="false" />
+                <element signature="method#writeToParcel#0;class#Video#0" expanded="false" />
+                <element signature="method#getContentValues#0;class#Video#0" expanded="false" />
+                <element signature="method#addGenre#0;class#Video#0" expanded="false" />
+                <element signature="method#setGenres#0;class#Video#0" expanded="false" />
+                <element signature="method#addRole#0;class#Video#0" expanded="false" />
+                <element signature="method#setRoles#0;class#Video#0" expanded="false" />
+                <element signature="method#addCountry#0;class#Video#0" expanded="false" />
+                <element signature="method#setCountries#0;class#Video#0" expanded="false" />
+                <element signature="method#addProductionCompany#0;class#Video#0" expanded="false" />
+                <element signature="method#setProductionCompanies#0;class#Video#0" expanded="false" />
+                <element signature="method#getQualityString#0;class#Video#0" expanded="false" />
+                <element signature="method#toString#0;class#Video#0" expanded="false" />
+                <element signature="method#equals#0;class#Video#0" expanded="false" />
+                <element signature="class#15055:15284" expanded="false" />
+                <element signature="class#15351:15567" expanded="false" />
+                <element signature="class#15635:15873" expanded="false" />
+                <element signature="method#getVideosFromDb#0;class#Video#0" expanded="false" />
+                <element signature="method#updateInDb#0;class#Video#0" expanded="false" />
+                <element signature="method#getFromDb#0;class#Video#0" expanded="false" />
+                <element signature="method#removeFromDB#0;class#Video#0" expanded="false" />
+                <element signature="method#putInDB#0;class#Video#0" expanded="false" />
+                <element signature="method#addGenreFromDB#0;class#Video#0" expanded="false" />
+                <element signature="method#removeDependencies#0;class#Video#0" expanded="false" />
+                <element signature="method#addDependencies#0;class#Video#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Series.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Series.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="987" max-vertical-offset="1717">
+              <caret line="132" column="5" selection-start-line="132" selection-start-column="5" selection-end-line="160" selection-end-column="5" />
+              <folding>
+                <element signature="class#532:822" expanded="false" />
+                <element signature="e#942#950#0" expanded="true" />
+                <element signature="method#Series#1;class#Series#0" expanded="false" />
+                <element signature="method#writeToParcel#0;class#Series#0" expanded="false" />
+                <element signature="method#addSeason#0;class#Series#0" expanded="false" />
+                <element signature="method#toString#0;class#Series#0" expanded="false" />
+                <element signature="method#getSeriesFromDb#0;class#Series#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Season.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Season.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2737">
+              <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="34" selection-end-column="6" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="class#2615:3183" expanded="false" />
-                <element signature="class#3249:3819" expanded="false" />
-                <element signature="class#3863:4096" expanded="false" />
-                <element signature="class#4141:4376" expanded="false" />
-                <element signature="method#fillRoles#0;class#DetailsResultsActivity#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#DetailsResultsActivity#0" expanded="false" />
-                <element signature="method#onOptionsItemSelected#0;class#DetailsResultsActivity#0" expanded="false" />
-                <element signature="method#initMapRequests#0;class#DetailsResultsActivity#0" expanded="false" />
-                <element signature="method#onRequestFinished#0;class#DetailsResultsActivity#0" expanded="false" />
-                <element signature="method#hideProgressView#0;class#DetailsResultsActivity#0" expanded="false" />
-                <element signature="method#addVideo#0;class#DetailsResultsActivity#0" expanded="false" />
-                <element signature="method#deleteVideo#0;class#DetailsResultsActivity#0" expanded="false" />
-                <element signature="e#11746#11778#0" expanded="true" />
-                <element signature="class#11992:12559" expanded="false" />
+                <element signature="e#1154#1163#0" expanded="true" />
+                <element signature="e#1284#1285#0" expanded="true" />
+                <element signature="e#1317#1318#0" expanded="true" />
+                <element signature="method#Season#2;class#Season#0" expanded="false" />
+                <element signature="method#Season#3;class#Season#0" expanded="false" />
+                <element signature="method#writeToParcel#0;class#Season#0" expanded="false" />
+                <element signature="method#getContentValues#0;class#Season#0" expanded="false" />
+                <element signature="e#4721#4722#0" expanded="true" />
+                <element signature="e#4763#4764#0" expanded="true" />
+                <element signature="method#addEpisode#0;class#Season#0" expanded="false" />
+                <element signature="method#equals#0;class#Season#0" expanded="false" />
+                <element signature="method#getFromDb#0;class#Season#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Episode.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Episode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.26734105" vertical-offset="2" max-vertical-offset="1547">
+              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="class#259:554" expanded="false" />
+                <element signature="method#Episode#2;class#Episode#0" expanded="false" />
+                <element signature="method#Episode#3;class#Episode#0" expanded="false" />
+                <element signature="method#writeToParcel#0;class#Episode#0" expanded="false" />
+                <element signature="e#3511#3512#0" expanded="true" />
+                <element signature="e#3553#3554#0" expanded="true" />
+                <element signature="e#3604#3605#0" expanded="true" />
+                <element signature="e#3628#3629#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2205,57 +2308,57 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/activity_splash_screen.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/activity_fullscreen.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/activity_movie_catalog.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/DisplayMoviesFragment.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/search/SearchAdapter.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/search/MovieAdapter.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/menu/details_results.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Entity.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Genre.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/credits/CreditsResponse.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/fragment_navigation_drawer.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/SplashScreenActivity.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MyApplication.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/activity_add_to_db.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/fragment_movie_catalog.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/layer-list.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/fragment_display_movies.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/bg_list_shadow.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/layer_list.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/layer_list_pressed.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/rating_bar_glod.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/rating_bar_gold.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/util/RestClient.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MovieCatalog.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Role.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Actor.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/TmdbService.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/layout/activity_search_results.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/add/AddToDBActivity.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/DisplayVideosFragment.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/search/SearchResultsActivity.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/menu/movie_catalog.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/xml/searchable.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/list_search_result.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MovieAdapter.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/MovieCatalogContract.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/SearchMovieResponse.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/values-fr/strings.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Movie.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/DetailsResponse.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/DatabaseHelper.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Video.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/textjustify/TextJustifyUtils.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/textjustify/TextViewEx.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/values-fr/strings.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Quality.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/SearchMovieResponse.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MyApplication.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/button_background.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/layer_list.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/button_bg_selected.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/values-v17/styles.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/button_bg_selector.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/button_bg.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/MyBaseColumns.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Test.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Genre.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Entity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Person.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Actor.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Location.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/ProductionCompany.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Realisator.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Country.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/layout/activity_details_results.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Movie.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/rounded_textview.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/search/SearchSeriesResponse.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/TmdbService.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/search/SearchResultsActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/credits/Credit.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/DetailsResponse.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/details/DetailsResponse.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/details/DetailsResultsActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/list_search_result.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MovieAdapter.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/menu/movie_catalog.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/fragment_display_movies.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/DisplayVideosFragment.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MovieCatalog.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Video.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/details/DetailsSeriesResponse.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/MovieCatalogContract.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/DatabaseHelper.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Series.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Season.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Episode.java" />
       </list>
     </option>
   </component>
@@ -2316,27 +2419,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="My Movie Catalog" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="My Movie Catalog" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2373,7 +2455,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
+              <option name="myItemId" value="values" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2387,6 +2469,28 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="strings.xml" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
@@ -2427,7 +2531,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="operations" />
+              <option name="myItemId" value="tmdb" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2449,7 +2553,284 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="operations" />
+              <option name="myItemId" value="tmdb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="responses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="search" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mymoviecatalog" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tmdb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="responses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mymoviecatalog" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MyMovieCatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MyMovieCatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MyMovieCatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MyMovieCatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mymoviecatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MyMovieCatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mymoviecatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tmdb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MyMovieCatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mymoviecatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tmdb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="responses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="search" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MyMovieCatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mymoviecatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tmdb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="responses" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -2460,15 +2841,57 @@
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="My Movie Catalog" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MyMovieCatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="mobile" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="manifests" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mymoviecatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tmdb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="responses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My Movie Catalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MyMovieCatalog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2519,6 +2942,8 @@
       <recent name="com.vwuilbea.mymoviecatalog" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.vwuilbea.mymoviecatalog.tmdb.responses.details" />
+      <recent name="com.vwuilbea.mymoviecatalog.tmdb.responses.search" />
       <recent name="com.vwuilbea.mymoviecatalog.tmdb.responses" />
     </key>
   </component>
@@ -2778,7 +3203,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
@@ -2791,14 +3216,14 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6916525" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21979435" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26527777" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24678664" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46944445" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50972223" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21079692" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33354756" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32777777" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2859,105 +3284,29 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <option name="time" value="7" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/SplashScreenActivity.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values-fr/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54046243" vertical-offset="0" max-vertical-offset="692">
-          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding>
-            <element signature="class#1551:1747" expanded="false" />
-            <element signature="method#onReady#0;class#1551:1747" expanded="false" />
-            <element signature="method#onCreate#0;class#SplashScreenActivity#0" expanded="false" />
-            <element signature="method#startApp#0;class#SplashScreenActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Dev/android/sdk/sources/android-20/android/widget/GridView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33236995" vertical-offset="144" max-vertical-offset="38114">
-          <caret line="54" column="13" selection-start-line="54" selection-start-column="13" selection-end-line="54" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.68786126" vertical-offset="0" max-vertical-offset="692">
+          <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_movie_catalog.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/search/SearchMovieResponse.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20858896" vertical-offset="0" max-vertical-offset="652">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="651" max-vertical-offset="1343">
+          <caret line="84" column="20" selection-start-line="84" selection-start-column="20" selection-end-line="84" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_add_to_db.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$USER_HOME$/Dev/android/sdk/sources/android-20/android/widget/ArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30676693" vertical-offset="0" max-vertical-offset="665">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_splash_screen.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5368421" vertical-offset="0" max-vertical-offset="665">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/fragment_movie_catalog.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
-          <caret line="0" column="74" selection-start-line="0" selection-start-column="74" selection-end-line="2" selection-end-column="80" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/fragment_display_movies.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.9259257" vertical-offset="0" max-vertical-offset="561">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/grid_search_result.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="765">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#325#351#0" expanded="false" />
-            <element signature="e#382#408#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/drawable/bg_list_even.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="692">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.3323077" vertical-offset="4125" max-vertical-offset="8228">
+          <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2969,112 +3318,291 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/res/drawable/layer_list.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
-          <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="91" />
-          <folding />
+        <state vertical-scroll-proportion="0.24566475" vertical-offset="0" max-vertical-offset="692">
+          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+          <folding>
+            <element signature="e#395#423#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/res/drawable/layer_list_pressed.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+        <state vertical-scroll-proportion="0.22109826" vertical-offset="0" max-vertical-offset="692">
           <caret line="9" column="91" selection-start-line="9" selection-start-column="91" selection-end-line="9" selection-end-column="91" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/drawable/star_gold_empty.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/drawable/rating_bar_gold.xml">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/drawable/button_bg.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
-          <caret line="2" column="90" selection-start-line="2" selection-start-column="90" selection-end-line="2" selection-end-column="90" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Dev/android/sdk/platforms/android-20/data/res/values/strings.xml">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4580265" vertical-offset="3820" max-vertical-offset="77435">
-          <caret line="243" column="92" selection-start-line="243" selection-start-column="92" selection-end-line="244" selection-end-column="95" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="430" max-vertical-offset="1139">
+          <caret line="62" column="40" selection-start-line="62" selection-start-column="40" selection-end-line="62" selection-end-column="40" />
+          <folding>
+            <element signature="tag#style#1;tag#resources#0" expanded="false" />
+            <element signature="tag#style#2;tag#resources#0" expanded="false" />
+            <element signature="tag#style#6;tag#resources#0" expanded="false" />
+            <element signature="tag#style#7;tag#resources#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Dev/android/sdk/platforms/android-20/data/res/values-fr/strings.xml">
+    <entry file="file://$USER_HOME$/Dev/android/sdk/sources/android-20/android/provider/BaseColumns.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3078056" vertical-offset="1865" max-vertical-offset="28577">
-          <caret line="122" column="113" selection-start-line="122" selection-start-column="113" selection-end-line="123" selection-end-column="161" />
-          <folding />
+        <state vertical-scroll-proportion="0.098265894" vertical-offset="0" max-vertical-offset="692">
+          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/AndroidManifest.xml">
+    <entry file="file://$USER_HOME$/Dev/android/sdk/sources/android-20/java/lang/Object.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="175" max-vertical-offset="1071">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.33236995" vertical-offset="3306" max-vertical-offset="7004">
+          <caret line="240" column="33" selection-start-line="240" selection-start-column="33" selection-end-line="240" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Person.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.08092485" vertical-offset="515" max-vertical-offset="1207">
-          <caret line="34" column="18" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Dev/android/sdk/sources/android-20/android/database/sqlite/SQLiteDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33236995" vertical-offset="21581" max-vertical-offset="36380">
-          <caret line="1338" column="16" selection-start-line="1338" selection-start-column="16" selection-end-line="1338" selection-end-column="16" />
-          <folding />
+        <state vertical-scroll-proportion="0.77890176" vertical-offset="226" max-vertical-offset="918">
+          <caret line="97" column="47" selection-start-line="97" selection-start-column="47" selection-end-line="97" selection-end-column="47" />
+          <folding>
+            <element signature="method#Person#1;class#Person#0" expanded="false" />
+            <element signature="method#getLongName#0;class#Person#0" expanded="false" />
+            <element signature="method#writeToParcel#0;class#Person#0" expanded="false" />
+            <element signature="method#toString#0;class#Person#0" expanded="false" />
+            <element signature="method#initFromCursor#0;class#Person#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Actor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14306359" vertical-offset="190" max-vertical-offset="1343">
-          <caret line="39" column="71" selection-start-line="39" selection-start-column="71" selection-end-line="39" selection-end-column="71" />
+        <state vertical-scroll-proportion="0.61416185" vertical-offset="0" max-vertical-offset="692">
+          <caret line="56" column="5" selection-start-line="56" selection-start-column="5" selection-end-line="56" selection-end-column="5" />
           <folding>
             <element signature="class#547:812" expanded="false" />
+            <element signature="method#getAllColumns#0;class#Actor#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Role.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Genre.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14306359" vertical-offset="1431" max-vertical-offset="2227">
-          <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6632948" vertical-offset="0" max-vertical-offset="748">
+          <caret line="64" column="54" selection-start-line="64" selection-start-column="54" selection-end-line="64" selection-end-column="54" />
           <folding>
-            <element signature="class#593:873" expanded="false" />
-            <element signature="method#writeToParcel#0;class#Role#0" expanded="false" />
-            <element signature="method#setVideo#0;class#Role#0" expanded="false" />
+            <element signature="class#495:780" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/ProductionCompany.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5650289" vertical-offset="0" max-vertical-offset="692">
+          <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+          <folding>
+            <element signature="class#293:638" expanded="false" />
+            <element signature="method#toString#0;class#ProductionCompany#0" expanded="false" />
+            <element signature="method#getTableName#0;class#ProductionCompany#0" expanded="false" />
+            <element signature="method#getAllColumns#0;class#ProductionCompany#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Location.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7543353" vertical-offset="39" max-vertical-offset="731">
+          <caret line="72" column="47" selection-start-line="72" selection-start-column="47" selection-end-line="72" selection-end-column="47" />
+          <folding>
+            <element signature="class#345:645" expanded="false" />
+            <element signature="method#writeToParcel#0;class#Location#0" expanded="false" />
+            <element signature="method#toString#0;class#Location#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Realisator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5895954" vertical-offset="0" max-vertical-offset="692">
+          <caret line="47" column="63" selection-start-line="47" selection-start-column="63" selection-end-line="47" selection-end-column="63" />
+          <folding>
+            <element signature="class#279:589" expanded="false" />
+            <element signature="method#toString#0;class#Realisator#0" expanded="false" />
+            <element signature="e#887#888#0" expanded="false" />
+            <element signature="e#957#958#0" expanded="false" />
+            <element signature="e#1013#1014#0" expanded="false" />
+            <element signature="e#1084#1085#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Country.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5" max-vertical-offset="850">
+          <caret line="88" column="60" selection-start-line="88" selection-start-column="60" selection-end-line="88" selection-end-column="60" />
+          <folding>
+            <element signature="class#376:671" expanded="false" />
+            <element signature="method#Country#1;class#Country#0" expanded="false" />
+            <element signature="method#Country#3;class#Country#0" expanded="false" />
+            <element signature="method#addPerson#0;class#Country#0" expanded="false" />
+            <element signature="method#writeToParcel#0;class#Country#0" expanded="false" />
+            <element signature="method#toString#0;class#Country#0" expanded="false" />
+            <element signature="e#1957#1958#0" expanded="false" />
+            <element signature="e#2024#2025#0" expanded="false" />
+            <element signature="e#2080#2081#0" expanded="false" />
+            <element signature="e#2148#2149#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Entity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="1224">
+          <caret line="111" column="5" selection-start-line="111" selection-start-column="5" selection-end-line="114" selection-end-column="48" />
+          <folding>
+            <element signature="method#Entity#1;class#Entity#0" expanded="false" />
+            <element signature="method#Entity#3;class#Entity#0" expanded="false" />
+            <element signature="method#addVideo#0;class#Entity#0" expanded="false" />
+            <element signature="method#writeToParcel#0;class#Entity#0" expanded="false" />
+            <element signature="method#toString#0;class#Entity#0" expanded="false" />
+            <element signature="method#equals#0;class#Entity#0" expanded="false" />
+            <element signature="method#getFromDb#0;class#Entity#0" expanded="false" />
+            <element signature="method#putInDB#0;class#Entity#0" expanded="false" />
+            <element signature="method#initFromCursor#0;class#Entity#0" expanded="false" />
+            <element signature="method#getContentValues#0;class#Entity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Movie.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6387283" vertical-offset="0" max-vertical-offset="692">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding>
+            <element signature="class#598:883" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_details_results.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="4998" max-vertical-offset="6086">
+          <caret line="294" column="40" selection-start-line="294" selection-start-column="40" selection-end-line="294" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/drawable/rounded_textview.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/dimens.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="73" max-vertical-offset="782">
+          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/drawable/logo_3d.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/TmdbService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1292">
+          <caret line="73" column="1" selection-start-line="73" selection-start-column="1" selection-end-line="73" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/search/SearchResultsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1960" max-vertical-offset="2652">
+          <caret line="309" column="23" selection-start-line="309" selection-start-column="23" selection-end-line="309" selection-end-column="23" />
+          <folding>
+            <element signature="docComment;field#mapRequests#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="class#2360:2984" expanded="false" />
+            <element signature="class#2360:2984" expanded="false" />
+            <element signature="class#3059:3801" expanded="false" />
+            <element signature="method#onExecutionFinished#0;class#3059:3801" expanded="false" />
+            <element signature="e#4421#4446#0" expanded="false" />
+            <element signature="e#5677#5697#0" expanded="false" />
+            <element signature="e#6306#6331#0" expanded="false" />
+            <element signature="e#7132#7150#0" expanded="false" />
+            <element signature="e#7587#7607#0" expanded="false" />
+            <element signature="method#finish#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="method#onResume#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="method#onSaveInstanceState#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="method#onClick#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="e#10665#10706#0" expanded="false" />
+            <element signature="method#fillAdapter#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="method#hideList#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="method#showList#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="method#deleteVideo#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="e#12068#12100#0" expanded="false" />
+            <element signature="method#initMapRequests#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="method#onRequestFinished#0;class#SearchResultsActivity#0" expanded="false" />
+            <element signature="class#12889:13529" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/TmdbFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="130" max-vertical-offset="561">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/credits/Credit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3511561" vertical-offset="561" max-vertical-offset="1615">
+          <caret line="116" column="5" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
+          <folding>
+            <element signature="e#2426#2427#0" expanded="false" />
+            <element signature="e#2453#2454#0" expanded="false" />
+            <element signature="e#2491#2492#0" expanded="false" />
+            <element signature="e#2525#2526#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/credits/CreditsResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54046243" vertical-offset="0" max-vertical-offset="692">
+          <caret line="35" column="62" selection-start-line="35" selection-start-column="62" selection-end-line="35" selection-end-column="62" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MyApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44075143" vertical-offset="52" max-vertical-offset="1020">
-          <caret line="35" column="42" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.40606937" vertical-offset="399" max-vertical-offset="1275">
+          <caret line="58" column="34" selection-start-line="58" selection-start-column="34" selection-end-line="58" selection-end-column="34" />
           <folding>
             <element signature="docComment;class#MyApplication#0" expanded="false" />
-            <element signature="method#addVideo#0;class#MyApplication#0" expanded="false" />
             <element signature="method#addVideos#0;class#MyApplication#0" expanded="false" />
             <element signature="method#removeVideo#0;class#MyApplication#0" expanded="false" />
             <element signature="class#DBListener#0;class#MyApplication#0" expanded="false" />
@@ -3082,39 +3610,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_search_results.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46015036" vertical-offset="0" max-vertical-offset="665">
-          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/DisplayVideosFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7514451" vertical-offset="432" max-vertical-offset="1802">
-          <caret line="84" column="46" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
-          <folding>
-            <element signature="method#newInstance#0;class#DisplayVideosFragment#0" expanded="false" />
-            <element signature="method#DisplayVideosFragment#0;class#DisplayVideosFragment#0" expanded="false" />
-            <element signature="method#onAttach#0;class#DisplayVideosFragment#0" expanded="false" />
-            <element signature="method#onDetach#0;class#DisplayVideosFragment#0" expanded="false" />
-            <element signature="method#onItemClick#0;class#DisplayVideosFragment#0" expanded="false" />
-            <element signature="method#onClick#0;class#DisplayVideosFragment#0" expanded="false" />
-            <element signature="method#deleteVideo#0;class#DisplayVideosFragment#0" expanded="false" />
-            <element signature="class#5309:5942" expanded="false" />
-            <element signature="class#OnFragmentInteractionListener#0;class#DisplayVideosFragment#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/add/AddToDBActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19653179" vertical-offset="0" max-vertical-offset="731">
-          <caret line="24" column="53" selection-start-line="24" selection-start-column="53" selection-end-line="24" selection-end-column="53" />
+        <state vertical-scroll-proportion="0.71242774" vertical-offset="0" max-vertical-offset="731">
+          <caret line="58" column="80" selection-start-line="58" selection-start-column="80" selection-end-line="58" selection-end-column="80" />
           <folding>
             <element signature="method#onCreateOptionsMenu#0;class#AddToDBActivity#0" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#AddToDBActivity#0" expanded="false" />
@@ -3122,129 +3621,263 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/util/RestClient.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/details/DetailsResultsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33236995" vertical-offset="331" max-vertical-offset="1751">
-          <caret line="69" column="16" selection-start-line="69" selection-start-column="16" selection-end-line="69" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.75578034" vertical-offset="1330" max-vertical-offset="2125">
+          <caret line="422" column="26" selection-start-line="422" selection-start-column="26" selection-end-line="422" selection-end-column="26" />
           <folding>
-            <element signature="class#ExecutionListener#0;class#RestClient#0" expanded="false" />
+            <element signature="class#3190:3758" expanded="false" />
+            <element signature="method#onExecutionProgress#0;class#3824:4472" expanded="false" />
+            <element signature="method#onExecutionFailed#0;class#3824:4472" expanded="false" />
+            <element signature="class#4516:4749" expanded="false" />
+            <element signature="class#4794:5029" expanded="false" />
+            <element signature="class#5110:5470" expanded="false" />
+            <element signature="class#5548:5815" expanded="false" />
+            <element signature="class#5899:6127" expanded="false" />
+            <element signature="method#onCreate#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#initViews#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#onStop#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#minutesToHours#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#fillDetails#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#fillRoles#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#onCreateOptionsMenu#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#initMapRequests#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#onRequestFinished#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#hideProgressView#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#showProgressView#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="method#deleteVideo#0;class#DetailsResultsActivity#0" expanded="false" />
+            <element signature="class#16189:16756" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/details/DetailsMovieResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5086705" vertical-offset="379" max-vertical-offset="1683">
+          <caret line="53" column="26" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="26" />
+          <folding>
+            <element signature="class#GenreResult#0;class#DetailsMovieResponse#0" expanded="false" />
+            <element signature="class#ProductionCompanyResult#0;class#DetailsMovieResponse#0" expanded="false" />
+            <element signature="class#ProductionCountryResult#0;class#DetailsMovieResponse#0" expanded="false" />
+            <element signature="class#Language#0;class#DetailsMovieResponse#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/list_search_result.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.185185" vertical-offset="1324" max-vertical-offset="2584">
+          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+          <folding>
+            <element signature="e#376#401#0" expanded="true" />
+            <element signature="e#432#458#0" expanded="true" />
+            <element signature="e#534#562#0" expanded="true" />
+            <element signature="e#598#622#0" expanded="true" />
+            <element signature="e#656#680#0" expanded="true" />
+            <element signature="e#777#811#0" expanded="true" />
+            <element signature="e#1521#1545#0" expanded="true" />
+            <element signature="e#1567#1592#0" expanded="true" />
+            <element signature="e#1618#1642#0" expanded="true" />
+            <element signature="e#2083#2107#0" expanded="true" />
+            <element signature="e#2129#2151#0" expanded="true" />
+            <element signature="e#2177#2204#0" expanded="true" />
+            <element signature="e#2656#2680#0" expanded="true" />
+            <element signature="e#3112#3136#0" expanded="true" />
+            <element signature="e#3171#3195#0" expanded="true" />
+            <element signature="e#3217#3239#0" expanded="true" />
+            <element signature="e#3265#3292#0" expanded="true" />
+            <element signature="e#3710#3734#0" expanded="true" />
+            <element signature="e#3760#3787#0" expanded="true" />
+            <element signature="e#3914#3929#0" expanded="true" />
+            <element signature="e#4016#4034#0" expanded="true" />
+            <element signature="e#4065#4083#0" expanded="true" />
+            <element signature="e#4372#4396#0" expanded="true" />
+            <element signature="e#4432#4455#0" expanded="true" />
+            <element signature="e#4490#4513#0" expanded="true" />
+            <element signature="e#4595#4613#0" expanded="true" />
+            <element signature="e#4644#4662#0" expanded="true" />
+            <element signature="e#4942#4966#0" expanded="true" />
+            <element signature="e#5002#5025#0" expanded="true" />
+            <element signature="e#5060#5083#0" expanded="true" />
+            <element signature="e#5432#5456#0" expanded="true" />
+            <element signature="e#5490#5514#0" expanded="true" />
+            <element signature="e#5550#5574#0" expanded="true" />
+            <element signature="e#5596#5616#0" expanded="true" />
+            <element signature="e#5642#5669#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/drawable/logo_720p.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MovieAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6387283" vertical-offset="255" max-vertical-offset="2312">
+          <caret line="86" column="14" selection-start-line="86" selection-start-column="14" selection-end-line="86" selection-end-column="14" />
+          <folding>
+            <element signature="method#MovieAdapter#0;class#MovieAdapter#0" expanded="false" />
+            <element signature="method#MovieAdapter#1;class#MovieAdapter#0" expanded="false" />
+            <element signature="method#MovieAdapter#2;class#MovieAdapter#0" expanded="false" />
+            <element signature="method#MovieAdapter#3;class#MovieAdapter#0" expanded="false" />
+            <element signature="method#getVideos#0;class#MovieAdapter#0" expanded="false" />
+            <element signature="e#3968#4006#0" expanded="true" />
+            <element signature="e#4030#4067#0" expanded="true" />
+            <element signature="e#4343#4403#0" expanded="true" />
+            <element signature="e#4870#4908#0" expanded="true" />
+            <element signature="e#4911#4950#0" expanded="true" />
+            <element signature="class#SearchHolder#0;class#MovieAdapter#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/res/menu/movie_catalog.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/xml/searchable.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17196532" vertical-offset="0" max-vertical-offset="692">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
+          <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
           <folding>
-            <element signature="e#133#159#0" expanded="false" />
-            <element signature="e#177#195#0" expanded="false" />
+            <element signature="e#244#260#0" expanded="true" />
+            <element signature="e#467#481#0" expanded="true" />
+            <element signature="e#699#723#0" expanded="true" />
+            <element signature="e#866#890#0" expanded="true" />
+            <element signature="e#993#1015#0" expanded="true" />
+            <element signature="e#1114#1139#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Dev/android/sdk/sources/android-20/android/widget/ArrayAdapter.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/fragment_display_movies.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33283132" vertical-offset="5287" max-vertical-offset="8228">
-          <caret line="361" column="37" selection-start-line="361" selection-start-column="28" selection-end-line="361" selection-end-column="37" />
+        <state vertical-scroll-proportion="-0.6296296" vertical-offset="0" max-vertical-offset="595">
+          <caret line="1" column="47" selection-start-line="1" selection-start-column="47" selection-end-line="1" selection-end-column="47" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_movie_catalog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="652">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Dev/android/sdk/sources/android-20/android/app/FragmentTransaction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33236995" vertical-offset="484" max-vertical-offset="4488">
+          <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/DisplayVideosFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1717">
+          <caret line="94" column="41" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="41" />
+          <folding>
+            <element signature="method#newInstance#0;class#DisplayVideosFragment#0" expanded="false" />
+            <element signature="method#DisplayVideosFragment#0;class#DisplayVideosFragment#0" expanded="false" />
+            <element signature="method#onCreateView#0;class#DisplayVideosFragment#0" expanded="false" />
+            <element signature="method#onAttach#0;class#DisplayVideosFragment#0" expanded="false" />
+            <element signature="method#onDetach#0;class#DisplayVideosFragment#0" expanded="false" />
+            <element signature="method#onItemClick#0;class#DisplayVideosFragment#0" expanded="false" />
+            <element signature="method#onClick#0;class#DisplayVideosFragment#0" expanded="false" />
+            <element signature="method#deleteVideo#0;class#DisplayVideosFragment#0" expanded="false" />
+            <element signature="class#5869:6502" expanded="false" />
+            <element signature="class#OnFragmentInteractionListener#0;class#DisplayVideosFragment#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MovieCatalog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0317919" vertical-offset="0" max-vertical-offset="1598">
-          <caret line="71" column="65" selection-start-line="71" selection-start-column="65" selection-end-line="71" selection-end-column="65" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="923" max-vertical-offset="1666">
+          <caret line="141" column="35" selection-start-line="141" selection-start-column="35" selection-end-line="141" selection-end-column="35" />
           <folding>
+            <element signature="method#onCreate#0;class#MovieCatalog#0" expanded="false" />
             <element signature="method#onResume#0;class#MovieCatalog#0" expanded="false" />
-            <element signature="method#onNavigationDrawerItemSelected#0;class#MovieCatalog#0" expanded="false" />
             <element signature="method#restoreActionBar#0;class#MovieCatalog#0" expanded="false" />
             <element signature="method#onCreateOptionsMenu#0;class#MovieCatalog#0" expanded="false" />
             <element signature="method#manageSearch#0;class#MovieCatalog#0" expanded="false" />
+            <element signature="e#5749#5779#0" expanded="true" />
+            <element signature="method#onActivityResult#0;class#MovieCatalog#0" expanded="false" />
             <element signature="method#onVideoClicked#0;class#MovieCatalog#0" expanded="false" />
             <element signature="method#onSectionAttached#0;class#MovieCatalog#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Series.java">
+    <entry file="file://$USER_HOME$/Dev/android/sdk/sources/android-20/android/os/Parcelable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46676302" vertical-offset="0" max-vertical-offset="692">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-          <folding>
-            <element signature="class#211:501" expanded="false" />
-            <element signature="method#Series#1;class#Series#0" expanded="false" />
-            <element signature="method#writeToParcel#0;class#Series#0" expanded="false" />
-            <element signature="method#toString#0;class#Series#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/TmdbService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="277" max-vertical-offset="1173">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.33236995" vertical-offset="1045" max-vertical-offset="2142">
+          <caret line="89" column="16" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="16" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/SearchMovieResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="379" max-vertical-offset="1071">
-          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding>
-            <element signature="method#getMovieFromJSON#0;class#SearchMovieResponse#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48410404" vertical-offset="396" max-vertical-offset="1088">
-          <caret line="43" column="42" selection-start-line="43" selection-start-column="42" selection-end-line="43" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.63150287" vertical-offset="736" max-vertical-offset="1428">
+          <caret line="69" column="29" selection-start-line="69" selection-start-column="29" selection-end-line="69" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values-fr/strings.xml">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/search/SearchSeriesResponse.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17196532" vertical-offset="0" max-vertical-offset="692">
-          <caret line="7" column="40" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Movie.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="418" max-vertical-offset="1377">
-          <caret line="130" column="83" selection-start-line="130" selection-start-column="83" selection-end-line="130" selection-end-column="83" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="124" max-vertical-offset="1326">
+          <caret line="77" column="77" selection-start-line="77" selection-start-column="51" selection-end-line="77" selection-end-column="77" />
           <folding>
-            <element signature="class#598:883" expanded="false" />
-            <element signature="method#Movie#2;class#Movie#0" expanded="false" />
-            <element signature="method#toString#0;class#Movie#0" expanded="false" />
-            <element signature="method#getMoviesFromDb#0;class#Movie#0" expanded="false" />
-            <element signature="method#getFromDb#0;class#Movie#0" expanded="false" />
-            <element signature="method#initFromCursor#0;class#Movie#0" expanded="false" />
-            <element signature="method#removeFromDB#0;class#Movie#0" expanded="false" />
-            <element signature="method#removeDependencies#0;class#Movie#0" expanded="false" />
+            <element signature="e#1577#1585#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/details/DetailsSeriesResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="617" max-vertical-offset="1751">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+          <folding>
+            <element signature="class#GenreResult#0;class#DetailsSeriesResponse#0" expanded="false" />
+            <element signature="class#ProductionCompanyResult#0;class#DetailsSeriesResponse#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/DatabaseHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="651" max-vertical-offset="1496">
+          <caret line="66" column="77" selection-start-line="66" selection-start-column="77" selection-end-line="66" selection-end-column="77" />
+          <folding>
+            <element signature="method#DatabaseHelper#0;class#DatabaseHelper#0" expanded="false" />
+            <element signature="method#onDowngrade#0;class#DatabaseHelper#0" expanded="false" />
+            <element signature="method#getDB#0;class#DatabaseHelper#0" expanded="false" />
+            <element signature="class#DBListener#0;class#DatabaseHelper#0" expanded="false" />
+            <element signature="class#GetDB#0;class#DatabaseHelper#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/MovieCatalogContract.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="413" max-vertical-offset="1105">
-          <caret line="165" column="68" selection-start-line="165" selection-start-column="68" selection-end-line="165" selection-end-column="68" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="972" max-vertical-offset="1989">
+          <caret line="259" column="47" selection-start-line="259" selection-start-column="47" selection-end-line="259" selection-end-column="47" />
           <folding>
             <element signature="method#MovieCatalogContract#0;class#MovieCatalogContract#0" expanded="false" />
+            <element signature="class#VideoEntry#0;class#MovieCatalogContract#0" expanded="false" />
+            <element signature="class#PersonEntry#0;class#MovieCatalogContract#0" expanded="false" />
             <element signature="class#ActorEntry#0;class#MovieCatalogContract#0" expanded="false" />
             <element signature="class#CountryEntry#0;class#MovieCatalogContract#0" expanded="false" />
             <element signature="class#GenreEntry#0;class#MovieCatalogContract#0" expanded="false" />
@@ -3256,113 +3889,40 @@
             <element signature="class#RoleEntry#0;class#MovieCatalogContract#0" expanded="false" />
             <element signature="class#VideoGenreEntry#0;class#MovieCatalogContract#0" expanded="false" />
             <element signature="class#VideoCountryEntry#0;class#MovieCatalogContract#0" expanded="false" />
+            <element signature="class#PersonCountryEntry#0;class#MovieCatalogContract#0" expanded="false" />
             <element signature="class#VideoProductionEntry#0;class#MovieCatalogContract#0" expanded="false" />
             <element signature="class#VideoRealisatorEntry#0;class#MovieCatalogContract#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/styles.xml">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Series.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65606934" vertical-offset="73" max-vertical-offset="765">
-          <caret line="44" column="17" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="987" max-vertical-offset="1717">
+          <caret line="132" column="5" selection-start-line="132" selection-start-column="5" selection-end-line="160" selection-end-column="5" />
           <folding>
-            <element signature="tag#style#0;tag#resources#0" expanded="false" />
-            <element signature="tag#style#3;tag#resources#0" expanded="false" />
-            <element signature="tag#style#4;tag#resources#0" expanded="false" />
-            <element signature="tag#style#8;tag#resources#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/MovieAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78612715" vertical-offset="0" max-vertical-offset="2193">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding>
-            <element signature="method#getVideos#0;class#MovieAdapter#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/list_search_result.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4631579" vertical-offset="1154" max-vertical-offset="1819">
-          <caret line="86" column="8" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="8" />
-          <folding>
-            <element signature="e#598#622#0" expanded="true" />
-            <element signature="e#656#680#0" expanded="true" />
-            <element signature="e#1521#1545#0" expanded="true" />
-            <element signature="e#1618#1642#0" expanded="true" />
-            <element signature="e#2083#2107#0" expanded="true" />
-            <element signature="e#2590#2614#0" expanded="true" />
-            <element signature="e#3046#3070#0" expanded="true" />
-            <element signature="e#3105#3129#0" expanded="true" />
-            <element signature="e#3584#3608#0" expanded="true" />
-            <element signature="e#3642#3666#0" expanded="true" />
-            <element signature="e#3702#3726#0" expanded="true" />
-            <element signature="e#3794#3821#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/search/SearchResultsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1346" max-vertical-offset="2006">
-          <caret line="195" column="0" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1854#1861#0" expanded="true" />
-            <element signature="class#2176:2800" expanded="false" />
-            <element signature="class#2875:3612" expanded="false" />
-            <element signature="class#3686:5435" expanded="false" />
-            <element signature="method#finish#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#onCreate#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#onResume#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#onSaveInstanceState#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#onClick#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#handleIntent#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#fillAdapter#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#hideList#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#showList#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#addVideo#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#deleteVideo#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#initMapRequests#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="method#onRequestFinished#0;class#SearchResultsActivity#0" expanded="false" />
-            <element signature="class#10608:11248" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/tmdb/responses/DetailsResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.1300578" vertical-offset="736" max-vertical-offset="1683">
-          <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
-          <folding>
-            <element signature="class#GenreResult#0;class#DetailsResponse#0" expanded="false" />
-            <element signature="class#ProductionCompanyResult#0;class#DetailsResponse#0" expanded="false" />
-            <element signature="class#ProductionCountryResult#0;class#DetailsResponse#0" expanded="false" />
-            <element signature="class#Language#0;class#DetailsResponse#0" expanded="false" />
+            <element signature="class#532:822" expanded="false" />
+            <element signature="e#942#950#0" expanded="true" />
+            <element signature="method#Series#1;class#Series#0" expanded="false" />
+            <element signature="method#writeToParcel#0;class#Series#0" expanded="false" />
+            <element signature="method#addSeason#0;class#Series#0" expanded="false" />
+            <element signature="method#toString#0;class#Series#0" expanded="false" />
+            <element signature="method#getSeriesFromDb#0;class#Series#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Video.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31213874" vertical-offset="2181" max-vertical-offset="3026">
-          <caret line="292" column="0" selection-start-line="292" selection-start-column="0" selection-end-line="292" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3592" max-vertical-offset="4335">
+          <caret line="610" column="19" selection-start-line="610" selection-start-column="19" selection-end-line="610" selection-end-column="19" />
           <folding>
-            <element signature="e#910#917#0" expanded="true" />
-            <element signature="e#967#973#0" expanded="true" />
-            <element signature="e#1035#1047#0" expanded="true" />
-            <element signature="e#1104#1113#0" expanded="true" />
-            <element signature="e#1190#1209#0" expanded="true" />
+            <element signature="class#Quality#0;class#Video#0" expanded="false" />
             <element signature="method#Video#0;class#Video#0" expanded="false" />
             <element signature="method#Video#1;class#Video#0" expanded="false" />
+            <element signature="method#Video#2;class#Video#0" expanded="false" />
+            <element signature="method#writeToParcel#0;class#Video#0" expanded="false" />
+            <element signature="method#getContentValues#0;class#Video#0" expanded="false" />
             <element signature="method#addGenre#0;class#Video#0" expanded="false" />
             <element signature="method#setGenres#0;class#Video#0" expanded="false" />
             <element signature="method#addRole#0;class#Video#0" expanded="false" />
@@ -3371,124 +3931,60 @@
             <element signature="method#setCountries#0;class#Video#0" expanded="false" />
             <element signature="method#addProductionCompany#0;class#Video#0" expanded="false" />
             <element signature="method#setProductionCompanies#0;class#Video#0" expanded="false" />
+            <element signature="method#getQualityString#0;class#Video#0" expanded="false" />
             <element signature="method#toString#0;class#Video#0" expanded="false" />
             <element signature="method#equals#0;class#Video#0" expanded="false" />
-            <element signature="class#9812:10041" expanded="false" />
+            <element signature="class#15055:15284" expanded="false" />
+            <element signature="class#15351:15567" expanded="false" />
+            <element signature="class#15635:15873" expanded="false" />
+            <element signature="method#getVideosFromDb#0;class#Video#0" expanded="false" />
+            <element signature="method#updateInDb#0;class#Video#0" expanded="false" />
+            <element signature="method#getFromDb#0;class#Video#0" expanded="false" />
+            <element signature="method#removeFromDB#0;class#Video#0" expanded="false" />
+            <element signature="method#putInDB#0;class#Video#0" expanded="false" />
             <element signature="method#addGenreFromDB#0;class#Video#0" expanded="false" />
-            <element signature="method#addRoleFromDB#0;class#Video#0" expanded="false" />
+            <element signature="method#removeDependencies#0;class#Video#0" expanded="false" />
+            <element signature="method#addDependencies#0;class#Video#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/database/DatabaseHelper.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Season.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2947977" vertical-offset="136" max-vertical-offset="1088">
-          <caret line="23" column="49" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
-          <folding>
-            <element signature="method#DatabaseHelper#0;class#DatabaseHelper#0" expanded="false" />
-            <element signature="method#onCreate#0;class#DatabaseHelper#0" expanded="false" />
-            <element signature="method#onUpgrade#0;class#DatabaseHelper#0" expanded="false" />
-            <element signature="method#onDowngrade#0;class#DatabaseHelper#0" expanded="false" />
-            <element signature="class#DBListener#0;class#DatabaseHelper#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/textjustify/TextViewEx.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19653179" vertical-offset="0" max-vertical-offset="4182">
-          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
-          <folding>
-            <element signature="e#2261#2262#0" expanded="true" />
-            <element signature="e#2309#2310#0" expanded="true" />
-            <element signature="e#2474#2475#0" expanded="true" />
-            <element signature="e#2502#2503#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/textjustify/TextJustifyUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3723">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="22" max-vertical-offset="731">
-          <caret line="29" column="47" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_details_results.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.6296296" vertical-offset="1069" max-vertical-offset="2788">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Dev/android/sdk/sources/android-20/java/text/SimpleDateFormat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.081001475" vertical-offset="4246" max-vertical-offset="15708">
-          <caret line="408" column="0" selection-start-line="408" selection-start-column="0" selection-end-line="408" selection-end-column="0" />
-          <folding>
-            <element signature="method#validatePattern#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#validatePatternCharacter#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="docComment;method#SimpleDateFormat#2;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#SimpleDateFormat#2;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="docComment;method#SimpleDateFormat#3;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#SimpleDateFormat#3;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#SimpleDateFormat#4;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="docComment;method#applyLocalizedPattern#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#applyLocalizedPattern#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="docComment;method#applyPattern#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#applyPattern#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="docComment;method#clone#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#clone#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#defaultPattern#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="docComment;method#equals#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#equals#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="docComment;method#formatToCharacterIterator#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#formatToCharacterIterator#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#formatToCharacterIteratorImpl#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="docComment;method#formatImpl#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#formatImpl#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#append#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#appendDayOfWeek#0;class#SimpleDateFormat#0" expanded="false" />
-            <element signature="method#appendMonth#0;class#SimpleDateFormat#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/operations/details/DetailsResultsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35693642" vertical-offset="2456" max-vertical-offset="3553">
-          <caret line="217" column="49" selection-start-line="217" selection-start-column="49" selection-end-line="217" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2737">
+          <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="34" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#2615:3183" expanded="false" />
-            <element signature="class#3249:3819" expanded="false" />
-            <element signature="class#3863:4096" expanded="false" />
-            <element signature="class#4141:4376" expanded="false" />
-            <element signature="method#fillRoles#0;class#DetailsResultsActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#DetailsResultsActivity#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#DetailsResultsActivity#0" expanded="false" />
-            <element signature="method#initMapRequests#0;class#DetailsResultsActivity#0" expanded="false" />
-            <element signature="method#onRequestFinished#0;class#DetailsResultsActivity#0" expanded="false" />
-            <element signature="method#hideProgressView#0;class#DetailsResultsActivity#0" expanded="false" />
-            <element signature="method#addVideo#0;class#DetailsResultsActivity#0" expanded="false" />
-            <element signature="method#deleteVideo#0;class#DetailsResultsActivity#0" expanded="false" />
-            <element signature="e#11746#11778#0" expanded="true" />
-            <element signature="class#11992:12559" expanded="false" />
+            <element signature="e#1154#1163#0" expanded="true" />
+            <element signature="e#1284#1285#0" expanded="true" />
+            <element signature="e#1317#1318#0" expanded="true" />
+            <element signature="method#Season#2;class#Season#0" expanded="false" />
+            <element signature="method#Season#3;class#Season#0" expanded="false" />
+            <element signature="method#writeToParcel#0;class#Season#0" expanded="false" />
+            <element signature="method#getContentValues#0;class#Season#0" expanded="false" />
+            <element signature="e#4721#4722#0" expanded="true" />
+            <element signature="e#4763#4764#0" expanded="true" />
+            <element signature="method#addEpisode#0;class#Season#0" expanded="false" />
+            <element signature="method#equals#0;class#Season#0" expanded="false" />
+            <element signature="method#getFromDb#0;class#Season#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/vwuilbea/mymoviecatalog/model/Episode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26734105" vertical-offset="2" max-vertical-offset="1547">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="class#259:554" expanded="false" />
+            <element signature="method#Episode#2;class#Episode#0" expanded="false" />
+            <element signature="method#Episode#3;class#Episode#0" expanded="false" />
+            <element signature="method#writeToParcel#0;class#Episode#0" expanded="false" />
+            <element signature="e#3511#3512#0" expanded="true" />
+            <element signature="e#3553#3554#0" expanded="true" />
+            <element signature="e#3604#3605#0" expanded="true" />
+            <element signature="e#3628#3629#0" expanded="true" />
           </folding>
         </state>
       </provider>

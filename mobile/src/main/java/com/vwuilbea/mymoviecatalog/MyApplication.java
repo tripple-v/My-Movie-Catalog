@@ -33,7 +33,7 @@ public class MyApplication extends Application {
             public void onReady(SQLiteDatabase dbR, SQLiteDatabase dbW) {
                 setDbR(dbR);
                 setDbW(dbW);
-                addVideos(Movie.getMoviesFromDb(dbR));
+                addVideos(Video.getVideosFromDb(dbR));
                 addVideos(new ArrayList<Series>());
                 Log.d(LOG, "Get " + allVideos.size() + " movies");
                 listener.onReady();
@@ -56,10 +56,8 @@ public class MyApplication extends Application {
     public int addVideo(Video video, boolean putInDB) {
         if (video != null && !allVideos.contains(video)) {
             if (putInDB && dbW != null && dbR != null) {
-                if (video instanceof Movie) {
-                    int res = ((Movie) video).putInDB(dbW, dbR);
-                    if (res == ERROR) return ERROR;
-                }
+                int res = video.putInDB(dbW, dbR);
+                if (res == ERROR) return ERROR;
             }
             allVideos.add(video);
         }
@@ -75,13 +73,17 @@ public class MyApplication extends Application {
     public int removeVideo(Video video, boolean fromDB) {
         if (video != null && allVideos.contains(video)) {
             if (fromDB && dbW != null) {
-                if (video instanceof Movie) {
-                    int res = ((Movie) video).removeFromDB(dbW);
-                    if(res<1) return ERROR;
-                }
+                int res = video.removeFromDB(dbW);
+                if (res < 1) return ERROR;
             }
             allVideos.remove(video);
         }
+        return OK;
+    }
+
+    public int updateVideo(Video video) {
+        int res = video.updateInDb(dbW);
+        if(res<1) return ERROR;
         return OK;
     }
 

@@ -3,6 +3,8 @@ package com.vwuilbea.mymoviecatalog.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,6 +77,16 @@ public class Country extends Entity {
                 ", persons=" + persons +
                 ", " + super.toString() +
                 '}';
+    }
+
+    @Override
+    protected String getTableName() {
+        return MovieCatalogContract.CountryEntry.TABLE_NAME;
+    }
+
+    @Override
+    protected String[] getAllColumns() {
+        return MovieCatalogContract.CountryEntry.ALL_COLUMNS;
     }
 }
 

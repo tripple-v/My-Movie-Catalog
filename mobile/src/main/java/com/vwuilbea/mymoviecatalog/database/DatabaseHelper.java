@@ -21,7 +21,7 @@ public class DatabaseHelper
     public static final int ERROR = -30;
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 10;
 
     // Database Name
     private static final String DATABASE_NAME = "movieCatalog.db";
@@ -44,9 +44,11 @@ public class DatabaseHelper
         db.execSQL(MovieCatalogContract.ProductionCompanyEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.RealisatorEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.SeriesEntry.CREATE_TABLE);
+        db.execSQL(MovieCatalogContract.SeasonEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.RoleEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.VideoGenreEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.VideoCountryEntry.CREATE_TABLE);
+        db.execSQL(MovieCatalogContract.PersonCountryEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.VideoProductionEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.VideoRealisatorEntry.CREATE_TABLE);
     }
@@ -62,9 +64,11 @@ public class DatabaseHelper
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.ProductionCompanyEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.RealisatorEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.SeriesEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.SeasonEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.RoleEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.VideoGenreEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.VideoCountryEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.PersonCountryEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.VideoProductionEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.VideoRealisatorEntry.TABLE_NAME);
 
@@ -75,7 +79,6 @@ public class DatabaseHelper
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db,oldVersion,newVersion);
-
     }
 
     public void getDB() {

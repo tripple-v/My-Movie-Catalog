@@ -49,7 +49,7 @@
     <string name="action_add_movie">Add the video</string>
     <string name="unavailable">Unavailable</string>
     <string name="label_year">Year</string>
-    <string name="label_rating">Rating</string>
+    <string name="label_rating">Ratings</string>
     <string name="add_hint">Video title to add</string>
     <string name="votes">votes</string>
     <string name="vote">vote</string>
@@ -57,6 +57,22 @@
     <string name="unknown_genre">Unknown genre</string>
     <string name="unknown_actors">Unknown actors</string>
     <string name="unknown_date">Unknown release date</string>
+    <string name="label_public">Public</string>
+    <string name="label_private">Personal</string>
+    <string name="no_video">No video found</string>
+    <string name="label_quality">Quality</string>
+    <string name="quality_normal">DVDRip</string>
+    <string name="quality_low">Low</string>
+    <string name="quality_720">720p</string>
+    <string name="quality_1080">1080p</string>
+    <string name="quality_4k">4k</string>
+    <string name="movie">movie</string>
+    <string name="series">series</string>
+    <string name="sort">Sort videos</string>
+    <string name="sort_by_newest">Sort by newest</string>
+    <string name="sort_by_rating">Sort by rating</string>
+    <string name="sort_by_name">Sort by name</string>
+    <string name="sort_error">An error occurred during sorting</string>
 
 
 </resources>

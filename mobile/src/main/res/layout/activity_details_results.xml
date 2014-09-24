@@ -5,11 +5,12 @@
     tools:context=".DetailsResultsActivity"
     style="@style/RootLayout">
 
+    <!-- Layout progress -->
     <RelativeLayout
         android:id="@+id/progress_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
@@ -18,142 +19,335 @@
 
     </RelativeLayout>
 
-<com.nirhart.parallaxscroll.views.ParallaxScrollView
-    android:id="@+id/parallax_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:parallax_factor="3.4"
-    tools:context=".DetailsResultsActivity"
-    android:visibility="invisible">
+    <!-- Layout parallax -->
+    <com.nirhart.parallaxscroll.views.ParallaxScrollView
+        android:id="@+id/parallax_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:parallax_factor="3.4"
+        tools:context=".DetailsResultsActivity"
+        android:visibility="visible">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/image_cover"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cover_height_details"
-            android:src="@android:drawable/ic_menu_report_image" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white">
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/image_poster"
-                android:layout_width="@dimen/thumb_width_details"
-                android:layout_height="@dimen/thumb_height_details"
-                android:layout_margin="@dimen/minimum_margin"
+                android:id="@+id/image_cover"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cover_height_details"
                 android:src="@android:drawable/ic_menu_report_image" />
 
-            <TextView
-                android:id="@+id/text_date"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/image_poster"
-                android:layout_marginLeft="@dimen/minimum_margin"
-                android:layout_marginStart="@dimen/minimum_margin"
-                android:text="@string/unknown_date"
-                android:textSize="@dimen/subtitle_size_details"
-                android:textColor="@android:color/darker_gray"
-                tools:ignore="HardcodedText" />
+                android:background="@android:color/white">
 
-            <TextView
-                android:id="@+id/text_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/image_poster"
-                android:layout_toEndOf="@+id/image_poster"
-                android:text="@string/unknown_title"
-                android:textSize="@dimen/title_size_details"
-                android:textStyle="bold"
-                android:singleLine="true"
-                android:ellipsize="marquee"
-                tools:ignore="HardcodedText" />
+                <!-- Main layout -->
+                <RelativeLayout
+                    android:id="@+id/layout_main"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
 
-            <TextView
-                android:id="@+id/text_runtime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_title"
-                android:layout_toRightOf="@+id/image_poster"
-                android:layout_toEndOf="@+id/image_poster"
-                android:textSize="@dimen/subtitle_size_details"
-                android:textColor="@android:color/darker_gray"
-                android:text="@string/unknown_genre"
-                tools:ignore="HardcodedText" />
+                    <ImageView
+                        android:id="@+id/image_poster"
+                        android:layout_width="@dimen/thumb_width_details"
+                        android:layout_height="@dimen/thumb_height_details"
+                        android:layout_margin="@dimen/minimum_margin"
+                        android:src="@android:drawable/ic_menu_report_image" />
 
-            <TextView
-                android:id="@+id/text_genre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_runtime"
-                android:layout_toRightOf="@+id/image_poster"
-                android:layout_toEndOf="@+id/image_poster"
-                android:textSize="@dimen/subtitle_size_details"
-                android:text="@string/unknown_genre"
-                tools:ignore="HardcodedText" />
+                    <TextView
+                        android:id="@+id/text_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/image_poster"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:text="@string/unknown_date"
+                        android:textSize="@dimen/subtitle_size_details"
+                        android:textColor="@android:color/darker_gray"
+                        tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/label_actors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_genre"
-                android:layout_toRightOf="@+id/image_poster"
-                android:layout_toEndOf="@+id/image_poster"
-                android:layout_marginTop="@dimen/standard_margin"
-                android:text="@string/label_actors"
-                android:textSize="@dimen/subtitle_size_details"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
+                    <TextView
+                        android:id="@+id/text_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/image_poster"
+                        android:layout_toEndOf="@+id/image_poster"
+                        android:text="@string/unknown_title"
+                        android:textSize="@dimen/title_size_details"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/text_actors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/label_actors"
-                android:layout_toRightOf="@+id/image_poster"
-                android:layout_toEndOf="@+id/image_poster"
-                android:layout_marginTop="@dimen/standard_margin"
-                android:text="@string/unknown_actors"
-                android:textSize="@dimen/subtitle_size_details"
-                tools:ignore="HardcodedText" />
+                    <TextView
+                        android:id="@+id/text_runtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_title"
+                        android:layout_toRightOf="@+id/image_poster"
+                        android:layout_toEndOf="@+id/image_poster"
+                        android:textSize="@dimen/subtitle_size_details"
+                        android:textColor="@android:color/darker_gray"
+                        android:text="@string/unknown_genre"
+                        tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/label_overview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_date"
-                android:layout_marginLeft="@dimen/minimum_margin"
-                android:layout_marginStart="@dimen/minimum_margin"
-                android:layout_marginTop="@dimen/standard_margin"
-                android:layout_marginBottom="@dimen/standard_margin"
-                android:text="@string/label_overview"
-                android:textSize="@dimen/section_title_size_details"
-                tools:ignore="HardcodedText" />
+                    <TextView
+                        android:id="@+id/text_genre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_runtime"
+                        android:layout_toRightOf="@+id/image_poster"
+                        android:layout_toEndOf="@+id/image_poster"
+                        android:textSize="@dimen/subtitle_size_details"
+                        android:text="@string/unknown_genre"
+                        tools:ignore="HardcodedText" />
 
-            <com.vwuilbea.mymoviecatalog.textjustify.TextViewEx
-                android:id="@+id/text_overview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/label_overview"
-                android:layout_marginLeft="@dimen/minimum_margin"
-                android:layout_marginStart="@dimen/minimum_margin"
-                android:layout_marginEnd="@dimen/minimum_margin"
-                android:layout_marginRight="@dimen/minimum_margin"
-                android:layout_marginTop="@dimen/standard_margin"
-                android:layout_marginBottom="@dimen/standard_margin"
-                android:text="@string/unavailable"
-                android:layout_gravity="center_vertical|end"
-                android:gravity="start"
-                tools:ignore="HardcodedText" />
+                    <TextView
+                        android:id="@+id/label_actors"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_genre"
+                        android:layout_toRightOf="@+id/image_poster"
+                        android:layout_toEndOf="@+id/image_poster"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:text="@string/label_actors"
+                        android:textSize="@dimen/subtitle_size_details"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
-        </RelativeLayout>
+                    <TextView
+                        android:id="@+id/text_actors"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/label_actors"
+                        android:layout_toRightOf="@+id/image_poster"
+                        android:layout_toEndOf="@+id/image_poster"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:text="@string/unknown_actors"
+                        android:textSize="@dimen/subtitle_size_details"
+                        tools:ignore="HardcodedText" />
 
-    </LinearLayout>
+                </RelativeLayout>
 
-</com.nirhart.parallaxscroll.views.ParallaxScrollView>
+                <!-- Overview layout -->
+                <RelativeLayout
+                    android:id="@+id/layout_overview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_main"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:layout_marginStart="@dimen/minimum_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/standard_margin">
+
+                    <TextView
+                        android:id="@+id/label_overview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/label_overview"
+                        android:textSize="@dimen/section_title_size_details"
+                        tools:ignore="HardcodedText" />
+
+                    <com.vwuilbea.mymoviecatalog.textjustify.TextViewEx
+                        android:id="@+id/text_overview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/label_overview"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginEnd="@dimen/minimum_margin"
+                        android:layout_marginRight="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/unavailable"
+                        android:layout_gravity="center_vertical|end"
+                        android:gravity="start"
+                        tools:ignore="HardcodedText" />
+
+                </RelativeLayout>
+
+                <!-- Rating layout -->
+                <RelativeLayout
+                    android:id="@+id/layout_rating"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:layout_marginStart="@dimen/minimum_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:layout_below="@id/layout_overview">
+
+                    <TextView
+                        android:id="@+id/label_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/label_rating"
+                        android:textSize="@dimen/section_title_size_details"
+                        tools:ignore="HardcodedText" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_rating_private"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_below="@id/label_rating">
+
+                        <TextView
+                            android:id="@+id/label_private"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/label_private"
+                            android:textSize="@dimen/subtitle_medium_size_details"
+                            tools:ignore="HardcodedText" />
+
+                        <RatingBar
+                            style="@android:style/Widget.DeviceDefault.RatingBar"
+                            android:id="@+id/rating_bar_private"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_centerHorizontal="true"
+                            android:numStars="5"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout_rating_public"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_below="@id/layout_rating_private">
+
+                        <TextView
+                            android:id="@+id/label_public"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/label_public"
+                            android:textSize="@dimen/subtitle_medium_size_details"
+                            tools:ignore="HardcodedText" />
+
+                        <RatingBar
+                            style="@android:style/Widget.DeviceDefault.RatingBar"
+                            android:id="@+id/rating_bar_public"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_centerHorizontal="true"
+                            android:isIndicator="true"
+                            android:numStars="5"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <!-- Quality layout -->
+                <RelativeLayout
+                    android:id="@+id/layout_quality"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:layout_marginStart="@dimen/minimum_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:layout_below="@id/layout_rating"
+                    >
+
+                    <!-- android:layout_below="@id/layout_overview"-->
+                    <TextView
+                        android:id="@+id/label_quality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/label_quality"
+                        android:textSize="@dimen/section_title_size_details"
+                        tools:ignore="HardcodedText" />
+
+                    <RadioGroup
+                        android:id="@+id/group_quality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:layout_below="@id/label_quality"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/quality_low"
+                            style="@style/ButtonRadio"
+                            android:text="@string/quality_low"/>
+
+                        <RadioButton
+                            android:id="@+id/quality_normal"
+                            style="@style/ButtonRadio"
+                            android:text="@string/quality_normal"/>
+
+                        <RadioButton
+                            android:id="@+id/quality_720"
+                            style="@style/ButtonRadio"
+                            android:text="@string/quality_720"/>
+
+                        <RadioButton
+                            android:id="@+id/quality_1080"
+                            style="@style/ButtonRadio"
+                            android:text="@string/quality_1080"/>
+
+                        <RadioButton
+                            android:id="@+id/quality_4k"
+                            style="@style/ButtonRadio"
+                            android:text="@string/quality_4k"/>
+
+                    </RadioGroup>
+
+                    <Switch
+                        android:id="@+id/switch_dimension"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:layout_below="@id/group_quality"
+                        android:textOn="3D"
+                        android:textOff="2D"/>
+
+
+                </RelativeLayout>
+
+                <!-- Location layout -->
+                <RelativeLayout
+                    android:id="@+id/layout_location"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:layout_marginStart="@dimen/minimum_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:layout_below="@id/layout_quality">
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </com.nirhart.parallaxscroll.views.ParallaxScrollView>
 </RelativeLayout>

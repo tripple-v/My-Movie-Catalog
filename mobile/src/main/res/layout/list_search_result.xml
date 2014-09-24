@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bg_list_shadow"
 >
 
@@ -55,6 +55,8 @@
         android:layout_marginTop="@dimen/standard_margin"
         android:text="@string/label_genres"
         android:textSize="@dimen/subtitle_size_list"
+        android:singleLine="true"
+        android:ellipsize="end"
         />
 
     <RatingBar
@@ -82,7 +84,48 @@
         android:layout_marginLeft="@dimen/standard_margin"
         android:text="@string/label_rating"
         android:textSize="@dimen/subtitle_size_list"
+        android:singleLine="true"
+        android:ellipsize="end"
         />
+
+    <TextView
+        android:id="@+id/item_video_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/item_thumb_poster"
+        android:layout_toRightOf="@+id/item_thumb_poster"
+        android:layout_below="@+id/rating_bar"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:textSize="@dimen/subtitle_size_list"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_textview"
+        android:text="@string/movie"/>
+
+    <ImageView
+        android:id="@+id/item_quality"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:src="@drawable/logo_1080p"
+        android:layout_below="@+id/rating_bar"
+        android:layout_toEndOf="@id/item_video_type"
+        android:layout_toRightOf="@id/item_video_type"
+        android:layout_alignBottom="@id/item_video_type"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginStart="@dimen/minimum_margin"
+        android:layout_marginLeft="@dimen/minimum_margin"/>
+
+    <ImageView
+        android:id="@+id/item_3d"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:src="@drawable/logo_3d"
+        android:layout_below="@+id/rating_bar"
+        android:layout_toEndOf="@id/item_quality"
+        android:layout_toRightOf="@id/item_quality"
+        android:layout_alignBottom="@id/item_video_type"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginStart="@dimen/minimum_margin"
+        android:layout_marginLeft="@dimen/minimum_margin"/>
 
     <TextView
         android:id="@+id/item_year"
@@ -97,6 +140,8 @@
         android:layout_marginRight="@dimen/standard_margin"
         android:text="@string/label_year"
         android:textSize="@dimen/subtitle_size_list"
+        android:singleLine="true"
+        android:ellipsize="end"
         />
 
 </RelativeLayout>

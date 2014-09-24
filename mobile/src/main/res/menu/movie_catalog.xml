@@ -1,11 +1,31 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.vwuilbea.mymoviecatalog.MovieCatalog" >
+
     <item android:id="@+id/action_search"
         android:title="@string/search"
         android:icon="@android:drawable/ic_menu_add"
         android:showAsAction="collapseActionView|ifRoom"
         android:actionViewClass="android.widget.SearchView" />
+
+    <item
+        android:title="@string/sort"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/action_sort_newest"
+                android:title="@string/sort_by_newest"
+                android:checked="true"/>
+            <item
+                android:id="@+id/action_sort_rating"
+                android:title="@string/sort_by_rating" />
+            <item
+                android:id="@+id/action_sort_name"
+                android:title="@string/sort_by_name" />
+        </menu>
+    </item>
+
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"

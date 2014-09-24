@@ -1,7 +1,11 @@
 package com.vwuilbea.mymoviecatalog.model;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
 
 public abstract class Person
         extends Entity
@@ -79,6 +83,25 @@ public abstract class Person
                 ", country=" + country +
                 ", profilePath='" + profilePath + '\'' +
                 ", " + super.toString();
+    }
+
+    @Override
+    protected void initFromCursor(Cursor cursor) {
+        super.initFromCursor(cursor);
+        firstname = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.PersonEntry.COLUMN_FIRSTNAME));
+        birthday = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.PersonEntry.COLUMN_BIRTHDAY));
+        profilePath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.PersonEntry.COLUMN_PROFILE_PATH));
+        country = new Country(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.PersonEntry.COLUMN_COUNTRY_ID)));
+    }
+
+    @Override
+    protected ContentValues getContentValues() {
+        ContentValues values = super.getContentValues();
+        values.put(MovieCatalogContract.PersonEntry.COLUMN_FIRSTNAME,firstname);
+        values.put(MovieCatalogContract.PersonEntry.COLUMN_BIRTHDAY,birthday);
+        values.put(MovieCatalogContract.PersonEntry.COLUMN_PROFILE_PATH,profilePath);
+        if(country!=null) values.put(MovieCatalogContract.PersonEntry.COLUMN_COUNTRY_ID,country.getId());
+        return values;
     }
 }
 

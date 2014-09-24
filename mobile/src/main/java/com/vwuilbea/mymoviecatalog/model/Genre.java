@@ -55,63 +55,26 @@ public class Genre extends Entity
                 '}';
     }
 
-    public int getFromDb(SQLiteDatabase dbR, boolean init) {
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = MovieCatalogContract.GenreEntry.ALL_COLUMNS;
-        String WHERE = MovieCatalogContract.GenreEntry._ID + "=?";
-        String[] selectionArgs = {String.valueOf(getId())};
-
-        Cursor cursor = dbR.query(
-                MovieCatalogContract.GenreEntry.TABLE_NAME,
-                projection,
-                WHERE,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-        if(cursor.getCount()>1) return DatabaseHelper.MULTIPLE_RESULTS;
-        if(init && cursor.getCount()>0) initFromCursor(cursor);
-        else return cursor.getCount();
-        return DatabaseHelper.OK;
+    @Override
+    protected String getTableName() {
+        return MovieCatalogContract.GenreEntry.TABLE_NAME;
     }
 
-    private void initFromCursor(Cursor cursor) {
-        cursor.moveToFirst();
-        name = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.GenreEntry.COLUMN_NAME));
+    @Override
+    protected String[] getAllColumns() {
+        return MovieCatalogContract.GenreEntry.ALL_COLUMNS;
     }
 
-    public boolean isInDb(SQLiteDatabase dbR) {
-        return getFromDb(dbR, false) != 0;
-    }
-
+    @Override
     public int putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
-        if (!isInDb(dbR)) {
-            // Create a new map of values, where column names are the keys
-            ContentValues values = new ContentValues();
-            values.put(MovieCatalogContract.GenreEntry._ID, id);
-            values.put(MovieCatalogContract.GenreEntry.COLUMN_NAME, name);
-
-            // Insert the new row, returning the primary key value of the new row
-            long newRowId = dbW.insert(
-                    MovieCatalogContract.GenreEntry.TABLE_NAME,
-                    DatabaseHelper.NULL,
-                    values);
-            Log.d(LOG, "new Genre row added: '" + newRowId + "'");
-
-            if (newRowId == id) {
-                //We can add row in VideoGenre table
-                puttAllVideoGenreInDB(dbW, dbR);
-            }
-            else {
-                return DatabaseHelper.ERROR;
-            }
+        int res = super.putInDB(dbW,dbR);
+        if(res != DatabaseHelper.OK) {
+            return res;
         }
         else {
             puttAllVideoGenreInDB(dbW, dbR);
+            return DatabaseHelper.OK;
         }
-        return DatabaseHelper.OK;
     }
 
     private void puttAllVideoGenreInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {

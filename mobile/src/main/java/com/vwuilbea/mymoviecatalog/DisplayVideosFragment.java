@@ -19,7 +19,10 @@ import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class DisplayVideosFragment extends Fragment
@@ -37,6 +40,8 @@ public class DisplayVideosFragment extends Fragment
     public static final int CATEGORY_MOVIE = 1;
     public static final int CATEGORY_SERIES = 2;
 
+    private static final Comparator<Video> COMPARATOR_DEFAULT = Video.COMPARATOR_DATE;
+
     private int category;
     private  ArrayList<Video> allVideos;
     private Video selectedVideo;
@@ -47,6 +52,7 @@ public class DisplayVideosFragment extends Fragment
 
 
     public static DisplayVideosFragment newInstance(int category, ArrayList<Video> allVideos) {
+        Log.d(LOG,"newInstance, category:"+category+", allVideos size:"+allVideos.size());
         DisplayVideosFragment fragment = new DisplayVideosFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM_CATEGORY, category);
@@ -81,8 +87,18 @@ public class DisplayVideosFragment extends Fragment
                             displayedVideos.add(video);
                 }
             }
+            if(displayedVideos==null) {
+                Log.e(LOG, "displayedVideos is null");
+                displayedVideos = new ArrayList<Video>();
+            }
             adapter = new MovieAdapter(getActivity(), R.layout.list_search_result, displayedVideos, this);
-            adapter.sort(Video.COMPARATOR_DATE);
+            sortVideos(COMPARATOR_DEFAULT);
+        }
+    }
+
+    public void sortVideos(Comparator<Video> comparator) {
+        if(adapter!=null) {
+            adapter.sort(comparator);
         }
     }
 

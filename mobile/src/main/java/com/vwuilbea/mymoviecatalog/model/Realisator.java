@@ -3,6 +3,8 @@ package com.vwuilbea.mymoviecatalog.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
+
 public class Realisator extends Person
 {
 
@@ -34,6 +36,16 @@ public class Realisator extends Person
         return "Realisator{" +
                 super.toString() +
                 '}';
+    }
+
+    @Override
+    protected String getTableName() {
+        return MovieCatalogContract.RealisatorEntry.TABLE_NAME;
+    }
+
+    @Override
+    protected String[] getAllColumns() {
+        return MovieCatalogContract.RealisatorEntry.ALL_COLUMNS;
     }
 }
 

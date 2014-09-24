@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.model.Movie;
@@ -29,6 +30,7 @@ import com.vwuilbea.mymoviecatalog.operations.details.DetailsResultsActivity;
 import com.vwuilbea.mymoviecatalog.operations.search.SearchResultsActivity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -41,6 +43,9 @@ public class MovieCatalog extends Activity
 
     //Used to startActivityForResult
     public static final int REQUEST_SEARCH = 0;
+    public static final int REQUEST_DETAILS = 1;
+
+    private static final String FRAG_TAG = "frag_disp_videos";
 
     public static String LANGUAGE;
 
@@ -54,6 +59,7 @@ public class MovieCatalog extends Activity
     private boolean firstResume=true;
 
     private int currentPosition=0;
+    private ArrayList<Video> videos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,8 @@ public class MovieCatalog extends Activity
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.title_cat_all));
         LANGUAGE = getResources().getString(R.string.language);
+        videos = ((MyApplication) this.getApplication()).getAllVideos();
+        Log.d(LOG,"videos:"+videos);
         setContentView(R.layout.activity_movie_catalog);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -85,11 +93,10 @@ public class MovieCatalog extends Activity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        ArrayList<Video> videos = ((MyApplication) this.getApplication()).getAllVideos();
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, DisplayVideosFragment.newInstance(position,videos))
+                .replace(R.id.container, DisplayVideosFragment.newInstance(position,videos), FRAG_TAG)
                 .commit();
     }
 
@@ -131,10 +138,26 @@ public class MovieCatalog extends Activity
                 return true;
             case R.id.action_search:
                 break;
+            case R.id.action_sort_name:
+                sort(Video.COMPARATOR_NAME);
+                break;
+            case R.id.action_sort_newest:
+                sort(Video.COMPARATOR_DATE);
+                break;
+            case R.id.action_sort_rating:
+                sort(Video.COMPARATOR_RATING);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sort(Comparator<Video> comparator) {
+        DisplayVideosFragment fragment = (DisplayVideosFragment)
+                getFragmentManager().findFragmentByTag(FRAG_TAG);
+        if(fragment!=null) fragment.sortVideos(comparator);
+        else Toast.makeText(this,getString(R.string.sort_error),Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -143,6 +166,16 @@ public class MovieCatalog extends Activity
         switch (requestCode) {
             case REQUEST_SEARCH:
                 if(resultCode == RESULT_CANCELED) onBackPressed();
+                break;
+            case REQUEST_DETAILS:
+                if(resultCode != RESULT_CANCELED) {
+                    Video video = data.getParcelableExtra(DetailsResultsActivity.PARAM_VIDEO);
+                    if(videos.contains(video)) {
+                        //To update video in adapter
+                        videos.remove(video);
+                        videos.add(video);
+                    }
+                }
                 break;
             default: break;
         }
@@ -153,7 +186,7 @@ public class MovieCatalog extends Activity
         Intent intent = new Intent(this, DetailsResultsActivity.class);
         intent.putExtra(DetailsResultsActivity.PARAM_VIDEO, video);
         intent.putExtra(DetailsResultsActivity.PARAM_MORE, false);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_DETAILS);
     }
 
     @Override

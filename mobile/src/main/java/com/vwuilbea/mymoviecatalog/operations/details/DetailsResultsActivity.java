@@ -10,8 +10,14 @@ import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -20,13 +26,15 @@ import com.vwuilbea.mymoviecatalog.MyApplication;
 import com.vwuilbea.mymoviecatalog.R;
 import com.vwuilbea.mymoviecatalog.model.Actor;
 import com.vwuilbea.mymoviecatalog.model.Genre;
+import com.vwuilbea.mymoviecatalog.model.Movie;
 import com.vwuilbea.mymoviecatalog.model.Role;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
 import com.vwuilbea.mymoviecatalog.textjustify.TextViewEx;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
-import com.vwuilbea.mymoviecatalog.tmdb.responses.DetailsResponse;
+import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsMovieResponse;
+import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsSeriesResponse;
 import com.vwuilbea.mymoviecatalog.util.RestClient;
 
 import java.text.DateFormat;
@@ -58,6 +66,8 @@ public class DetailsResultsActivity extends Activity {
 
     private Video video;
     private boolean more;
+    private boolean isVideoInDB = false;
+    private boolean isMovie = true;
 
     private View progressView;
     private View parallaxView;
@@ -69,7 +79,11 @@ public class DetailsResultsActivity extends Activity {
     private TextView textActors;
     private TextView textGenres;
     private TextView textDate;
+    private RatingBar ratingBarPublic;
+    private RatingBar ratingBarPrivate;
     private TextViewEx textOverview;
+    private RadioGroup radioGroupQuality;
+    private Switch switchDimension;
 
     private RestClient.ExecutionListener creditsCallback = new RestClient.ExecutionListener() {
         @Override
@@ -95,7 +109,8 @@ public class DetailsResultsActivity extends Activity {
         @Override
         public void onExecutionFinished(String url, String result) {
             Log.d(LOG, "url:" + url + ", result:" + result);
-            DetailsResponse.parse(result, video);
+            if(isMovie) DetailsMovieResponse.parse(result, video);
+            else DetailsSeriesResponse.parse(result, video);
             fillDetails(video);
             onRequestFinished(REQUEST_DETAILS);
         }
@@ -135,22 +150,41 @@ public class DetailsResultsActivity extends Activity {
         }
     };
 
+    private RatingBar.OnRatingBarChangeListener ratingBarChangeListener = new RatingBar.OnRatingBarChangeListener() {
+        @Override
+        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+            Log.d(LOG,"onRatingChanged : rating:"+rating+", fromUser:"+fromUser);
+            if(fromUser) {
+                video.setVotePrivate(rating);
+            }
+        }
+        public void aa(){}
+    };
+
+    private RadioGroup.OnCheckedChangeListener qualityChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            Log.d(LOG,"onCheckedChanged: "+checkedId);
+            video.setQuality(checkedId);
+        }
+        public void aa(){}
+    };
+
+    private CompoundButton.OnCheckedChangeListener dimensionChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            video.setThreeD(isChecked);
+        }
+        public void aa(){}
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setContentView(R.layout.activity_details_results);
-        textTitle = (TextView) findViewById(R.id.text_title);
-        textRuntime = (TextView) findViewById(R.id.text_runtime);
-        textActors = (TextView) findViewById(R.id.text_actors);
-        textGenres = (TextView) findViewById(R.id.text_genre);
-        textDate = (TextView) findViewById(R.id.text_date);
-        progressView = findViewById(R.id.progress_view);
-        parallaxView = findViewById(R.id.parallax_view);
-        textOverview = (TextViewEx) findViewById(R.id.text_overview);
-        coverImage = (ImageView) findViewById(R.id.image_cover);
-        posterImage = (ImageView) findViewById(R.id.image_poster);
+        initViews();
+        showProgressView();
 
         if (savedInstanceState == null) {
             if (getIntent().getExtras() != null) {
@@ -163,6 +197,16 @@ public class DetailsResultsActivity extends Activity {
             more = false;
         }
         if (video != null) {
+            //To update video in adapter
+            Intent data = new Intent();
+            data.putExtra(PARAM_VIDEO,video);
+            setResult(RESULT_OK,data);
+
+            List<Video> videos = ((MyApplication) this.getApplication()).getAllVideos();
+            isVideoInDB = videos.contains(video);
+            ratingBarPrivate.setOnRatingBarChangeListener(ratingBarChangeListener);
+            radioGroupQuality.setOnCheckedChangeListener(qualityChangeListener);
+            switchDimension.setOnCheckedChangeListener(dimensionChangeListener);
             initMapRequests();
             setTitle(video.getTitle());
             textTitle.setText(video.getTitle());
@@ -179,14 +223,60 @@ public class DetailsResultsActivity extends Activity {
                     .into(coverImage, coverCallback)
                     ;
             if (more) {
-                TmdbService.sendDetailsRequest(video.getId(), detailsCallback);
-                TmdbService.sendCreditsRequest(video.getId(), creditsCallback);
+                isMovie = video instanceof Movie;
+                TmdbService.sendDetailsRequest(video.getId(), detailsCallback, isMovie);
+                TmdbService.sendCreditsRequest(video.getId(), creditsCallback, isMovie);
             } else {
                 fillDetails(video);
                 fillRoles(video);
             }
         }
+        else {
+            Toast.makeText(this,getString(R.string.no_video),Toast.LENGTH_LONG).show();
+            finish();
+        }
 
+    }
+
+    private void initViews() {
+        setContentView(R.layout.activity_details_results);
+        textTitle = (TextView) findViewById(R.id.text_title);
+        textRuntime = (TextView) findViewById(R.id.text_runtime);
+        textActors = (TextView) findViewById(R.id.text_actors);
+        textGenres = (TextView) findViewById(R.id.text_genre);
+        textDate = (TextView) findViewById(R.id.text_date);
+        progressView = findViewById(R.id.progress_view);
+        parallaxView = findViewById(R.id.parallax_view);
+        ratingBarPublic = (RatingBar) findViewById(R.id.rating_bar_public);
+        ratingBarPrivate = (RatingBar) findViewById(R.id.rating_bar_private);
+        textOverview = (TextViewEx) findViewById(R.id.text_overview);
+        coverImage = (ImageView) findViewById(R.id.image_cover);
+        posterImage = (ImageView) findViewById(R.id.image_poster);
+        radioGroupQuality = (RadioGroup) findViewById(R.id.group_quality);
+        switchDimension = (Switch) findViewById(R.id.switch_dimension);
+
+        RadioButton radioButtonLow = (RadioButton) findViewById(R.id.quality_low);
+        radioButtonLow.setId(Video.Quality.LOW.getId());
+
+        RadioButton radioButtonMedium = (RadioButton) findViewById(R.id.quality_normal);
+        radioButtonMedium.setId(Video.Quality.NORMAL.getId());
+
+        RadioButton radioButton720 = (RadioButton) findViewById(R.id.quality_720);
+        radioButton720.setId(Video.Quality.HD720.getId());
+
+        RadioButton radioButton1080 = (RadioButton) findViewById(R.id.quality_1080);
+        radioButton1080.setId(Video.Quality.HD1080.getId());
+
+        RadioButton radioButton4k = (RadioButton) findViewById(R.id.quality_4k);
+        radioButton4k.setId(Video.Quality.ULTRAHD.getId());
+    }
+
+    @Override
+    public void onStop() {
+        if(isVideoInDB) {
+            ((MyApplication)  getApplication()).updateVideo(video);
+        }
+        super.onStop();
     }
 
     @Override
@@ -202,18 +292,22 @@ public class DetailsResultsActivity extends Activity {
     }
 
     private void fillDetails(Video video) {
+        Log.d(LOG,"fillDetails: "+video);
         String genres = "";
         String overview = video.getOverview();
         String title = textTitle.getText() + "";
         String runtime = minutesToHours(video.getRuntime());
         String oldDate = video.getReleaseDate();
         String newDate = oldDate;
+        float publicRating = video.getVoteAverage();
+        float privateRating = video.getVotePrivate();
+        int quality = video.getQuality();
+        boolean is3D = video.isThreeD();
         if(video.getCountries().size()>0) {
             runtime += " - " + video.getCountries().get(0).getName();
         }
-        Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(oldDate);
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(oldDate);
             DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM);
             newDate = dateFormatter.format(date);
         } catch (ParseException e) {
@@ -235,7 +329,11 @@ public class DetailsResultsActivity extends Activity {
         textRuntime.setText(runtime);
         if (genres.length() > 0) textGenres.setText(genres);
         textDate.setText(newDate);
+        ratingBarPublic.setRating(publicRating/2);
+        ratingBarPrivate.setRating(privateRating);
         if (overview != null && !overview.equals("null")) textOverview.setText(overview,true);
+        radioGroupQuality.check(quality);
+        switchDimension.setChecked(is3D);
     }
 
     private void fillRoles(Video video) {
@@ -256,9 +354,7 @@ public class DetailsResultsActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.details_results, menu);
-        List<Video> videos = ((MyApplication) this.getApplication()).getAllVideos();
-        Log.d(LOG, "videos:\n" + videos + "\nvideo:\n" + video);
-        if (videos.contains(video)) {
+        if (isVideoInDB) {
             MenuItem addButton = menu.findItem(R.id.action_add_movie);
             addButton.setVisible(false);
         } else {
@@ -316,11 +412,17 @@ public class DetailsResultsActivity extends Activity {
         parallaxView.setVisibility(View.VISIBLE);
     }
 
+    private void showProgressView() {
+        progressView.setVisibility(View.VISIBLE);
+        parallaxView.setVisibility(View.INVISIBLE);
+    }
+
     private void addVideo() {
         Intent i = new Intent();
         i.setClass(this, AddToDBActivity.class);
         i.putExtra(AddToDBActivity.PARAM_VIDEO, video);
         startActivity(i);
+        finish();
     }
 
     private void deleteVideo() {

@@ -20,13 +20,15 @@ import com.vwuilbea.mymoviecatalog.MovieAdapter;
 import com.vwuilbea.mymoviecatalog.MyApplication;
 import com.vwuilbea.mymoviecatalog.R;
 import com.vwuilbea.mymoviecatalog.model.Movie;
+import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
 import com.vwuilbea.mymoviecatalog.operations.details.DetailsResultsActivity;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
-import com.vwuilbea.mymoviecatalog.tmdb.responses.DetailsResponse;
-import com.vwuilbea.mymoviecatalog.tmdb.responses.SearchMovieResponse;
+import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsMovieResponse;
+import com.vwuilbea.mymoviecatalog.tmdb.responses.search.SearchMovieResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
+import com.vwuilbea.mymoviecatalog.tmdb.responses.search.SearchSeriesResponse;
 import com.vwuilbea.mymoviecatalog.util.RestClient;
 
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class SearchResultsActivity
     private ArrayList<Video> videos = new ArrayList<Video>();
     private Video selectedVideo;
     private String query;
+    private boolean noResult=false;
 
     /**
      * Map used to know if requests are finished or not
@@ -83,7 +86,7 @@ public class SearchResultsActivity
         @Override
         public void onExecutionFinished(String url, String result) {
             Log.d(LOG, "execution of '" + url + "' finished.\nResult:" + result);
-            DetailsResponse.parse(result, selectedVideo);
+            DetailsMovieResponse.parse(result, selectedVideo);
             onRequestFinished(REQUEST_DETAILS);
         }
 
@@ -99,13 +102,14 @@ public class SearchResultsActivity
         }
     };
 
-    private RestClient.ExecutionListener executionListenerSearch = new RestClient.ExecutionListener() {
+    private RestClient.ExecutionListener executionListenerSearchMovie = new RestClient.ExecutionListener() {
 
         @Override
         public void onExecutionFinished(String url, String result) {
             Log.d(LOG, "execution of '" + url + "' finished.\nResult:" + result);
             SearchMovieResponse response = new SearchMovieResponse(result);
             if (response.getMovies().size() > 0) {
+                noResult=false;
                 String msg = "Response:";
                 int totalResults = response.getTotalResults();
                 if(totalResults>MAX_RESULTS) {
@@ -118,7 +122,50 @@ public class SearchResultsActivity
                 msg += "\ntotal results:" + response.getTotalResults();
                 for (Movie movie : response.getMovies())  videos.add(movie);
                 if(currentPage<totalPages) {
-                    TmdbService.sendSearchRequest(query, String.valueOf(currentPage+1), this);
+                    TmdbService.sendSearchRequest(query, String.valueOf(currentPage+1), this, true);
+                }
+                else {
+                    TmdbService.sendSearchRequest(query, executionListenerSearchSeries, false);
+                }
+                Log.d(LOG, msg);
+            } else {
+                Log.e(LOG, "No result");
+                noResult=true;
+            }
+        }
+
+        @Override
+        public void onExecutionProgress(String url, Integer progress) {
+            Log.d(LOG, "execution of '" + url + "' is progressing.\nProgress:" + progress);
+        }
+
+        @Override
+        public void onExecutionFailed(String url, Exception e) {
+            Log.e(LOG, "execution of '" + url + "' failed.\nException:" + e);
+            finish(R.string.httpErrorIO);
+        }
+    };
+
+    private RestClient.ExecutionListener executionListenerSearchSeries = new RestClient.ExecutionListener() {
+
+        @Override
+        public void onExecutionFinished(String url, String result) {
+            Log.d(LOG, "execution of '" + url + "' finished.\nResult:" + result);
+            SearchSeriesResponse response = new SearchSeriesResponse(result);
+            if (response.getSeries().size() > 0) {
+                String msg = "Response:";
+                int totalResults = response.getTotalResults();
+                if(totalResults>MAX_RESULTS) {
+                    finish(R.string.too_much_results);
+                    return;
+                }
+                int totalPages =  response.getTotalPages();
+                int currentPage = response.getPage();
+                msg += "\npage " + currentPage + " on "+ totalPages + "( "+totalResults+" )";
+                msg += "\ntotal results:" + response.getTotalResults();
+                for (Series series : response.getSeries())  videos.add(series);
+                if(currentPage<totalPages) {
+                    TmdbService.sendSearchRequest(query, String.valueOf(currentPage+1), this, false);
                 }
                 else {
                     fillAdapter();
@@ -126,7 +173,9 @@ public class SearchResultsActivity
                 Log.d(LOG, msg);
             } else {
                 Log.e(LOG, "No result");
-                finish(R.string.no_result);
+                if(noResult)
+                    finish(R.string.no_result);
+                else fillAdapter();
             }
         }
 
@@ -228,7 +277,7 @@ public class SearchResultsActivity
             query = intent.getStringExtra(SearchManager.QUERY);
             setTitle(getResources().getString(R.string.search) + ": " + query);
             query = query.trim();
-            TmdbService.sendSearchRequest(query, executionListenerSearch);
+            TmdbService.sendSearchRequest(query, executionListenerSearchMovie, true);
         }
     }
 
@@ -260,8 +309,9 @@ public class SearchResultsActivity
         else {
             hideList();
             initMapRequests();
-            TmdbService.sendDetailsRequest(selectedVideo.getId(), executionListenerDetails);
-            TmdbService.sendCreditsRequest(selectedVideo.getId(), executionListenerCredits);
+            boolean isMovie = selectedVideo instanceof Movie;
+            TmdbService.sendDetailsRequest(selectedVideo.getId(), executionListenerDetails, isMovie);
+            TmdbService.sendCreditsRequest(selectedVideo.getId(), executionListenerCredits, isMovie);
         }
     }
 

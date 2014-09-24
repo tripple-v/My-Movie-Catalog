@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
@@ -22,6 +23,30 @@ public abstract class Video
         implements Parcelable {
 
     private static final String LOG = Video.class.getSimpleName();
+
+    public enum Quality {
+        LOW(0, "Screener"),
+        NORMAL(1, "DVDRip"),
+        HD720(2, "720p"),
+        HD1080(3, "1080p"),
+        ULTRAHD(4, "4K");
+
+        private int id;
+        private String name;
+
+        Quality(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 
     protected int id;
     protected String title;
@@ -42,13 +67,25 @@ public abstract class Video
     protected String posterPath;
     protected String coverPath;
     protected int budget;
-    protected double voteAverage;
+    protected int quality = Quality.NORMAL.getId();
+    protected boolean threeD = false;
+    protected float voteAverage;
     protected int voteCount;
+    protected float votePrivate;
 
     public Video(int id) {
         super();
         this.id = id;
     }
+
+    public Video(Cursor cursor, SQLiteDatabase dbR) {
+        this(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry._ID)));
+        initFromCursor(cursor, dbR);
+    }
+
+    /*
+     To update when add/remove fields
+     */
 
     public Video(Parcel in) {
         id = in.readInt();
@@ -70,8 +107,11 @@ public abstract class Video
         posterPath = in.readString();
         coverPath = in.readString();
         budget = in.readInt();
-        voteAverage = in.readDouble();
+        quality = in.readInt();
+        threeD = Boolean.parseBoolean(in.readString());
+        voteAverage = in.readFloat();
         voteCount = in.readInt();
+        votePrivate = in.readFloat();
 
         for (Genre genre : genres) genre.addVideo(this);
         for (Role role : roles) role.setVideo(this);
@@ -79,11 +119,6 @@ public abstract class Video
         for (Country country : countries) country.addVideo(this);
         for (ProductionCompany prod : productionCompanies) prod.addVideo(this);
         if (location != null) location.addVideo(this);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     @Override
@@ -107,8 +142,67 @@ public abstract class Video
         dest.writeString(posterPath);
         dest.writeString(coverPath);
         dest.writeInt(budget);
-        dest.writeDouble(voteAverage);
+        dest.writeInt(quality);
+        dest.writeString(String.valueOf(threeD));
+        dest.writeFloat(voteAverage);
         dest.writeInt(voteCount);
+        dest.writeFloat(votePrivate);
+    }
+
+    protected ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(MovieCatalogContract.VideoEntry._ID, id);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_TITLE, title);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_ORIGINAL_TITLE, originalTitle);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_TAG_LINE, tagline);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_OVERVIEW, overview);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_RUNTIME, runtime);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_DATE, releaseDate);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_LANGUAGE, language);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_SUBTITLE, subtitle);
+        if (location != null) {
+            values.put(MovieCatalogContract.VideoEntry.COLUMN_LOCATION_ID, location.getId());
+        }
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_ADULT, adult);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_POSTER_PATH, posterPath);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_COVER_PATH, coverPath);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_BUDGET, budget);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_QUALITY, quality);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_THREE_D, threeD);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_VOTE_AVERAGE, voteAverage);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_VOTE_COUNT, voteCount);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_VOTE_PRIVATE, votePrivate);
+        return values;
+    }
+
+    protected void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
+        Log.d(LOG, "initFromCursor, video : "+getId());
+        title = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_TITLE));
+        originalTitle = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_ORIGINAL_TITLE));
+        tagline = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_TAG_LINE));
+        overview = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_OVERVIEW));
+        runtime = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_RUNTIME));
+        releaseDate = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_DATE));
+        language = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_LANGUAGE));
+        subtitle = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_SUBTITLE));
+        adult = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_ADULT))>0;
+        posterPath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_POSTER_PATH));
+        coverPath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_COVER_PATH));
+        budget = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_BUDGET));
+        quality = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_QUALITY));
+        threeD = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_THREE_D))>0;
+        voteAverage = cursor.getFloat(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_VOTE_AVERAGE));
+        voteCount = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_VOTE_COUNT));
+        votePrivate = cursor.getFloat(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_VOTE_PRIVATE));
+        addGenreFromDB(dbR);
+        addRoleFromDB(dbR);
+    }
+
+    /**********/
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public int getId() {
@@ -303,11 +397,34 @@ public abstract class Video
         this.budget = budget;
     }
 
-    public double getVoteAverage() {
+    public int getQuality() {
+        return quality;
+    }
+
+    public void setQuality(int quality) {
+        this.quality = quality;
+    }
+
+    public String getQualityString() {
+        for(Quality quality1:Quality.values()) {
+            if(quality == quality1.getId()) return quality1.getName();
+        }
+        return null;
+    }
+
+    public boolean isThreeD() {
+        return threeD;
+    }
+
+    public void setThreeD(boolean threeD) {
+        this.threeD = threeD;
+    }
+
+    public float getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(double voteAverage) {
+    public void setVoteAverage(float voteAverage) {
         this.voteAverage = voteAverage;
     }
 
@@ -319,29 +436,29 @@ public abstract class Video
         this.voteCount = voteCount;
     }
 
+    public float getVotePrivate() {
+        return votePrivate;
+    }
+
+    public void setVotePrivate(float votePrivate) {
+        this.votePrivate = votePrivate;
+    }
+
     @Override
     public String toString() {
-        return "Video{" +
+        return  getTableName()+"{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", originalTitle='" + originalTitle + '\'' +
-                ", tagline='" + tagline + '\'' +
-                ", overview='" + overview + '\'' +
-                ", genres=" + genres +
                 ", runtime=" + runtime +
-                ", releaseDate=" + releaseDate +
-                ", roles=" + roles +
-                ", realisators=" + realisators +
-                ", countries=" + countries +
-                ", productionCompanies=" + productionCompanies +
+                ", releaseDate='" + releaseDate + '\'' +
                 ", language='" + language + '\'' +
                 ", subtitle='" + subtitle + '\'' +
-                ", location=" + location +
                 ", adult=" + adult +
-                ", posterPath='" + posterPath + '\'' +
                 ", budget=" + budget +
-                ", voteAverage=" + voteAverage +
-                ", voteCount=" + voteCount +
+                ", quality=" + quality +
+                ", threeD=" + threeD +
+                ", votePrivate=" + votePrivate +
                 '}';
     }
 
@@ -369,6 +486,100 @@ public abstract class Video
         public void aa() {
         }
     };
+
+    public static final Comparator<Video> COMPARATOR_NAME = new Comparator<Video>() {
+        @Override
+        public int compare(Video video1, Video video2) {
+           return video1.getTitle().compareTo(video2.getTitle());
+        }
+
+        public void aa() {
+        }
+    };
+
+    public static final Comparator<Video> COMPARATOR_RATING= new Comparator<Video>() {
+        @Override
+        public int compare(Video video1, Video video2) {
+            return ((Float)video2.getVoteAverage()).compareTo(video1.getVoteAverage());
+        }
+
+        public void aa() {
+        }
+    };
+
+    public static List<Video> getVideosFromDb(SQLiteDatabase dbR) {
+        ArrayList<Video> videos = new ArrayList<Video>();
+        videos.addAll(Movie.getMoviesFromDb(dbR));
+        videos.addAll(Series.getSeriesFromDb(dbR));
+        return videos;
+    }
+
+    protected abstract String getTableName();
+    protected abstract String[] getAllColumns();
+
+    public int updateInDb(SQLiteDatabase dbW) {
+        String whereClause = BaseColumns._ID + "=?";
+        String[] whereArgs = {String.valueOf(getId())};
+
+        return dbW.update(
+                getTableName(),
+                getContentValues(),
+                whereClause,
+                whereArgs
+        );
+    }
+
+    public int getFromDb(SQLiteDatabase dbR, boolean init) {
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {BaseColumns._ID};
+        String WHERE = BaseColumns._ID + "=?";
+        String[] selectionArgs = {String.valueOf(getId())};
+
+        Cursor cursor = dbR.query(
+                getTableName(),
+                projection,
+                WHERE,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        if(cursor.getCount()>1) return DatabaseHelper.MULTIPLE_RESULTS;
+        if(init) initFromCursor(cursor, dbR);
+        else return cursor.getCount();
+        return DatabaseHelper.OK;
+    }
+
+    public boolean isInDb(SQLiteDatabase dbR) {
+        return getFromDb(dbR, false) != 0;
+    }
+
+    public int removeFromDB(SQLiteDatabase dbW) {
+        String selection = BaseColumns._ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(getId()) };
+        removeDependencies(dbW, selectionArgs);
+        return dbW.delete(getTableName(), selection, selectionArgs);
+    }
+
+    public int putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        if (!isInDb(dbR)) {
+
+            // Insert the new row, returning the primary key value of the new row
+            long newRowId;
+            newRowId = dbW.insert(
+                    getTableName(),
+                    DatabaseHelper.NULL,
+                    getContentValues());
+
+            if (newRowId == id) {
+                //We can add other tables rows
+                addDependencies(dbW, dbR);
+            }
+            else return DatabaseHelper.ERROR;
+        }
+        return DatabaseHelper.OK;
+    }
 
     protected void addGenreFromDB(SQLiteDatabase dbR) {
         Log.d(LOG, "addGenreFromDB");
@@ -421,6 +632,21 @@ public abstract class Video
                 addRole(role);
             } while (cursor.moveToNext());
         }
+    }
+
+    protected void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
+        String selection;
+        //VideoGenres
+        selection = MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID+ " LIKE ?";
+        dbW.delete(MovieCatalogContract.VideoGenreEntry.TABLE_NAME, selection, selectionArgs);
+        //Roles
+        selection = MovieCatalogContract.RoleEntry.COLUMN_VIDEO_ID+ " LIKE ?";
+        dbW.delete(MovieCatalogContract.RoleEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
+    protected void addDependencies(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        for(Genre genre:genres) genre.putInDB(dbW, dbR);
+        for(Role role:roles) role.putInDB(dbW, dbR);
     }
 }
 
