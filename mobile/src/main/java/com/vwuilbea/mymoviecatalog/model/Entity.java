@@ -128,8 +128,7 @@ public abstract class Entity
             return values;
     }
 
-    protected abstract String[] getVideoEntityColumns();
-    protected abstract String getVideoEntityColumnId();
+    protected abstract String getVideoEntityTableName();
 
     @Override
     public int putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
@@ -138,7 +137,7 @@ public abstract class Entity
             return res;
         }
         else {
-            puttAllVideoEntityInDB(dbW, dbR);
+            if(getVideoEntityTableName()!=null) puttAllVideoEntityInDB(dbW, dbR);
             return DatabaseHelper.OK;
         }
     }
@@ -150,13 +149,13 @@ public abstract class Entity
     private void putVideoEntityInDB(SQLiteDatabase dbW, SQLiteDatabase dbR, Video video) {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
-        String[] projection = getVideoEntityColumns();
-        String WHERE = MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID + " = ? AND " +
-                MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID + " = ?";
+        String[] projection = MovieCatalogContract.VideoEntityEntry.ALL_COLUMNS;
+        String WHERE = MovieCatalogContract.VideoEntityEntry.COLUMN_ENTITY_ID + " = ? AND " +
+                MovieCatalogContract.VideoEntityEntry.COLUMN_VIDEO_ID + " = ?";
         String[] selectionArgs = {String.valueOf(getId()), String.valueOf(video.getId())};
 
         Cursor cursor = dbR.query(
-                MovieCatalogContract.VideoGenreEntry.TABLE_NAME,
+                getVideoEntityTableName(),
                 projection,
                 WHERE,
                 selectionArgs,
@@ -167,15 +166,15 @@ public abstract class Entity
         if(cursor.getCount() == 0) {
             // Create a new map of values, where column names are the keys
             ContentValues values = new ContentValues();
-            values.put(MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID, id);
-            values.put(MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID, video.getId());
+            values.put(MovieCatalogContract.VideoEntityEntry.COLUMN_ENTITY_ID, id);
+            values.put(MovieCatalogContract.VideoEntityEntry.COLUMN_VIDEO_ID, video.getId());
 
             // Insert the new row, returning the primary key value of the new row
             long newRowId = dbW.insert(
-                    MovieCatalogContract.VideoGenreEntry.TABLE_NAME,
+                    getVideoEntityTableName(),
                     DatabaseHelper.NULL,
                     values);
-            Log.d(LOG, "new VideoGenre row added: '"+newRowId+"'");
+            Log.d(LOG, "new "+getVideoEntityTableName()+" row added: '"+newRowId+"'");
         }
     }
 

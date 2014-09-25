@@ -5,19 +5,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
 import com.vwuilbea.mymoviecatalog.database.MyEntry;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
 
 
 public abstract class Video
@@ -516,31 +513,28 @@ public abstract class Video
         return videos;
     }
 
+    protected <T extends Entity> List<T> addEntityFromDB(SQLiteDatabase dbR, String tableName, Class<T> clazz) {
+        String[] projection = {MovieCatalogContract.VideoEntityEntry.COLUMN_ENTITY_ID};
+        String WHERE = MovieCatalogContract.VideoEntityEntry.COLUMN_VIDEO_ID + "=?";
+        String[] selectionArgs = {String.valueOf(getId())};
+        Cursor cursor = dbR.query(tableName,projection,WHERE,selectionArgs,null,null,null);
+        List<T> entities = new ArrayList<T>();
+        cursor.moveToFirst();
+        try {
+            T entity = clazz.newInstance();
+            entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntityEntry.COLUMN_ENTITY_ID)));
+            if( entity.getFromDb(dbR, true) == DatabaseHelper.OK)
+                entities.add(entity);
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return entities;
+    }
+
     protected void addGenreFromDB(SQLiteDatabase dbR) {
         Log.d(LOG, "addGenreFromDB");
-        String[] projection = {MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID};
-        String WHERE = MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID + "=?";
-        String[] selectionArgs = {String.valueOf(getId())};
-
-        Cursor cursor = dbR.query(
-                MovieCatalogContract.VideoGenreEntry.TABLE_NAME,
-                projection,
-                WHERE,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-        Log.d(LOG, "cursor count:"+cursor.getCount());
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            do {
-                Genre genre = new Genre(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID)));
-                genre.getFromDb(dbR, true);
-                addGenre(genre);
-            }
-            while (cursor.moveToNext());
-        }
+        List<Genre> entities = addEntityFromDB(dbR, MovieCatalogContract.VideoGenreEntry.TABLE_NAME, Genre.class);
+        for(Genre entity:entities) addGenre(entity);
     }
 
     protected void addRoleFromDB(SQLiteDatabase dbR) {
@@ -573,7 +567,7 @@ public abstract class Video
     protected void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
         String selection;
         //VideoGenres
-        selection = MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID+ " LIKE ?";
+        selection = MovieCatalogContract.VideoEntityEntry.COLUMN_VIDEO_ID+ " LIKE ?";
         dbW.delete(MovieCatalogContract.VideoGenreEntry.TABLE_NAME, selection, selectionArgs);
         //Roles
         selection = MovieCatalogContract.RoleEntry.COLUMN_VIDEO_ID+ " LIKE ?";

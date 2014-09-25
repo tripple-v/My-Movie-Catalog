@@ -51,9 +51,14 @@ public class Actor
     }
 
     @Override
-    protected void initFromCursor(Cursor cursor) {
-        super.initFromCursor(cursor);
+    protected void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
+        super.initFromCursor(cursor, dbR);
         Log.d(LOG, "initFromCursor, actor : " + this);
+    }
+
+    @Override
+    protected String getVideoEntityTableName() {
+        return null;
     }
 }
 

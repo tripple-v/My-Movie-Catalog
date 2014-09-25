@@ -2,6 +2,7 @@ package com.vwuilbea.mymoviecatalog.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -86,8 +87,8 @@ public abstract class Person
     }
 
     @Override
-    protected void initFromCursor(Cursor cursor) {
-        super.initFromCursor(cursor);
+    protected void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
+        super.initFromCursor(cursor, dbR);
         firstname = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.PersonEntry.COLUMN_FIRSTNAME));
         birthday = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.PersonEntry.COLUMN_BIRTHDAY));
         profilePath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.PersonEntry.COLUMN_PROFILE_PATH));
