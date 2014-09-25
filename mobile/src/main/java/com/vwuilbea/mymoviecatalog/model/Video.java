@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
+import com.vwuilbea.mymoviecatalog.database.MyEntry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import java.util.HashSet;
 
 
 public abstract class Video
+        extends MyEntry
         implements Parcelable {
 
     private static final String LOG = Video.class.getSimpleName();
@@ -514,73 +516,6 @@ public abstract class Video
         return videos;
     }
 
-    protected abstract String getTableName();
-    protected abstract String[] getAllColumns();
-
-    public int updateInDb(SQLiteDatabase dbW) {
-        String whereClause = BaseColumns._ID + "=?";
-        String[] whereArgs = {String.valueOf(getId())};
-
-        return dbW.update(
-                getTableName(),
-                getContentValues(),
-                whereClause,
-                whereArgs
-        );
-    }
-
-    public int getFromDb(SQLiteDatabase dbR, boolean init) {
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {BaseColumns._ID};
-        String WHERE = BaseColumns._ID + "=?";
-        String[] selectionArgs = {String.valueOf(getId())};
-
-        Cursor cursor = dbR.query(
-                getTableName(),
-                projection,
-                WHERE,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-        if(cursor.getCount()>1) return DatabaseHelper.MULTIPLE_RESULTS;
-        if(init) initFromCursor(cursor, dbR);
-        else return cursor.getCount();
-        return DatabaseHelper.OK;
-    }
-
-    public boolean isInDb(SQLiteDatabase dbR) {
-        return getFromDb(dbR, false) != 0;
-    }
-
-    public int removeFromDB(SQLiteDatabase dbW) {
-        String selection = BaseColumns._ID + " LIKE ?";
-        String[] selectionArgs = { String.valueOf(getId()) };
-        removeDependencies(dbW, selectionArgs);
-        return dbW.delete(getTableName(), selection, selectionArgs);
-    }
-
-    public int putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
-        if (!isInDb(dbR)) {
-
-            // Insert the new row, returning the primary key value of the new row
-            long newRowId;
-            newRowId = dbW.insert(
-                    getTableName(),
-                    DatabaseHelper.NULL,
-                    getContentValues());
-
-            if (newRowId == id) {
-                //We can add other tables rows
-                addDependencies(dbW, dbR);
-            }
-            else return DatabaseHelper.ERROR;
-        }
-        return DatabaseHelper.OK;
-    }
-
     protected void addGenreFromDB(SQLiteDatabase dbR) {
         Log.d(LOG, "addGenreFromDB");
         String[] projection = {MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID};
@@ -634,6 +569,7 @@ public abstract class Video
         }
     }
 
+    @Override
     protected void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
         String selection;
         //VideoGenres
@@ -644,9 +580,11 @@ public abstract class Video
         dbW.delete(MovieCatalogContract.RoleEntry.TABLE_NAME, selection, selectionArgs);
     }
 
+    @Override
     protected void addDependencies(SQLiteDatabase dbW, SQLiteDatabase dbR) {
         for(Genre genre:genres) genre.putInDB(dbW, dbR);
         for(Role role:roles) role.putInDB(dbW, dbR);
     }
+
 }
 

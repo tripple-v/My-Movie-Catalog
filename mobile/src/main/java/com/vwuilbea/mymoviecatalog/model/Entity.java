@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
+import com.vwuilbea.mymoviecatalog.database.MyEntry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 public abstract class Entity
+        extends MyEntry
         implements Parcelable {
 
     private static final String LOG = Entity.class.getSimpleName();
@@ -111,17 +113,50 @@ public abstract class Entity
         return id;
     }
 
-    protected abstract String getTableName();
-    protected abstract String[] getAllColumns();
+    @Override
+    protected void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
+        cursor.moveToFirst();
+        name = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.EntityEntry.COLUMN_NAME));
+    }
 
-    public int getFromDb(SQLiteDatabase dbR, boolean init) {
-        String[] projection = getAllColumns();
-        String WHERE = BaseColumns._ID + "=?";
-        String[] selectionArgs = {String.valueOf(getId())};
+    @Override
+    protected ContentValues getContentValues() {
+            // Create a new map of values, where column names are the keys
+            ContentValues values = new ContentValues();
+            values.put(MovieCatalogContract.EntityEntry._ID, id);
+            values.put(MovieCatalogContract.EntityEntry.COLUMN_NAME, name);
+            return values;
+    }
 
+    protected abstract String[] getVideoEntityColumns();
+    protected abstract String getVideoEntityColumnId();
+
+    @Override
+    public int putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        int res = super.putInDB(dbW,dbR);
+        if(res != DatabaseHelper.OK) {
+            return res;
+        }
+        else {
+            puttAllVideoEntityInDB(dbW, dbR);
+            return DatabaseHelper.OK;
+        }
+    }
+
+    private void puttAllVideoEntityInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        for(Video video:videos) putVideoEntityInDB(dbW, dbR, video);
+    }
+
+    private void putVideoEntityInDB(SQLiteDatabase dbW, SQLiteDatabase dbR, Video video) {
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = getVideoEntityColumns();
+        String WHERE = MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID + " = ? AND " +
+                MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID + " = ?";
+        String[] selectionArgs = {String.valueOf(getId()), String.valueOf(video.getId())};
 
         Cursor cursor = dbR.query(
-                getTableName(),
+                MovieCatalogContract.VideoGenreEntry.TABLE_NAME,
                 projection,
                 WHERE,
                 selectionArgs,
@@ -129,42 +164,30 @@ public abstract class Entity
                 null,
                 null
         );
-        if(cursor.getCount()>1) return DatabaseHelper.MULTIPLE_RESULTS;
-        if(init && cursor.getCount()>0) initFromCursor(cursor);
-        else return cursor.getCount();
-        return DatabaseHelper.OK;
-    }
-
-    public int putInDB(SQLiteDatabase dbW, SQLiteDatabase dbR) {
-        if (!isInDb(dbR)) {
-            // Insert the new row, returning the primary key value of the new row
-            long newRowId = dbW.insert(
-                    getTableName(),
-                    DatabaseHelper.NULL,
-                    getContentValues());
-            Log.d(LOG, "new '"+getTableName()+"' row added: '" + newRowId + "'");
-
-            if (newRowId != id)
-                return DatabaseHelper.ERROR;
-        }
-        return DatabaseHelper.OK;
-    }
-
-    protected void initFromCursor(Cursor cursor) {
-        cursor.moveToFirst();
-        name = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.EntityEntry.COLUMN_NAME));
-    }
-
-    public boolean isInDb(SQLiteDatabase dbR) {
-        return getFromDb(dbR, false) != 0;
-    }
-
-    protected ContentValues getContentValues() {
+        if(cursor.getCount() == 0) {
             // Create a new map of values, where column names are the keys
             ContentValues values = new ContentValues();
-            values.put(MovieCatalogContract.EntityEntry._ID, id);
-            values.put(MovieCatalogContract.EntityEntry.COLUMN_NAME, name);
-            return values;
+            values.put(MovieCatalogContract.VideoGenreEntry.COLUMN_GENRE_ID, id);
+            values.put(MovieCatalogContract.VideoGenreEntry.COLUMN_VIDEO_ID, video.getId());
+
+            // Insert the new row, returning the primary key value of the new row
+            long newRowId = dbW.insert(
+                    MovieCatalogContract.VideoGenreEntry.TABLE_NAME,
+                    DatabaseHelper.NULL,
+                    values);
+            Log.d(LOG, "new VideoGenre row added: '"+newRowId+"'");
+        }
+    }
+
+
+    @Override
+    protected void addDependencies(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        //No dependencies here
+    }
+
+    @Override
+    protected void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
+        //No dependencies here
     }
 }
 

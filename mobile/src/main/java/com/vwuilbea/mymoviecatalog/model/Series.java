@@ -55,11 +55,28 @@ public class Series
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest,flags);
+        super.writeToParcel(dest, flags);
         dest.writeList(seasons);
         dest.writeString(lastDate);
         dest.writeString(String.valueOf(inProduction));
     }
+
+    @Override
+    protected ContentValues getContentValues() {
+        ContentValues values = super.getContentValues();
+        values.put(MovieCatalogContract.SeriesEntry.COLUMN_LAST_DATE,lastDate);
+        values.put(MovieCatalogContract.SeriesEntry.COLUMN_IN_PRODUCTION, inProduction);
+        return values;
+    }
+
+    @Override
+    protected void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
+        super.initFromCursor(cursor, dbR);
+        lastDate = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.SeriesEntry.COLUMN_LAST_DATE));
+        inProduction = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.SeriesEntry.COLUMN_IN_PRODUCTION)) > 0;
+        addSeasonsFromDB(dbR);
+    }
+
 
     public void addSeason(Season season) {
         if(season!=null && !seasons.contains(season)) {
@@ -118,20 +135,6 @@ public class Series
         while(cursor.moveToNext()) series.add(new Series(cursor, dbR));
         return series;
     }
-
-    @Override
-    protected ContentValues getContentValues() {
-        ContentValues values = super.getContentValues();
-
-        return values;
-    }
-
-    @Override
-    protected void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
-        super.initFromCursor(cursor, dbR);
-
-    }
-
 
     protected void addSeasonsFromDB(SQLiteDatabase dbR) {
         Log.d(LOG, "addSeasonsFromDB");

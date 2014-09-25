@@ -85,7 +85,7 @@ public class MovieCatalogContract {
                 + "%s)";
     }
 
-    /* Inner class that defines the abstract class Video */
+    /* Inner class that defines the abstract class Entity */
     public static abstract class EntityEntry implements BaseColumns {
         public static final String COLUMN_NAME = "name";
 
@@ -96,6 +96,23 @@ public class MovieCatalogContract {
                 + "(" + _ID + TYPE_PRIMARY + ","
                 + COLUMN_NAME+ TYPE_TEXT
                 + "%s)";
+    }
+
+    /* Inner class that defines the abstract class VideoEntity */
+    public static abstract class VideoEntityEntry implements BaseColumns {
+        public static final String COLUMN_VIDEO_ID = "video_id";
+        public static final String COLUMN_ENTITY_ID = "entity_id";
+        public static final String[] ALL_COLUMNS = { COLUMN_VIDEO_ID, COLUMN_ENTITY_ID};
+
+        // VideoEntity table Create Statements
+        public static final String CREATE_TABLE = "CREATE TABLE %s"
+                + "(" + COLUMN_ENTITY_ID + TYPE_INTEGER + ","
+                + COLUMN_VIDEO_ID + TYPE_INTEGER
+                + ", PRIMARY KEY ("
+                + COLUMN_ENTITY_ID + ","
+                + COLUMN_VIDEO_ID + ")"
+                + ")";
+
     }
 
     /* Inner class that defines the abstract class Video */
@@ -261,6 +278,44 @@ public class MovieCatalogContract {
                 + ")";
     }
 
+    /* Inner class that defines the table Series */
+    public static abstract class EpisodeEntry implements BaseColumns {
+        public static final String TABLE_NAME = Episode.class.getSimpleName().toLowerCase();
+        public static final String COLUMN_SEASON_ID = "season_id";
+        public static final String COLUMN_NUMBER = "number";
+        public static final String COLUMN_POSSESSED = "possessed";
+        public static final String COLUMN_DATE = "date";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_QUALITY = "quality";
+        public static final String COLUMN_OVERVIEW = "overview";
+        public static final String COLUMN_POSTER_PATH = "poster_path";
+        public static final String COLUMN_VOTE_AVERAGE = "vote_average";
+        public static final String COLUMN_VOTE_COUNT = "vote_count";
+
+
+        public static final String[] ALL_COLUMNS = {
+                _ID, COLUMN_SEASON_ID, COLUMN_NUMBER, COLUMN_POSSESSED, COLUMN_DATE,
+                COLUMN_TITLE, COLUMN_QUALITY, COLUMN_OVERVIEW, COLUMN_POSTER_PATH,
+                COLUMN_VOTE_AVERAGE, COLUMN_VOTE_COUNT
+        };
+
+        // Season table Create Statements
+        public static final String CREATE_TABLE = "CREATE TABLE "
+                + TABLE_NAME
+                + "(" + _ID + TYPE_PRIMARY_TEXT + ","
+                + COLUMN_SEASON_ID + TYPE_INTEGER + ","
+                + COLUMN_NUMBER + TYPE_INTEGER + ","
+                + COLUMN_POSSESSED + TYPE_BOOLEAN + ","
+                + COLUMN_DATE + TYPE_TEXT + ","
+                + COLUMN_TITLE + TYPE_TEXT + ","
+                + COLUMN_QUALITY + TYPE_INTEGER + ","
+                + COLUMN_OVERVIEW + TYPE_TEXT + ","
+                + COLUMN_POSTER_PATH + TYPE_TEXT + ","
+                + COLUMN_VOTE_AVERAGE + TYPE_REAL + ","
+                + COLUMN_VOTE_COUNT + TYPE_INTEGER
+                + ")";
+    }
+
     /* Inner class that defines the table Role */
     public static abstract class RoleEntry implements BaseColumns {
         public static final String TABLE_NAME = Role.class.getSimpleName().toLowerCase();
@@ -282,37 +337,18 @@ public class MovieCatalogContract {
     /* Inner class that defines the table VideoGenre */
     public static abstract class VideoGenreEntry implements BaseColumns {
         public static final String TABLE_NAME = "videoGenre";
-        public static final String COLUMN_VIDEO_ID = "video_id";
-        public static final String COLUMN_GENRE_ID = "genre_id";
-        public static final String[] ALL_COLUMNS = { COLUMN_VIDEO_ID, COLUMN_GENRE_ID};
 
-        // VideoCountry table Create Statements
-        public static final String CREATE_TABLE = "CREATE TABLE "
-                + TABLE_NAME
-                + "(" + COLUMN_GENRE_ID + TYPE_INTEGER + ","
-                + COLUMN_VIDEO_ID + TYPE_INTEGER
-                + ", PRIMARY KEY ("
-                + COLUMN_GENRE_ID + ","
-                + COLUMN_VIDEO_ID + ")"
-                + ")";
+        // Series table Create Statements
+        public static final String CREATE_TABLE = String.format(VideoEntityEntry.CREATE_TABLE, TABLE_NAME, null);
 
     }
 
     /* Inner class that defines the table VideoCountry */
     public static abstract class VideoCountryEntry implements BaseColumns {
         public static final String TABLE_NAME = "videoCountry";
-        public static final String COLUMN_VIDEO_ID = "video_id";
-        public static final String COLUMN_COUNTRY_ID = "country_id";
 
-        // VideoCountry table Create Statements
-        public static final String CREATE_TABLE = "CREATE TABLE "
-                + TABLE_NAME
-                + "(" + COLUMN_COUNTRY_ID + TYPE_INTEGER + ","
-                + COLUMN_VIDEO_ID + TYPE_INTEGER
-                + ", PRIMARY KEY ("
-                + COLUMN_COUNTRY_ID + ","
-                + COLUMN_VIDEO_ID + ")"
-                + ")";
+        // Series table Create Statements
+        public static final String CREATE_TABLE = String.format(VideoEntityEntry.CREATE_TABLE, TABLE_NAME, null);
     }
 
     /* Inner class that defines the table VideoCountry */
@@ -335,35 +371,17 @@ public class MovieCatalogContract {
     /* Inner class that defines the table VideoProduction */
     public static abstract class VideoProductionEntry implements BaseColumns {
         public static final String TABLE_NAME = "videoProduction";
-        public static final String COLUMN_VIDEO_ID = "video_id";
-        public static final String COLUMN_PRODUCTION_ID = "production_id";
 
-        // VideoProduction table Create Statements
-        public static final String CREATE_TABLE = "CREATE TABLE "
-                + TABLE_NAME
-                + "(" + COLUMN_PRODUCTION_ID + TYPE_INTEGER + ","
-                + COLUMN_VIDEO_ID + TYPE_INTEGER
-                + ", PRIMARY KEY ("
-                + COLUMN_PRODUCTION_ID + ","
-                + COLUMN_VIDEO_ID + ")"
-                + ")";
+        // Series table Create Statements
+        public static final String CREATE_TABLE = String.format(VideoEntityEntry.CREATE_TABLE, TABLE_NAME, null);
     }
 
     /* Inner class that defines the table VideoRealisator */
     public static abstract class VideoRealisatorEntry implements BaseColumns {
         public static final String TABLE_NAME = "videoRealisator";
-        public static final String COLUMN_VIDEO_ID = "video_id";
-        public static final String COLUMN_REALISATOR_ID = "realisator_id";
 
-        // VideoRealisator table Create Statements
-        public static final String CREATE_TABLE = "CREATE TABLE "
-                + TABLE_NAME
-                + "(" + COLUMN_REALISATOR_ID + TYPE_INTEGER + ","
-                + COLUMN_VIDEO_ID + TYPE_INTEGER
-                + ", PRIMARY KEY ("
-                + COLUMN_REALISATOR_ID + ","
-                + COLUMN_VIDEO_ID + ")"
-                + ")";
+        // Series table Create Statements
+        public static final String CREATE_TABLE = String.format(VideoEntityEntry.CREATE_TABLE, TABLE_NAME, null);
     }
 
 }

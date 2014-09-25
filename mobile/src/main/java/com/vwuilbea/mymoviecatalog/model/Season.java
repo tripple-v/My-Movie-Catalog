@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
 import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
+import com.vwuilbea.mymoviecatalog.database.MyEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,9 @@ import java.util.List;
 /**
  * Created by vwuilbea on 24/09/2014.
  */
-public class Season implements Parcelable {
+public class Season
+        extends MyEntry
+        implements Parcelable {
 
     public static final Parcelable.Creator<Season> CREATOR = new Parcelable.Creator<Season>()
     {
@@ -214,36 +217,37 @@ public class Season implements Parcelable {
     }
 
 
-
-    public int getFromDb(SQLiteDatabase dbR, boolean init) {
-        String[] projection = {BaseColumns._ID};
-        String WHERE = BaseColumns._ID + "=?";
-        String[] selectionArgs = {String.valueOf(getId())};
-
-        Cursor cursor = dbR.query(
-                MovieCatalogContract.SeasonEntry.TABLE_NAME,
-                projection,
-                WHERE,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-        if(cursor.getCount()>1) return DatabaseHelper.MULTIPLE_RESULTS;
-        if(init) initFromCursor(cursor, dbR);
-        else return cursor.getCount();
-        return DatabaseHelper.OK;
+    @Override
+    protected String getTableName() {
+        return MovieCatalogContract.SeasonEntry.TABLE_NAME;
     }
 
+    @Override
+    protected String[] getAllColumns() {
+        return MovieCatalogContract.SeasonEntry.ALL_COLUMNS;
+    }
+
+    @Override
+    protected void addDependencies(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        for(Episode episode:episodes) episode.putInDB(dbW, dbR);
+    }
+
+    @Override
+    protected void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
+        String selection;
+        //Episodes
+        selection = MovieCatalogContract.EpisodeEntry.COLUMN_SEASON_ID+ " LIKE ?";
+        dbW.delete(MovieCatalogContract.EpisodeEntry.TABLE_NAME, selection, selectionArgs);
+    }
 
     protected void addEpisodesFromDB(SQLiteDatabase dbR) {
         Log.d(LOG, "addEpisodesFromDB");
-        String[] projection = MovieCatalogContract.SeasonEntry.ALL_COLUMNS;
-        String WHERE = MovieCatalogContract.SeasonEntry.COLUMN_SERIES_ID + "=?";
+        String[] projection = MovieCatalogContract.EpisodeEntry.ALL_COLUMNS;
+        String WHERE = MovieCatalogContract.EpisodeEntry.COLUMN_SEASON_ID + "=?";
         String[] selectionArgs = {String.valueOf(getId())};
 
         Cursor cursor = dbR.query(
-                MovieCatalogContract.SeasonEntry.TABLE_NAME,
+                MovieCatalogContract.EpisodeEntry.TABLE_NAME,
                 projection,
                 WHERE,
                 selectionArgs,

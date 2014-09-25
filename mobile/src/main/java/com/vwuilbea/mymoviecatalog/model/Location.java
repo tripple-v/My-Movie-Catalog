@@ -2,6 +2,7 @@ package com.vwuilbea.mymoviecatalog.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -63,8 +64,8 @@ public class Location extends Entity
     }
 
     @Override
-    protected void initFromCursor(Cursor cursor) {
-        super.initFromCursor(cursor);
+    protected void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
+        super.initFromCursor(cursor, dbR);
         type = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.LocationEntry.COLUMN_TYPE));
         folder = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.LocationEntry.COLUMN_FOLDER));
     }

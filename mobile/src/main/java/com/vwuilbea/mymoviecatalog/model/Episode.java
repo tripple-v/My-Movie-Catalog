@@ -1,12 +1,22 @@
 package com.vwuilbea.mymoviecatalog.model;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.BaseColumns;
+
+import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
+import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
+import com.vwuilbea.mymoviecatalog.database.MyEntry;
 
 /**
  * Created by vwuilbea on 24/09/2014.
  */
-public class Episode implements Parcelable {
+public class Episode
+        extends MyEntry
+        implements Parcelable {
 
     public static final Parcelable.Creator<Episode> CREATOR = new Parcelable.Creator<Episode>()
     {
@@ -31,6 +41,7 @@ public class Episode implements Parcelable {
     private boolean possessed;
     private String date;
     private String title;
+    private int quality;
     private String overview;
     private String posterPath;
     private float voteAverage;
@@ -57,6 +68,7 @@ public class Episode implements Parcelable {
         possessed = Boolean.parseBoolean(in.readString());
         date = in.readString();
         title = in.readString();
+        quality = in.readInt();
         overview = in.readString();
         posterPath = in.readString();
         voteAverage = in.readFloat();
@@ -71,10 +83,41 @@ public class Episode implements Parcelable {
         dest.writeString(String.valueOf(possessed));
         dest.writeString(date);
         dest.writeString(title);
+        dest.writeInt(quality);
         dest.writeString(overview);
         dest.writeString(posterPath);
         dest.writeFloat(voteAverage);
         dest.writeInt(voteCount);
+    }
+
+    public ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(MovieCatalogContract.EpisodeEntry._ID,id);
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_SEASON_ID,season.getId());
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_NUMBER,number);
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_POSSESSED,possessed);
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_DATE,date);
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_TITLE,title);
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_QUALITY,quality);
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_OVERVIEW,overview);
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_POSTER_PATH,posterPath);
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_VOTE_AVERAGE,voteAverage);
+        values.put(MovieCatalogContract.EpisodeEntry.COLUMN_VOTE_COUNT,voteCount);
+        return values;
+    }
+
+    public void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
+        cursor.moveToFirst();
+        id = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry._ID));
+        number = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry.COLUMN_NUMBER));
+        possessed = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry.COLUMN_POSSESSED)) > 0;
+        date = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry.COLUMN_DATE));
+        title = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry.COLUMN_TITLE));
+        quality = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry.COLUMN_QUALITY));
+        overview = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry.COLUMN_OVERVIEW));
+        posterPath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry.COLUMN_POSTER_PATH));
+        voteAverage = cursor.getFloat(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry.COLUMN_VOTE_AVERAGE));
+        voteCount = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.EpisodeEntry.COLUMN_VOTE_COUNT));
     }
 
 
@@ -162,4 +205,25 @@ public class Episode implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
+    @Override
+    protected String getTableName() {
+        return MovieCatalogContract.EpisodeEntry.TABLE_NAME;
+    }
+
+    @Override
+    protected String[] getAllColumns() {
+        return MovieCatalogContract.EpisodeEntry.ALL_COLUMNS;
+    }
+
+    @Override
+    protected void addDependencies(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        //No dependencies here
+    }
+
+    @Override
+    protected void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
+        //No dependencies here
+    }
+
 }

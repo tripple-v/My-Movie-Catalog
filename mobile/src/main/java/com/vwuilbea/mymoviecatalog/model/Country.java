@@ -1,5 +1,6 @@
 package com.vwuilbea.mymoviecatalog.model;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -42,7 +43,7 @@ public class Country extends Entity {
     }
 
     public Country(String name, String iso) {
-        this(name,iso,null);
+        this(name, iso, null);
     }
 
     public Country(String name, String iso, Person person) {
@@ -87,6 +88,19 @@ public class Country extends Entity {
     @Override
     protected String[] getAllColumns() {
         return MovieCatalogContract.CountryEntry.ALL_COLUMNS;
+    }
+
+    @Override
+    protected void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
+        String selection;
+        //PersonCountry
+        selection = MovieCatalogContract.PersonCountryEntry.COLUMN_COUNTRY_ID+ " LIKE ?";
+        dbW.delete(MovieCatalogContract.PersonCountryEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
+    @Override
+    protected void addDependencies(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        for(Person person:persons) person.putInDB(dbW, dbR);
     }
 }
 

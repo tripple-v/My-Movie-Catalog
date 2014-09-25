@@ -45,6 +45,7 @@ public class DatabaseHelper
         db.execSQL(MovieCatalogContract.RealisatorEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.SeriesEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.SeasonEntry.CREATE_TABLE);
+        db.execSQL(MovieCatalogContract.EpisodeEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.RoleEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.VideoGenreEntry.CREATE_TABLE);
         db.execSQL(MovieCatalogContract.VideoCountryEntry.CREATE_TABLE);
@@ -65,6 +66,7 @@ public class DatabaseHelper
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.RealisatorEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.SeriesEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.SeasonEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.EpisodeEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.RoleEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.VideoGenreEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieCatalogContract.VideoCountryEntry.TABLE_NAME);
