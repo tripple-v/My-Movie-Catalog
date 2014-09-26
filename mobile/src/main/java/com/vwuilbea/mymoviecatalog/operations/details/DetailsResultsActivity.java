@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,15 +27,19 @@ import com.vwuilbea.mymoviecatalog.MovieCatalog;
 import com.vwuilbea.mymoviecatalog.MyApplication;
 import com.vwuilbea.mymoviecatalog.R;
 import com.vwuilbea.mymoviecatalog.model.Actor;
+import com.vwuilbea.mymoviecatalog.model.Episode;
 import com.vwuilbea.mymoviecatalog.model.Genre;
 import com.vwuilbea.mymoviecatalog.model.Movie;
 import com.vwuilbea.mymoviecatalog.model.Role;
+import com.vwuilbea.mymoviecatalog.model.Season;
+import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
 import com.vwuilbea.mymoviecatalog.textjustify.TextViewEx;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsMovieResponse;
+import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsSeasonResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsSeriesResponse;
 import com.vwuilbea.mymoviecatalog.util.RestClient;
 
@@ -56,6 +62,7 @@ public class DetailsResultsActivity extends Activity {
     private static final int REQUEST_POSTER = 1;
     private static final int REQUEST_DETAILS = 2;
     private static final int REQUEST_CREDITS = 3;
+    private static final int REQUEST_DETAILS_SEASONS = 4;
 
     private static final int MAX_ACTORS_DISPLAYED = 5;
 
@@ -68,6 +75,9 @@ public class DetailsResultsActivity extends Activity {
     private boolean more;
     private boolean isVideoInDB = false;
     private boolean isMovie = true;
+
+    private int currentSeasonId;
+    private List<Season> seasons;
 
     private View progressView;
     private View parallaxView;
@@ -84,6 +94,8 @@ public class DetailsResultsActivity extends Activity {
     private TextViewEx textOverview;
     private RadioGroup radioGroupQuality;
     private Switch switchDimension;
+    private RelativeLayout layoutSeasons;
+    private TextView testSeason;
 
     private RestClient.ExecutionListener creditsCallback = new RestClient.ExecutionListener() {
         @Override
@@ -109,9 +121,19 @@ public class DetailsResultsActivity extends Activity {
         @Override
         public void onExecutionFinished(String url, String result) {
             Log.d(LOG, "url:" + url + ", result:" + result);
-            if(isMovie) DetailsMovieResponse.parse(result, video);
-            else DetailsSeriesResponse.parse(result, video);
-            fillDetails(video);
+            if(isMovie) {
+                DetailsMovieResponse.parse(result, video);
+                fillDetails(video);
+            }
+            else {
+                DetailsSeriesResponse.parse(result, (Series)video);
+                seasons = ((Series) video).getSeasons();
+                if(seasons.size()>0) {
+                    mapRequests.put(REQUEST_DETAILS_SEASONS,false);
+                    currentSeasonId = 0;
+                    TmdbService.sendDetailsSeasonRequest(video.getId(), seasons.get(currentSeasonId).getNumber(), detailsSeasonCallback);
+                }
+            }
             onRequestFinished(REQUEST_DETAILS);
         }
 
@@ -123,6 +145,34 @@ public class DetailsResultsActivity extends Activity {
         @Override
         public void onExecutionFailed(String url, Exception e) {
             onRequestFinished(REQUEST_DETAILS);
+        }
+    };
+
+    private RestClient.ExecutionListener detailsSeasonCallback = new RestClient.ExecutionListener() {
+        @Override
+        public void onExecutionFinished(String url, String result) {
+            Log.d(LOG, "url:" + url + ", result:" + result);
+            Season season = seasons.get(currentSeasonId);
+            DetailsSeasonResponse.parse(result, season);
+            if(currentSeasonId + 1 < seasons.size()) {
+                //There is other season
+                currentSeasonId++;
+                TmdbService.sendDetailsSeasonRequest(video.getId(), season.getNumber(), this);
+            }
+            else {
+                fillDetails(video);
+                onRequestFinished(REQUEST_DETAILS_SEASONS);
+            }
+        }
+
+        @Override
+        public void onExecutionProgress(String url, Integer progress) {
+
+        }
+
+        @Override
+        public void onExecutionFailed(String url, Exception e) {
+            onRequestFinished(REQUEST_DETAILS_SEASONS);
         }
     };
 
@@ -254,6 +304,8 @@ public class DetailsResultsActivity extends Activity {
         posterImage = (ImageView) findViewById(R.id.image_poster);
         radioGroupQuality = (RadioGroup) findViewById(R.id.group_quality);
         switchDimension = (Switch) findViewById(R.id.switch_dimension);
+        layoutSeasons = (RelativeLayout) findViewById(R.id.layout_seasons);
+        testSeason = (TextView) findViewById(R.id.test_season);
 
         RadioButton radioButtonLow = (RadioButton) findViewById(R.id.quality_low);
         radioButtonLow.setId(Video.Quality.LOW.getId());
@@ -299,6 +351,7 @@ public class DetailsResultsActivity extends Activity {
         String runtime = minutesToHours(video.getRuntime());
         String oldDate = video.getReleaseDate();
         String newDate = oldDate;
+        String testSeasonS = "Test seasons :\n";
         float publicRating = video.getVoteAverage();
         float privateRating = video.getVotePrivate();
         int quality = video.getQuality();
@@ -334,6 +387,19 @@ public class DetailsResultsActivity extends Activity {
         if (overview != null && !overview.equals("null")) textOverview.setText(overview,true);
         radioGroupQuality.check(quality);
         switchDimension.setChecked(is3D);
+        if(video instanceof Series) {
+            Series series = (Series) video;
+            for(Season season:series.getSeasons()) {
+                testSeasonS += "\n" + getString(R.string.season) + " "+season.getNumber() + "\n";
+                for(Episode episode:season.getEpisodes()) {
+                    testSeasonS += "\t" + episode.getNumber() + " - " + episode.getTitle() + "\n";
+                }
+            }
+            testSeason.setText(testSeasonS);
+        }
+        else {
+            layoutSeasons.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void fillRoles(Video video) {

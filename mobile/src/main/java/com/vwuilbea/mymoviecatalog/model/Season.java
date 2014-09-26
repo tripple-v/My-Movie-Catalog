@@ -50,11 +50,15 @@ public class Season
     private String firstDate;
 
     public Season(int id) {
-        this(id, null, 0);
+        this(id, null);
+    }
+
+    public Season(int id, Series series) {
+        this(id, series, 0);
     }
 
     public Season(int id, Series series, int number) {
-        this(id, series, number, false, series.getQuality());
+        this(id, series, number, false, series != null ? series.getQuality() : Video.Quality.NORMAL.getId());
     }
 
     public Season(int id, Series series, int number, boolean possessed, int quality) {
@@ -67,7 +71,6 @@ public class Season
 
     public Season(Parcel in) {
         id = in.readInt();
-        series = in.readParcelable(Series.class.getClassLoader());
         number = in.readInt();
         possessed = Boolean.parseBoolean(in.readString());
         quality = in.readInt();
@@ -81,7 +84,6 @@ public class Season
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
-        dest.writeParcelable(series, flags);
         dest.writeInt(number);
         dest.writeString(String.valueOf(possessed));
         dest.writeInt(quality);

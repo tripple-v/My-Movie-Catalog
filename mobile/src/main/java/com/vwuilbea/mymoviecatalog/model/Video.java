@@ -520,14 +520,19 @@ public abstract class Video
         Cursor cursor = dbR.query(tableName,projection,WHERE,selectionArgs,null,null,null);
         List<T> entities = new ArrayList<T>();
         cursor.moveToFirst();
-        try {
-            T entity = clazz.newInstance();
-            entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntityEntry.COLUMN_ENTITY_ID)));
-            if( entity.getFromDb(dbR, true) == DatabaseHelper.OK)
-                entities.add(entity);
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        do {
+            try {
+                T entity = clazz.newInstance();
+                entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntityEntry.COLUMN_ENTITY_ID)));
+                if (entity.getFromDb(dbR, true) == DatabaseHelper.OK)
+                    entities.add(entity);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } while(cursor.moveToNext());
+        Log.d(LOG,"addEntityFromDB, nb entities:"+entities.size());
         return entities;
     }
 

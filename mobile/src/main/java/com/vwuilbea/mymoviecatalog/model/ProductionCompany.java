@@ -23,6 +23,10 @@ public class ProductionCompany extends Entity
         }
     };
 
+    public ProductionCompany(){
+        super();
+    }
+
 	public ProductionCompany(int id){
 		super(id);
 	}
@@ -40,6 +44,11 @@ public class ProductionCompany extends Entity
         return "ProductionCompany{" +
                 super.toString() +
                 '}';
+    }
+
+    @Override
+    protected String getVideoEntityTableName() {
+        return MovieCatalogContract.VideoProductionEntry.TABLE_NAME;
     }
 
     @Override

@@ -29,6 +29,10 @@ public class Location extends Entity
 	private int type;
 	private String folder;
 
+    public Location(){
+        super();
+    }
+
 	public Location(int id){
 		super(id);
 	}
@@ -76,6 +80,11 @@ public class Location extends Entity
         values.put(MovieCatalogContract.LocationEntry.COLUMN_TYPE,type);
         values.put(MovieCatalogContract.LocationEntry.COLUMN_FOLDER,folder);
         return values;
+    }
+
+    @Override
+    protected String getVideoEntityTableName() {
+        return null;
     }
 
 }

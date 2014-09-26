@@ -343,6 +343,81 @@
                     android:layout_marginBottom="@dimen/standard_margin"
                     android:layout_below="@id/layout_quality">
 
+                    <TextView
+                        android:id="@+id/label_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/label_location"
+                        android:textSize="@dimen/section_title_size_details"
+                        tools:ignore="HardcodedText" />
+
+                </RelativeLayout>
+
+                <!-- Season layout -->
+                <RelativeLayout
+                    android:id="@+id/layout_seasons"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:layout_marginStart="@dimen/minimum_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:layout_below="@id/layout_location">
+
+                    <TextView
+                        android:id="@+id/label_seasons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/label_seasons"
+                        android:textSize="@dimen/section_title_size_details"
+                        tools:ignore="HardcodedText" />
+
+                    <!-- Season one layout -->
+                    <RelativeLayout
+                        android:id="@+id/layout_season_one"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:layout_below="@id/label_seasons">
+
+                        <TextView
+                            android:id="@+id/label_season_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/minimum_margin"
+                            android:layout_marginStart="@dimen/minimum_margin"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:layout_marginBottom="@dimen/standard_margin"
+                            android:text="@string/label_season_one"
+                            android:textSize="@dimen/section_subtitle_size_details"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/test_season"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/minimum_margin"
+                            android:layout_marginStart="@dimen/minimum_margin"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:layout_marginBottom="@dimen/standard_margin"
+                            android:text="@string/label_season_one"
+                            android:textSize="@dimen/subtitle_medium_size_details"
+                            tools:ignore="HardcodedText"
+                            android:layout_below="@id/label_season_one"/>
+
+                    </RelativeLayout>
+
                 </RelativeLayout>
 
             </RelativeLayout>

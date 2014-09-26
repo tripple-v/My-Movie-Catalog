@@ -32,6 +32,10 @@ public class Country extends Entity {
     private List<Person> persons = new ArrayList<Person>();
     private String iso;
 
+    public Country() {
+        this(_ID++);
+    }
+
     public Country(int id) {
         super(_ID++);
     }
@@ -81,6 +85,11 @@ public class Country extends Entity {
     }
 
     @Override
+    protected String getVideoEntityTableName() {
+        return MovieCatalogContract.VideoCountryEntry.TABLE_NAME;
+    }
+
+    @Override
     protected String getTableName() {
         return MovieCatalogContract.CountryEntry.TABLE_NAME;
     }
@@ -102,5 +111,6 @@ public class Country extends Entity {
     protected void addDependencies(SQLiteDatabase dbW, SQLiteDatabase dbR) {
         for(Person person:persons) person.putInDB(dbW, dbR);
     }
+
 }
 

@@ -39,6 +39,11 @@ public class Realisator extends Person
     }
 
     @Override
+    protected String getVideoEntityTableName() {
+        return MovieCatalogContract.VideoRealisatorEntry.TABLE_NAME;
+    }
+
+    @Override
     protected String getTableName() {
         return MovieCatalogContract.RealisatorEntry.TABLE_NAME;
     }

@@ -28,6 +28,8 @@ public abstract class Entity
     protected String name;
     protected List<Video> videos = new ArrayList<Video>();
 
+    public Entity() {}
+
     public Entity(int id) {
         this(id, null);
     }
@@ -188,5 +190,6 @@ public abstract class Entity
     protected void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
         //No dependencies here
     }
+
 }
 

@@ -17,6 +17,10 @@ public abstract class Person
     protected Country country;
     protected String profilePath;
 
+    public Person(){
+        super();
+    }
+
 	public Person(int id ){
 		super(id);
 	}

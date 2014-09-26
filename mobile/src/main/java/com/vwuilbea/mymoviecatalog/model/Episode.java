@@ -52,7 +52,7 @@ public class Episode
     }
 
     public Episode(int id, Season season) {
-        this(id, season, season.isPossessed());
+        this(id, season, season != null && season.isPossessed());
     }
 
     public Episode(int id, Season season, boolean possessed) {
@@ -63,7 +63,6 @@ public class Episode
 
     public Episode(Parcel in) {
         id = in.readInt();
-        season = in.readParcelable(Season.class.getClassLoader());
         number = in.readInt();
         possessed = Boolean.parseBoolean(in.readString());
         date = in.readString();
@@ -78,7 +77,6 @@ public class Episode
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
-        dest.writeParcelable(season, flags);
         dest.writeInt(number);
         dest.writeString(String.valueOf(possessed));
         dest.writeString(date);

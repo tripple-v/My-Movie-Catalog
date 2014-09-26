@@ -26,6 +26,7 @@ import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
 import com.vwuilbea.mymoviecatalog.operations.details.DetailsResultsActivity;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsMovieResponse;
+import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsSeriesResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.search.SearchMovieResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.search.SearchSeriesResponse;
@@ -52,6 +53,7 @@ public class SearchResultsActivity
 
     private ArrayList<Video> videos = new ArrayList<Video>();
     private Video selectedVideo;
+    private boolean isSelectedVideoAMovie;
     private String query;
     private boolean noResult=false;
 
@@ -86,7 +88,8 @@ public class SearchResultsActivity
         @Override
         public void onExecutionFinished(String url, String result) {
             Log.d(LOG, "execution of '" + url + "' finished.\nResult:" + result);
-            DetailsMovieResponse.parse(result, selectedVideo);
+            if(isSelectedVideoAMovie) DetailsMovieResponse.parse(result, selectedVideo);
+            else DetailsSeriesResponse.parse(result, (Series) selectedVideo);
             onRequestFinished(REQUEST_DETAILS);
         }
 
@@ -309,9 +312,9 @@ public class SearchResultsActivity
         else {
             hideList();
             initMapRequests();
-            boolean isMovie = selectedVideo instanceof Movie;
-            TmdbService.sendDetailsRequest(selectedVideo.getId(), executionListenerDetails, isMovie);
-            TmdbService.sendCreditsRequest(selectedVideo.getId(), executionListenerCredits, isMovie);
+            isSelectedVideoAMovie = selectedVideo instanceof Movie;
+            TmdbService.sendDetailsRequest(selectedVideo.getId(), executionListenerDetails, isSelectedVideoAMovie);
+            TmdbService.sendCreditsRequest(selectedVideo.getId(), executionListenerCredits, isSelectedVideoAMovie);
         }
     }
 

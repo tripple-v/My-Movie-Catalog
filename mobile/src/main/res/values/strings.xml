@@ -73,6 +73,10 @@
     <string name="sort_by_rating">Sort by rating</string>
     <string name="sort_by_name">Sort by name</string>
     <string name="sort_error">An error occurred during sorting</string>
+    <string name="label_location">Location</string>
+    <string name="label_seasons">Seasons</string>
+    <string name="label_season_one">Season 1</string>
+    <string name="season">Season</string>
 
 
 </resources>

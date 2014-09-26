@@ -3,6 +3,7 @@ package com.vwuilbea.mymoviecatalog.tmdb.responses.details;
 import com.vwuilbea.mymoviecatalog.model.Country;
 import com.vwuilbea.mymoviecatalog.model.Genre;
 import com.vwuilbea.mymoviecatalog.model.ProductionCompany;
+import com.vwuilbea.mymoviecatalog.model.Season;
 import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 
@@ -93,14 +94,41 @@ public class DetailsSeriesResponse {
             if(!object.isNull(PARAM_LAST_DATE)) series.setLastDate(object.getString(PARAM_LAST_DATE));
             status = object.getString(PARAM_STATUS);
             if(!object.isNull(PARAM_TITLE)) series.setTitle(object.getString(PARAM_TITLE));
-            if(!object.isNull(PARAM_VOTE_AVERAGE)) series.setVoteAverage((float)object.getDouble(PARAM_VOTE_AVERAGE));
+            if(!object.isNull(PARAM_VOTE_AVERAGE)) series.setVoteAverage((float) object.getDouble(PARAM_VOTE_AVERAGE));
             if(!object.isNull(PARAM_VOTE_COUNT)) series.setVoteCount(object.getInt(PARAM_VOTE_COUNT));
+            if(!object.isNull(PARAM_SEASONS)) {
+                array = object.getJSONArray(PARAM_SEASONS);
+                for(int i = 0; i < array.length(); i++) {
+                    series.addSeason(SeasonResult.parse(array.getJSONObject(i), series));
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    public static class SeasonResult {
 
+        private static final String PARAM_SEASON_AIR_DATE = "air_date";
+        private static final String PARAM_SEASON_ID = "id";
+        private static final String PARAM_SEASON_POSTER_PATH = "poster_path";
+        private static final String PARAM_SEASON_NUMBER = "season_number";
+
+        static Season parse(JSONObject object, Series series) {
+            try {
+                if(!object.isNull(PARAM_SEASON_ID)) {
+                    Season season = new Season(object.getInt(PARAM_SEASON_ID), series);
+                    if(!object.isNull(PARAM_SEASON_AIR_DATE)) season.setFirstDate(object.getString(PARAM_SEASON_AIR_DATE));
+                    if(!object.isNull(PARAM_SEASON_POSTER_PATH)) season.setPosterPath(object.getString(PARAM_SEASON_POSTER_PATH));
+                    if(!object.isNull(PARAM_SEASON_NUMBER)) season.setNumber(object.getInt(PARAM_SEASON_NUMBER));
+                    return season;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
     public static class GenreResult {
 

@@ -21,6 +21,7 @@ public class TmdbService {
     public static final String SUFFIX_SERIES_SEARCH = "/3/search/tv";
     public static final String SUFFIX_SERIES_DETAILS = "/3/tv/";
     public static final String SUFFIX_SERIES_CREDITS = "/3/tv/{id}/credits";
+    public static final String SUFFIX_SERIES_SEASON = "/3/tv/{id}/season/{season_number}";
 
     private static final String API_KEY = "77760f5193f0b833f1ffb4a3d3b297a3";
 
@@ -64,6 +65,13 @@ public class TmdbService {
     public static void sendDetailsRequest(int id, RestClient.ExecutionListener executionListener, boolean isMovie) {
         String suffix = isMovie ? SUFFIX_MOVIE_DETAILS : SUFFIX_SERIES_DETAILS;
         sendRequest(suffix +id,null, executionListener);
+    }
+
+    public static void sendDetailsSeasonRequest(int videoId, int seasonNumber, RestClient.ExecutionListener executionListener) {
+        String suffix = SUFFIX_SERIES_SEASON;
+        suffix = suffix.replace("{id}", String.valueOf(videoId));
+        suffix = suffix.replace("{season_number}", String.valueOf(seasonNumber));
+        sendRequest(suffix, null, executionListener);
     }
 
     public static void sendCreditsRequest(int id, RestClient.ExecutionListener executionListener, boolean isMovie) {

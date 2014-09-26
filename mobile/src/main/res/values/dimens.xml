@@ -29,6 +29,7 @@
     <dimen name="rating_width_details">100dp</dimen>
     <dimen name="rating_height_details">50dp</dimen>
     <dimen name="section_title_size_details">25sp</dimen>
+    <dimen name="section_subtitle_size_details">20sp</dimen>
     <dimen name="subtitle_mini_size_details">10sp</dimen>
     <dimen name="subtitle_medium_size_details">12sp</dimen>
     <dimen name="subtitle_size_details">15sp</dimen>
