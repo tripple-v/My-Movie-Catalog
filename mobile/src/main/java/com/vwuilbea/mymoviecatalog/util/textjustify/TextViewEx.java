@@ -1,8 +1,7 @@
-package com.vwuilbea.mymoviecatalog.textjustify;
+package com.vwuilbea.mymoviecatalog.util.textjustify;
 
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -10,7 +9,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.widget.TextView;
-import android.os.Build;
 import android.util.AttributeSet;
 
 /*

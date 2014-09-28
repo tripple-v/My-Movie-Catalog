@@ -20,12 +20,14 @@ import com.vwuilbea.mymoviecatalog.MovieAdapter;
 import com.vwuilbea.mymoviecatalog.MyApplication;
 import com.vwuilbea.mymoviecatalog.R;
 import com.vwuilbea.mymoviecatalog.model.Movie;
+import com.vwuilbea.mymoviecatalog.model.Season;
 import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
 import com.vwuilbea.mymoviecatalog.operations.details.DetailsResultsActivity;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsMovieResponse;
+import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsSeasonResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsSeriesResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.search.SearchMovieResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
@@ -33,6 +35,7 @@ import com.vwuilbea.mymoviecatalog.tmdb.responses.search.SearchSeriesResponse;
 import com.vwuilbea.mymoviecatalog.util.RestClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SearchResultsActivity
@@ -46,6 +49,7 @@ public class SearchResultsActivity
 
     private static final int REQUEST_DETAILS = 0;
     private static final int REQUEST_CREDITS = 1;
+    private static final int REQUEST_DETAILS_SEASONS = 2;
 
     private MovieAdapter adapter;
     private AbsListView listView;
@@ -57,11 +61,14 @@ public class SearchResultsActivity
     private String query;
     private boolean noResult=false;
 
+    /* Used to fill series seasons */
+    private List<Season> seasons = new ArrayList<Season>();
+    private int currentSeasonId = 0;
+
     /**
      * Map used to know if requests are finished or not
      */
     private SparseBooleanArray mapRequests = new SparseBooleanArray();
-    private TextView textOverview;
 
     private RestClient.ExecutionListener executionListenerCredits = new RestClient.ExecutionListener() {
         @Override
@@ -88,8 +95,17 @@ public class SearchResultsActivity
         @Override
         public void onExecutionFinished(String url, String result) {
             Log.d(LOG, "execution of '" + url + "' finished.\nResult:" + result);
-            if(isSelectedVideoAMovie) DetailsMovieResponse.parse(result, selectedVideo);
-            else DetailsSeriesResponse.parse(result, (Series) selectedVideo);
+            if(isSelectedVideoAMovie) {
+                DetailsMovieResponse.parse(result, selectedVideo);
+            }
+            else {
+                DetailsSeriesResponse.parse(result, (Series) selectedVideo);
+                seasons = ((Series) selectedVideo).getSeasons();
+                if(seasons.size()>0) {
+                    mapRequests.put(REQUEST_DETAILS_SEASONS,false);
+                    TmdbService.sendDetailsSeasonRequest(selectedVideo.getId(), seasons.get(currentSeasonId).getNumber(), executionListenerSeasonDetails);
+                }
+            }
             onRequestFinished(REQUEST_DETAILS);
         }
 
@@ -102,6 +118,32 @@ public class SearchResultsActivity
         public void onExecutionFailed(String url, Exception e) {
             Log.e(LOG, "execution of '" + url + "' failed.\nException:" + e);
             onRequestFinished(REQUEST_DETAILS);
+        }
+    };
+
+    private RestClient.ExecutionListener executionListenerSeasonDetails = new RestClient.ExecutionListener() {
+        @Override
+        public void onExecutionFinished(String url, String result) {
+            Log.d(LOG, "url:" + url + ", result:" + result);
+            DetailsSeasonResponse.parse(result, seasons.get(currentSeasonId));
+            if(currentSeasonId + 1 < seasons.size()) {
+                //There is other season
+                currentSeasonId++;
+                TmdbService.sendDetailsSeasonRequest(selectedVideo.getId(), seasons.get(currentSeasonId).getNumber(), this);
+            }
+            else {
+                onRequestFinished(REQUEST_DETAILS_SEASONS);
+            }
+        }
+
+        @Override
+        public void onExecutionProgress(String url, Integer progress) {
+
+        }
+
+        @Override
+        public void onExecutionFailed(String url, Exception e) {
+            onRequestFinished(REQUEST_DETAILS_SEASONS);
         }
     };
 

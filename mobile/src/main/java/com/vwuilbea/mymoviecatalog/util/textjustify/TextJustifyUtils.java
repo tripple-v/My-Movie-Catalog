@@ -1,4 +1,4 @@
-package com.vwuilbea.mymoviecatalog.textjustify;
+package com.vwuilbea.mymoviecatalog.util.textjustify;
 
 import android.graphics.Paint;
 import android.view.Gravity;

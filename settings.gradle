@@ -1,1 +1,1 @@
-include ':mobile', ':wear', ':ParallaxScroll'
+include ':mobile', ':wear', ':ParallaxScroll', ':ListViewExpandingCells'

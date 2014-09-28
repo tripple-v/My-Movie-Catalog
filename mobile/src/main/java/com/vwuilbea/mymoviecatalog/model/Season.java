@@ -218,6 +218,15 @@ public class Season
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "Season{" +
+                "id=" + id +
+                ", number=" + number +
+                ", possessed=" + possessed +
+                ", series=" + series +
+                '}';
+    }
 
     @Override
     protected String getTableName() {

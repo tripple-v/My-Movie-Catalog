@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ListViewExpandingCells/ListViewExpandingCells.iml" filepath="$PROJECT_DIR$/ListViewExpandingCells/ListViewExpandingCells.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MovieCatalog.iml" filepath="$PROJECT_DIR$/MovieCatalog.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyMovieCatalog.iml" filepath="$PROJECT_DIR$/MyMovieCatalog.iml" />
       <module fileurl="file://$PROJECT_DIR$/ParallaxScroll/ParallaxScroll.iml" filepath="$PROJECT_DIR$/ParallaxScroll/ParallaxScroll.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobile/mobile.iml" filepath="$PROJECT_DIR$/mobile/mobile.iml" />

@@ -111,7 +111,7 @@ public class RestClient {
                 response = httpClient.execute(httpGet);
                 HttpEntity entity = response.getEntity();
                 String result = EntityUtils.toString(entity);
-                Log.d("ExecutePost", "URL:" + url + ", header: " + headerName + ":" + headerValue + ",\nresult:" + result);
+                Log.v("ExecutePost", "URL:" + url + ", header: " + headerName + ":" + headerValue + ",\nresult:" + result);
                 return result;
             } catch (IOException e) {
                 if (executionListener != null) executionListener.onExecutionFailed(url, e);

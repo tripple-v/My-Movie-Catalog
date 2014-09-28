@@ -1,5 +1,7 @@
 package com.vwuilbea.mymoviecatalog.tmdb.responses.details;
 
+import android.util.Log;
+
 import com.vwuilbea.mymoviecatalog.model.Episode;
 import com.vwuilbea.mymoviecatalog.model.Genre;
 import com.vwuilbea.mymoviecatalog.model.ProductionCompany;
@@ -27,6 +29,7 @@ public class DetailsSeasonResponse {
 
 
     public static void parse(String result, Season season) {
+        Log.d(LOG, "season "+season.getNumber() );
         try {
             JSONObject object = new JSONObject(result);
             JSONArray array;

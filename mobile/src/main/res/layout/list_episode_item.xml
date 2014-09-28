@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dip">
+
+    <TextView
+        android:id="@+id/season_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/subtitle_medium_size_details"
+        android:textStyle="bold"
+        android:text="@string/hello_world"
+        tools:ignore="HardcodedText"
+        />
+
+</LinearLayout>

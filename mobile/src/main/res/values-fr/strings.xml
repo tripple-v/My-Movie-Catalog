@@ -53,4 +53,5 @@
     <string name="sort_by_newest">Trier par date</string>
     <string name="sort_by_rating">Trier par note</string>
     <string name="sort_error">Une erreur est survenue durant le tri</string>
+    <string name="label_location">Emplacement</string>
 </resources>

@@ -5,13 +5,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,6 +21,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.expandingcells.ExpandableListItem;
+import com.example.android.expandingcells.ExpandingListView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.vwuilbea.mymoviecatalog.MovieCatalog;
@@ -35,7 +37,9 @@ import com.vwuilbea.mymoviecatalog.model.Season;
 import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
-import com.vwuilbea.mymoviecatalog.textjustify.TextViewEx;
+import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonAdapter;
+import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonItem;
+import com.vwuilbea.mymoviecatalog.util.textjustify.TextViewEx;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.details.DetailsMovieResponse;
@@ -46,7 +50,9 @@ import com.vwuilbea.mymoviecatalog.util.RestClient;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class DetailsResultsActivity extends Activity {
@@ -65,6 +71,7 @@ public class DetailsResultsActivity extends Activity {
     private static final int REQUEST_DETAILS_SEASONS = 4;
 
     private static final int MAX_ACTORS_DISPLAYED = 5;
+    private final int CELL_DEFAULT_HEIGHT = 200;
 
     /**
      * Map used to know if requests are finished or not
@@ -76,7 +83,7 @@ public class DetailsResultsActivity extends Activity {
     private boolean isVideoInDB = false;
     private boolean isMovie = true;
 
-    private int currentSeasonId;
+    private int currentSeasonId = 0;
     private List<Season> seasons;
 
     private View progressView;
@@ -96,6 +103,7 @@ public class DetailsResultsActivity extends Activity {
     private Switch switchDimension;
     private RelativeLayout layoutSeasons;
     private TextView testSeason;
+    private ExpandableListView listSeason;
 
     private RestClient.ExecutionListener creditsCallback = new RestClient.ExecutionListener() {
         @Override
@@ -130,7 +138,6 @@ public class DetailsResultsActivity extends Activity {
                 seasons = ((Series) video).getSeasons();
                 if(seasons.size()>0) {
                     mapRequests.put(REQUEST_DETAILS_SEASONS,false);
-                    currentSeasonId = 0;
                     TmdbService.sendDetailsSeasonRequest(video.getId(), seasons.get(currentSeasonId).getNumber(), detailsSeasonCallback);
                 }
             }
@@ -152,12 +159,11 @@ public class DetailsResultsActivity extends Activity {
         @Override
         public void onExecutionFinished(String url, String result) {
             Log.d(LOG, "url:" + url + ", result:" + result);
-            Season season = seasons.get(currentSeasonId);
-            DetailsSeasonResponse.parse(result, season);
+            DetailsSeasonResponse.parse(result, seasons.get(currentSeasonId));
             if(currentSeasonId + 1 < seasons.size()) {
                 //There is other season
                 currentSeasonId++;
-                TmdbService.sendDetailsSeasonRequest(video.getId(), season.getNumber(), this);
+                TmdbService.sendDetailsSeasonRequest(video.getId(), seasons.get(currentSeasonId).getNumber(), this);
             }
             else {
                 fillDetails(video);
@@ -203,7 +209,6 @@ public class DetailsResultsActivity extends Activity {
     private RatingBar.OnRatingBarChangeListener ratingBarChangeListener = new RatingBar.OnRatingBarChangeListener() {
         @Override
         public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-            Log.d(LOG,"onRatingChanged : rating:"+rating+", fromUser:"+fromUser);
             if(fromUser) {
                 video.setVotePrivate(rating);
             }
@@ -214,7 +219,6 @@ public class DetailsResultsActivity extends Activity {
     private RadioGroup.OnCheckedChangeListener qualityChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            Log.d(LOG,"onCheckedChanged: "+checkedId);
             video.setQuality(checkedId);
         }
         public void aa(){}
@@ -306,6 +310,7 @@ public class DetailsResultsActivity extends Activity {
         switchDimension = (Switch) findViewById(R.id.switch_dimension);
         layoutSeasons = (RelativeLayout) findViewById(R.id.layout_seasons);
         testSeason = (TextView) findViewById(R.id.test_season);
+        listSeason = (ExpandableListView) findViewById(R.id.season_list);
 
         RadioButton radioButtonLow = (RadioButton) findViewById(R.id.quality_low);
         radioButtonLow.setId(Video.Quality.LOW.getId());
@@ -351,7 +356,6 @@ public class DetailsResultsActivity extends Activity {
         String runtime = minutesToHours(video.getRuntime());
         String oldDate = video.getReleaseDate();
         String newDate = oldDate;
-        String testSeasonS = "Test seasons :\n";
         float publicRating = video.getVoteAverage();
         float privateRating = video.getVotePrivate();
         int quality = video.getQuality();
@@ -387,15 +391,19 @@ public class DetailsResultsActivity extends Activity {
         if (overview != null && !overview.equals("null")) textOverview.setText(overview,true);
         radioGroupQuality.check(quality);
         switchDimension.setChecked(is3D);
+        fillSeasons(video);
+    }
+
+    private void fillSeasons(Video video) {
         if(video instanceof Series) {
             Series series = (Series) video;
+            HashMap<Season, List<Episode>> map = new HashMap<Season, List<Episode>>();
             for(Season season:series.getSeasons()) {
-                testSeasonS += "\n" + getString(R.string.season) + " "+season.getNumber() + "\n";
-                for(Episode episode:season.getEpisodes()) {
-                    testSeasonS += "\t" + episode.getNumber() + " - " + episode.getTitle() + "\n";
-                }
+                map.put(season, season.getEpisodes());
             }
-            testSeason.setText(testSeasonS);
+            SeasonAdapter adapter = new SeasonAdapter(this,series.getSeasons(),map);
+            testSeason.setText(adapter.getGroupCount()+" seasons");
+            listSeason.setAdapter(adapter);
         }
         else {
             layoutSeasons.setVisibility(View.INVISIBLE);

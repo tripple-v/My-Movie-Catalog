@@ -200,6 +200,34 @@ public class Episode
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Episode)) return false;
+
+        Episode episode = (Episode) o;
+
+        return id == episode.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Episode{" +
+                "id=" + id +
+                ", season=" + season +
+                ", number=" + number +
+                ", possessed=" + possessed +
+                ", title='" + title + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
