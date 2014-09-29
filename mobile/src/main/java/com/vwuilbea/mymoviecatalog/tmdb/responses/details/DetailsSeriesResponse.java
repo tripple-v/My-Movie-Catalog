@@ -117,11 +117,18 @@ public class DetailsSeriesResponse {
         static Season parse(JSONObject object, Series series) {
             try {
                 if(!object.isNull(PARAM_SEASON_ID)) {
-                    Season season = new Season(object.getInt(PARAM_SEASON_ID), series);
-                    if(!object.isNull(PARAM_SEASON_AIR_DATE)) season.setFirstDate(object.getString(PARAM_SEASON_AIR_DATE));
-                    if(!object.isNull(PARAM_SEASON_POSTER_PATH)) season.setPosterPath(object.getString(PARAM_SEASON_POSTER_PATH));
-                    if(!object.isNull(PARAM_SEASON_NUMBER)) season.setNumber(object.getInt(PARAM_SEASON_NUMBER));
-                    return season;
+                    int number=-1;
+                    if(!object.isNull(PARAM_SEASON_NUMBER)) number = object.getInt(PARAM_SEASON_NUMBER);
+                    if(number>0) {
+                        Season season = new Season(object.getInt(PARAM_SEASON_ID), series);
+                        season.setNumber(number);
+                        if (!object.isNull(PARAM_SEASON_AIR_DATE))
+                            season.setFirstDate(object.getString(PARAM_SEASON_AIR_DATE));
+                        if (!object.isNull(PARAM_SEASON_POSTER_PATH))
+                            season.setPosterPath(object.getString(PARAM_SEASON_POSTER_PATH));
+                        return season;
+                    }
+                    else return null;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

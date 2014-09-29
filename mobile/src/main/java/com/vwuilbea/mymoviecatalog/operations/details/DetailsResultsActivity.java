@@ -37,6 +37,7 @@ import com.vwuilbea.mymoviecatalog.model.Season;
 import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
+import com.vwuilbea.mymoviecatalog.operations.details.series.ExpandableListAdapter;
 import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonAdapter;
 import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonItem;
 import com.vwuilbea.mymoviecatalog.util.textjustify.TextViewEx;
@@ -401,8 +402,9 @@ public class DetailsResultsActivity extends Activity {
             for(Season season:series.getSeasons()) {
                 map.put(season, season.getEpisodes());
             }
-            SeasonAdapter adapter = new SeasonAdapter(this,series.getSeasons(),map);
-            testSeason.setText(adapter.getGroupCount()+" seasons");
+            //SeasonAdapter adapter = new SeasonAdapter(this,series.getSeasons(),map);
+            ExpandableListAdapter adapter = new ExpandableListAdapter(this, series.getSeasons());
+            testSeason.setText(adapter.getGroupCount() + " seasons");
             listSeason.setAdapter(adapter);
         }
         else {

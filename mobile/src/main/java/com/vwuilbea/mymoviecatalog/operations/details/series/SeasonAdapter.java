@@ -1,16 +1,13 @@
 package com.vwuilbea.mymoviecatalog.operations.details.series;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.vwuilbea.mymoviecatalog.R;
 import com.vwuilbea.mymoviecatalog.model.Episode;
 import com.vwuilbea.mymoviecatalog.model.Season;
@@ -38,6 +35,18 @@ public class SeasonAdapter extends BaseExpandableListAdapter {
         this.context = context;
         this.seasons = seasons;
         this.episodes = episodes;
+        String msg = "Seasons:\n";
+        for(Season season:seasons) {
+            msg += "Season "+season.getNumber()+" ("+season.getId()+")\n";
+        }
+        msg += "\nEpisodes:\n";
+        for(Season season:episodes.keySet()) {
+            msg += "Season "+season.getNumber()+" ("+season.getId()+")\n";
+            for(Episode episode:episodes.get(season)) {
+                msg+=episode.getNumber()+"-"+episode.getTitle()+"\n";
+            }
+        }
+        Log.d(LOG,msg);
     }
 
     @Override
@@ -62,7 +71,7 @@ public class SeasonAdapter extends BaseExpandableListAdapter {
         final Episode episode = (Episode) getChild(groupPosition, childPosition);
         Log.d(LOG,"childView:"+ episode.getTitle());
 
-        TextView txtListChild = (TextView) convertView.findViewById(R.id.season_text);
+        TextView txtListChild = (TextView) convertView.findViewById(R.id.episode_title);
 
         txtListChild.setText(episode.getTitle());
         return convertView;
