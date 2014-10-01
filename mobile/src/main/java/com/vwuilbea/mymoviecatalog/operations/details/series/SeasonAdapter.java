@@ -43,7 +43,7 @@ public class SeasonAdapter extends BaseExpandableListAdapter {
         for(Season season:episodes.keySet()) {
             msg += "Season "+season.getNumber()+" ("+season.getId()+")\n";
             for(Episode episode:episodes.get(season)) {
-                msg+=episode.getNumber()+"-"+episode.getTitle()+"\n";
+                msg+=episode.getNumber()+"-"+episode.getTitle()+" ("+episode.getId()+")\n";
             }
         }
         Log.d(LOG,msg);
@@ -99,6 +99,11 @@ public class SeasonAdapter extends BaseExpandableListAdapter {
     public long getGroupId(int groupPosition) {
         Log.d(LOG,"getGroupId: "+groupPosition);
         return groupPosition;
+    }
+
+    @Override
+    public long getCombinedGroupId(long groupId) {
+        return groupId;
     }
 
     @Override

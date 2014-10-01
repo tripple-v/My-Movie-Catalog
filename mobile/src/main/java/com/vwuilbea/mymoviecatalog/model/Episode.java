@@ -219,11 +219,11 @@ public class Episode
     public String toString() {
         return "Episode{" +
                 "id=" + id +
-                ", season=" + season +
                 ", number=" + number +
                 ", possessed=" + possessed +
                 ", title='" + title + '\'' +
                 ", date='" + date + '\'' +
+                ", season=" + season +
                 '}';
     }
 

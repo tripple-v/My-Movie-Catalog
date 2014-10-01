@@ -21,8 +21,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.expandingcells.ExpandableListItem;
-import com.example.android.expandingcells.ExpandingListView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.vwuilbea.mymoviecatalog.MovieCatalog;
@@ -37,9 +35,7 @@ import com.vwuilbea.mymoviecatalog.model.Season;
 import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
-import com.vwuilbea.mymoviecatalog.operations.details.series.ExpandableListAdapter;
 import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonAdapter;
-import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonItem;
 import com.vwuilbea.mymoviecatalog.util.textjustify.TextViewEx;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
@@ -51,7 +47,6 @@ import com.vwuilbea.mymoviecatalog.util.RestClient;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -397,14 +392,14 @@ public class DetailsResultsActivity extends Activity {
 
     private void fillSeasons(Video video) {
         if(video instanceof Series) {
-            Series series = (Series) video;
+            List<Season> seasons = ((Series) video).getSeasons();
             HashMap<Season, List<Episode>> map = new HashMap<Season, List<Episode>>();
-            for(Season season:series.getSeasons()) {
+            for(Season season:seasons) {
                 map.put(season, season.getEpisodes());
             }
-            //SeasonAdapter adapter = new SeasonAdapter(this,series.getSeasons(),map);
-            ExpandableListAdapter adapter = new ExpandableListAdapter(this, series.getSeasons());
-            testSeason.setText(adapter.getGroupCount() + " seasons");
+            SeasonAdapter adapter = new SeasonAdapter(this,seasons,map);
+            //ExpandableListAdapter adapter = new ExpandableListAdapter(this, series.getSeasons());
+            testSeason.setText(adapter.getGroupCount() + " seasons"); //A TextView to test adapter
             listSeason.setAdapter(adapter);
         }
         else {

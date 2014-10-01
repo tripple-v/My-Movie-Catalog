@@ -176,6 +176,7 @@ public class SearchResultsActivity
             } else {
                 Log.e(LOG, "No result");
                 noResult=true;
+                TmdbService.sendSearchRequest(query, executionListenerSearchSeries, false);
             }
         }
 
