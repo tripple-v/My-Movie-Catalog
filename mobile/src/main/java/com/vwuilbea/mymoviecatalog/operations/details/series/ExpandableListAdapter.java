@@ -37,18 +37,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
      *   
      */
     public void addItem(Episode episode, Season season) {
+        if(episode==null || season == null) return;
         if (!seasons.contains(season)) {
             seasons.add(season);
         }
         int index = seasons.indexOf(season);
-        List<Episode> ch = seasons.get(index).getEpisodes();
-        ch.add(episode);
-        seasons.get(index).setEpisodes(ch);
+        List<Episode> episodes = seasons.get(index).getEpisodes();
+        episodes.add(episode);
+        seasons.get(index).setEpisodes(episodes);
     }
 
     public Episode getChild(int groupPosition, int childPosition) {
-        List<Episode> ch = seasons.get(groupPosition).getEpisodes();
-        return ch.get(childPosition);
+        List<Episode> episodes = seasons.get(groupPosition).getEpisodes();
+        return episodes.get(childPosition);
     }
 
     public long getChildId(int groupPosition, int childPosition) {
@@ -62,13 +63,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Episode episode = (Episode) getChild(groupPosition, childPosition);
-        TextView childName = null;
+        Episode episode = getChild(groupPosition, childPosition);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_episode_item, null);
         }
-        childName = (TextView) convertView.findViewById(R.id.episode_title);
-        childName.setText(episode.getTitle());
+        TextView childName = (TextView) convertView.findViewById(R.id.episode_title);
+        childName.setText("\t"+episode.getNumber()+" - "+episode.getTitle());
         return convertView;
     }
 
@@ -86,7 +86,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         TextView groupName = null;
-        Season season = (Season) getGroup(groupPosition);
+        Season season = getGroup(groupPosition);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_season_group, null);
         }

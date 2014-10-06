@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textSize="@dimen/subtitle_medium_size_details"
+        android:textSize="@dimen/subtitle_size_details"
         android:textStyle="bold"
         android:text="@string/hello_world"
         tools:ignore="HardcodedText"/>

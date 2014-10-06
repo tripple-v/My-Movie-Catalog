@@ -78,6 +78,7 @@ public class Season
         overview = in.readString();
         posterPath = in.readString();
         firstDate = in.readString();
+        for(Episode episode:episodes) episode.setSeason(this);
     }
 
 
@@ -240,6 +241,7 @@ public class Season
 
     @Override
     protected void addDependencies(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        Log.d(LOG,"addDependencies, "+episodes.size()+" episodes");
         for(Episode episode:episodes) episode.putInDB(dbW, dbR);
     }
 

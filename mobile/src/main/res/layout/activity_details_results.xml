@@ -42,7 +42,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/minimum_margin"
+                android:padding="@dimen/minimum_margin"
                 android:background="@android:color/white">
 
                 <!-- Main layout -->
@@ -390,7 +390,7 @@
                     <ExpandableListView
                         android:id="@+id/season_list"
                         android:layout_width="fill_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="400dp"
                         android:layout_below="@id/test_season"
                         android:choiceMode="singleChoice" />
 

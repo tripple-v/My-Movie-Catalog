@@ -47,6 +47,7 @@ public class Series
         in.readList(seasons, Season.class.getClassLoader());
         lastDate = in.readString();
         inProduction = Boolean.parseBoolean(in.readString());
+        for(Season season:seasons) season.setSeries(this);
     }
 
     public Series(Cursor cursor, SQLiteDatabase dbR) {
@@ -79,18 +80,19 @@ public class Series
 
 
     public void addSeason(Season season) {
-        if(season!=null && !seasons.contains(season)) {
+        if(season!=null && !getSeasons().contains(season)) {
             seasons.add(season);
             season.setSeries(this);
         }
     }
 
     public List<Season> getSeasons() {
+        if(seasons==null) seasons = new ArrayList<Season>();
         return seasons;
     }
 
     public void setSeasons(List<Season> seasons) {
-        this.seasons = seasons;
+        if(seasons!=null) this.seasons = seasons;
     }
 
     public String getLastDate() {
@@ -156,11 +158,26 @@ public class Series
             cursor.moveToFirst();
             do {
                 Season season = new Season(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.SeasonEntry._ID)));
-                season.getFromDb(dbR, true);
-                addSeason(season);
+                if( season.getFromDb(dbR, true) == DatabaseHelper.OK) addSeason(season);
             }
             while (cursor.moveToNext());
         }
+    }
+
+    @Override
+    protected void removeDependencies(SQLiteDatabase dbW, String[] selectionArgs) {
+        super.removeDependencies(dbW, selectionArgs);
+        String selection;
+        //Seasons
+        selection = MovieCatalogContract.SeasonEntry.COLUMN_SERIES_ID+ " LIKE ?";
+        dbW.delete(MovieCatalogContract.SeasonEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
+    @Override
+    protected void addDependencies(SQLiteDatabase dbW, SQLiteDatabase dbR) {
+        super.addDependencies(dbW, dbR);
+        Log.d(LOG,"addDependencies, "+seasons.size()+" seasons");
+        for(Season season:seasons) season.putInDB(dbW, dbR);
     }
 
 

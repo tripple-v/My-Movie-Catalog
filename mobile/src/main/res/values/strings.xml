@@ -77,6 +77,6 @@
     <string name="label_seasons">Seasons</string>
     <string name="label_season_one">Season 1</string>
     <string name="season">Season</string>
-
+    <string name="title_activity_seasons">SeasonsActivity</string>
 
 </resources>

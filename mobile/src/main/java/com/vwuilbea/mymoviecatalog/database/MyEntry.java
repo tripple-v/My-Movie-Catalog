@@ -43,10 +43,17 @@ public abstract class MyEntry {
             long newRowId;
             newRowId = dbW.insert(getTableName(),DatabaseHelper.NULL,getContentValues());
             if (newRowId == getId()) {
+                Log.d(LOG,"new "+getTableName()+" row insert : "+newRowId);
                 //We can add other tables rows
                 addDependencies(dbW, dbR);
             }
-            else return DatabaseHelper.ERROR;
+            else {
+                Log.d(LOG,getTableName()+" row id ( "+newRowId+" ) is different of : "+getId());
+                return DatabaseHelper.ERROR;
+            }
+        }
+        else {
+            Log.d(LOG,getTableName()+" row is already in DB : "+getId());
         }
         return DatabaseHelper.OK;
     }

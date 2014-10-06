@@ -42,6 +42,10 @@ public class Movie
         super(in);
     }
 
+    public Movie(Cursor cursor, SQLiteDatabase dbR) {
+        super(cursor, dbR);
+    }
+
     @Override
     protected String getTableName() {
         return MovieCatalogContract.MovieEntry.TABLE_NAME;
@@ -50,10 +54,6 @@ public class Movie
     @Override
     protected String[] getAllColumns() {
         return MovieCatalogContract.MovieEntry.ALL_COLUMNS;
-    }
-
-    public Movie(Cursor cursor, SQLiteDatabase dbR) {
-        super(cursor, dbR);
     }
 
     protected static List<Movie> getMoviesFromDb(SQLiteDatabase dbR) {
