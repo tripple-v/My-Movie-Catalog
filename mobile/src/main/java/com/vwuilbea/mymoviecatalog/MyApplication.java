@@ -3,10 +3,12 @@ package com.vwuilbea.mymoviecatalog;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.vwuilbea.mymoviecatalog.database.DatabaseHelper;
+import com.vwuilbea.mymoviecatalog.database.MovieCatalogContract;
 import com.vwuilbea.mymoviecatalog.model.Movie;
 import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
@@ -33,9 +35,8 @@ public class MyApplication extends Application {
             public void onReady(SQLiteDatabase dbR, SQLiteDatabase dbW) {
                 setDbR(dbR);
                 setDbW(dbW);
-                addVideos(Video.getVideosFromDb(dbR));
-                addVideos(new ArrayList<Series>());
-                Log.d(LOG, "Get " + allVideos.size() + " movies");
+                addVideos(getVideosFromDb(dbR));
+                Log.d(LOG, "Get " + allVideos.size() + " videos");
                 listener.onReady();
             }
 
@@ -60,6 +61,7 @@ public class MyApplication extends Application {
                 if (res == ERROR) return ERROR;
             }
             allVideos.add(video);
+            Log.d(LOG,"Video added: "+video);
         }
         return OK;
     }
@@ -67,7 +69,7 @@ public class MyApplication extends Application {
     public void addVideos(List<? extends Video> videos) {
         for (Video video : videos)
             if (video != null && !allVideos.contains(video))
-                allVideos.add(video);
+                addVideo(video, false);
     }
 
     public int removeVideo(Video video, boolean fromDB) {
@@ -105,6 +107,37 @@ public class MyApplication extends Application {
 
     public interface DBListener {
         public void onReady();
+    }
+
+    public static List<Video> getVideosFromDb(SQLiteDatabase dbR) {
+        ArrayList<Video> videos = new ArrayList<Video>();
+        videos.addAll(getMoviesFromDb(dbR));
+        videos.addAll(getSeriesFromDb(dbR));
+        return videos;
+    }
+
+    protected static List<Movie> getMoviesFromDb(SQLiteDatabase dbR) {
+        ArrayList<Movie> movies = new ArrayList<Movie>();
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = MovieCatalogContract.MovieEntry.ALL_COLUMNS;
+        Cursor cursor = dbR.query(MovieCatalogContract.MovieEntry.TABLE_NAME,projection,null,null,null,null,null);
+        while(cursor.moveToNext()) movies.add(new Movie(cursor, dbR));
+        return movies;
+    }
+
+    protected static List<Series> getSeriesFromDb(SQLiteDatabase dbR) {
+        ArrayList<Series> series = new ArrayList<Series>();
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = MovieCatalogContract.SeriesEntry.ALL_COLUMNS;
+        Cursor cursor = dbR.query(MovieCatalogContract.SeriesEntry.TABLE_NAME,projection,null,null,null,null,null);
+        cursor.moveToFirst();
+        do {
+            Series s = new Series(cursor, dbR);
+            series.add(s);
+        } while(cursor.moveToNext());
+        return series;
     }
 
 }

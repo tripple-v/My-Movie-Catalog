@@ -53,7 +53,6 @@ public class Actor
     @Override
     protected void initFromCursor(Cursor cursor, SQLiteDatabase dbR) {
         super.initFromCursor(cursor, dbR);
-        Log.d(LOG, "initFromCursor, actor : " + this);
     }
 
     @Override

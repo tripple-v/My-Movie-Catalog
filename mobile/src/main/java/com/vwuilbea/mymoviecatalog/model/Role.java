@@ -106,7 +106,6 @@ public class Role
 
 
     public int getFromDb(SQLiteDatabase dbR, boolean init) {
-        Log.d(LOG, "getFromDb, role : "+getRoleId());
         String[] projection = MovieCatalogContract.RoleEntry.ALL_COLUMNS;
         String WHERE = MovieCatalogContract.RoleEntry._ID + "=?";
         String[] selectionArgs = {String.valueOf(getRoleId())};
@@ -129,7 +128,6 @@ public class Role
     private void initFromCursor(SQLiteDatabase dbR, Cursor cursor) {
         cursor.moveToFirst();
         setCharacter(cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.RoleEntry.COLUMN_CHARACTER)));
-        Log.d(LOG, "initFromCursor, character : " + getCharacter());
         addActorFromDB(dbR, cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.RoleEntry.COLUMN_ACTOR_ID)));
     }
 
@@ -171,4 +169,5 @@ public class Role
                 ", character='" + character + '\'' +
                 '}';
     }
+
 }

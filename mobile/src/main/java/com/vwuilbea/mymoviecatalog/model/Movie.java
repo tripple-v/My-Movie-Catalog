@@ -56,15 +56,5 @@ public class Movie
         return MovieCatalogContract.MovieEntry.ALL_COLUMNS;
     }
 
-    protected static List<Movie> getMoviesFromDb(SQLiteDatabase dbR) {
-        ArrayList<Movie> movies = new ArrayList<Movie>();
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = MovieCatalogContract.MovieEntry.ALL_COLUMNS;
-        Cursor cursor = dbR.query(MovieCatalogContract.MovieEntry.TABLE_NAME,projection,null,null,null,null,null);
-        while(cursor.moveToNext()) movies.add(new Movie(cursor, dbR));
-        return movies;
-    }
-
 }
 

@@ -225,7 +225,8 @@ public class Season
                 "id=" + id +
                 ", number=" + number +
                 ", possessed=" + possessed +
-                ", series=" + series +
+                ", series=" + series.getTitle() +
+                ", "+ episodes.size() + " episodes" +
                 '}';
     }
 
@@ -268,15 +269,17 @@ public class Season
                 null,
                 null
         );
-        Log.d(LOG, "cursor count:"+cursor.getCount());
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             do {
                 Episode episode = new Episode(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.SeasonEntry._ID)));
-                episode.getFromDb(dbR, true);
-                addEpisode(episode);
+                if(episode.getFromDb(dbR, true)==DatabaseHelper.OK) addEpisode(episode);
+                else Log.w(LOG, "multiple episodes found for season "+getNumber()+" of series "+getSeries().getTitle());
             }
             while (cursor.moveToNext());
+        }
+        else {
+            Log.w(LOG, "No episode found in season " + getNumber());
         }
     }
 

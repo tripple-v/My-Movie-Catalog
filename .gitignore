@@ -39,3 +39,4 @@ Icon
 .gradle/1.12/taskArtifacts/cache.properties.lock
 local.properties
 build/
+*.bin

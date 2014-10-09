@@ -52,6 +52,8 @@ public class Series
 
     public Series(Cursor cursor, SQLiteDatabase dbR) {
         super(cursor, dbR);
+        addSeasonsFromDB(dbR);
+        Log.d(LOG,"New Series: "+ toString());
     }
 
     @Override
@@ -75,7 +77,6 @@ public class Series
         super.initFromCursor(cursor, dbR);
         lastDate = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.SeriesEntry.COLUMN_LAST_DATE));
         inProduction = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.SeriesEntry.COLUMN_IN_PRODUCTION)) > 0;
-        addSeasonsFromDB(dbR);
     }
 
 
@@ -87,7 +88,6 @@ public class Series
     }
 
     public List<Season> getSeasons() {
-        if(seasons==null) seasons = new ArrayList<Season>();
         return seasons;
     }
 
@@ -114,7 +114,8 @@ public class Series
     @Override
     public String toString() {
         return "Series{" +
-                super.toString() +
+                super.toString() + ", " +
+                seasons.size() + " seasons" +
                 '}';
     }
 
@@ -126,16 +127,6 @@ public class Series
     @Override
     protected String[] getAllColumns() {
         return MovieCatalogContract.SeriesEntry.ALL_COLUMNS;
-    }
-
-    protected static List<Series> getSeriesFromDb(SQLiteDatabase dbR) {
-        ArrayList<Series> series = new ArrayList<Series>();
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = MovieCatalogContract.SeriesEntry.ALL_COLUMNS;
-        Cursor cursor = dbR.query(MovieCatalogContract.SeriesEntry.TABLE_NAME,projection,null,null,null,null,null);
-        while(cursor.moveToNext()) series.add(new Series(cursor, dbR));
-        return series;
     }
 
     protected void addSeasonsFromDB(SQLiteDatabase dbR) {
@@ -153,14 +144,19 @@ public class Series
                 null,
                 null
         );
-        Log.d(LOG, "cursor count:"+cursor.getCount());
         if (cursor.getCount() > 0) {
+            Log.d(LOG, cursor.getCount()+" seasons found in series "+getTitle());
             cursor.moveToFirst();
             do {
                 Season season = new Season(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.SeasonEntry._ID)));
                 if( season.getFromDb(dbR, true) == DatabaseHelper.OK) addSeason(season);
+                else Log.w(LOG, "multiple seasons found for season "+season.getNumber()+" of series "+getTitle());
             }
             while (cursor.moveToNext());
+            Log.d(LOG, seasons.size()+" seasons added in series "+getTitle());
+        }
+        else {
+            Log.w(LOG,"No season found in series " + getTitle());
         }
     }
 

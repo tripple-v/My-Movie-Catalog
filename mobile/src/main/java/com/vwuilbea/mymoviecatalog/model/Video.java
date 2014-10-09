@@ -506,13 +506,6 @@ public abstract class Video
         }
     };
 
-    public static List<Video> getVideosFromDb(SQLiteDatabase dbR) {
-        ArrayList<Video> videos = new ArrayList<Video>();
-        videos.addAll(Movie.getMoviesFromDb(dbR));
-        videos.addAll(Series.getSeriesFromDb(dbR));
-        return videos;
-    }
-
     protected <T extends Entity> List<T> addEntityFromDB(SQLiteDatabase dbR, String tableName, Class<T> clazz) {
         String[] projection = {MovieCatalogContract.VideoEntityEntry.COLUMN_ENTITY_ID};
         String WHERE = MovieCatalogContract.VideoEntityEntry.COLUMN_VIDEO_ID + "=?";
@@ -532,18 +525,15 @@ public abstract class Video
                 e.printStackTrace();
             }
         } while(cursor.moveToNext());
-        Log.d(LOG,"addEntityFromDB, nb entities:"+entities.size());
         return entities;
     }
 
     protected void addGenreFromDB(SQLiteDatabase dbR) {
-        Log.d(LOG, "addGenreFromDB");
         List<Genre> entities = addEntityFromDB(dbR, MovieCatalogContract.VideoGenreEntry.TABLE_NAME, Genre.class);
         for(Genre entity:entities) addGenre(entity);
     }
 
     protected void addRoleFromDB(SQLiteDatabase dbR) {
-        Log.d(LOG, "addRoleFromDB");
         String[] projection = {MovieCatalogContract.RoleEntry._ID};
         String WHERE = MovieCatalogContract.RoleEntry.COLUMN_VIDEO_ID + "=?";
         String[] selectionArgs = {String.valueOf(getId())};
@@ -557,7 +547,6 @@ public abstract class Video
                 null,
                 null
         );
-        Log.d(LOG, "cursor count:"+cursor.getCount());
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             do {

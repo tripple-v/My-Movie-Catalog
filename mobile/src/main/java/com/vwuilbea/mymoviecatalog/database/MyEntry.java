@@ -42,14 +42,12 @@ public abstract class MyEntry {
             // Insert the new row, returning the primary key value of the new row
             long newRowId;
             newRowId = dbW.insert(getTableName(),DatabaseHelper.NULL,getContentValues());
-            if (newRowId == getId()) {
-                Log.d(LOG,"new "+getTableName()+" row insert : "+newRowId);
-                //We can add other tables rows
-                addDependencies(dbW, dbR);
-            }
-            else {
+            Log.d(LOG,"new "+getTableName()+" row insert : "+newRowId);
+            //We can add other tables rows
+            addDependencies(dbW, dbR);
+            if (newRowId != getId()) {
                 Log.d(LOG,getTableName()+" row id ( "+newRowId+" ) is different of : "+getId());
-                return DatabaseHelper.ERROR;
+                //return DatabaseHelper.ERROR;
             }
         }
         else {
