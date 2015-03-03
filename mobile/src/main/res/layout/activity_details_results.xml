@@ -368,31 +368,32 @@
                 >
                     <!-- android:layout_below="@id/layout_location" -->
 
-                    <TextView
-                        android:id="@+id/label_seasons"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/minimum_margin"
-                        android:layout_marginStart="@dimen/minimum_margin"
-                        android:layout_marginTop="@dimen/standard_margin"
-                        android:layout_marginBottom="@dimen/standard_margin"
-                        android:text="@string/label_seasons"
-                        android:textSize="@dimen/section_title_size_details"
-                        tools:ignore="HardcodedText" />
-
-                    <TextView
-                        android:id="@+id/test_season"
+                    <LinearLayout
+                        android:id="@+id/layout_seasons_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/label_seasons"/>
+                        android:orientation="horizontal"
+                        android:onClick="onClick">
 
-                    <!-- Season list -->
-                    <ExpandableListView
-                        android:id="@+id/season_list"
-                        android:layout_width="fill_parent"
-                        android:layout_height="400dp"
-                        android:layout_below="@id/test_season"
-                        android:choiceMode="singleChoice" />
+                        <TextView
+                            android:id="@+id/label_seasons"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/minimum_margin"
+                            android:layout_marginStart="@dimen/minimum_margin"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:layout_marginBottom="@dimen/standard_margin"
+                            android:text="@string/label_seasons"
+                            android:textSize="@dimen/section_title_size_details"
+                            tools:ignore="HardcodedText" />
+
+                        <ImageButton
+                            android:id="@+id/btn_seasons"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:drawable/ic_menu_view"/>
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 

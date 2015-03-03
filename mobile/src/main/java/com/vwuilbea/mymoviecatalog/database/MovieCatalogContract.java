@@ -115,7 +115,7 @@ public class MovieCatalogContract {
 
     }
 
-    /* Inner class that defines the abstract class Video */
+    /* Inner class that defines the abstract class Person */
     public static abstract class PersonEntry implements BaseColumns {
         public static final String COLUMN_FIRSTNAME = "firstname";
         public static final String COLUMN_BIRTHDAY = "birthday";

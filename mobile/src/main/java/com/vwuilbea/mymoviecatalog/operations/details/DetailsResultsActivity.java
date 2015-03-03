@@ -35,8 +35,8 @@ import com.vwuilbea.mymoviecatalog.model.Season;
 import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
-import com.vwuilbea.mymoviecatalog.operations.details.series.ExpandableListAdapter;
 import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonAdapter;
+import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonsActivity;
 import com.vwuilbea.mymoviecatalog.util.textjustify.TextViewEx;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
 import com.vwuilbea.mymoviecatalog.tmdb.responses.credits.CreditsResponse;
@@ -52,7 +52,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class DetailsResultsActivity extends Activity {
+public class DetailsResultsActivity
+        extends Activity
+        implements View.OnClickListener
+{
 
     private static final String LOG = DetailsResultsActivity.class.getSimpleName();
     private static String PREFIX_IMAGE = TmdbService.PREFIX_IMAGE + TmdbService.POSTER_SIZES[TmdbService.POSTER_SIZES.length - 1];
@@ -99,8 +102,6 @@ public class DetailsResultsActivity extends Activity {
     private RadioGroup radioGroupQuality;
     private Switch switchDimension;
     private RelativeLayout layoutSeasons;
-    private TextView testSeason;
-    private ExpandableListView listSeason;
 
     private RestClient.ExecutionListener creditsCallback = new RestClient.ExecutionListener() {
         @Override
@@ -306,8 +307,6 @@ public class DetailsResultsActivity extends Activity {
         radioGroupQuality = (RadioGroup) findViewById(R.id.group_quality);
         switchDimension = (Switch) findViewById(R.id.switch_dimension);
         layoutSeasons = (RelativeLayout) findViewById(R.id.layout_seasons);
-        testSeason = (TextView) findViewById(R.id.test_season);
-        listSeason = (ExpandableListView) findViewById(R.id.season_list);
 
         RadioButton radioButtonLow = (RadioButton) findViewById(R.id.quality_low);
         radioButtonLow.setId(Video.Quality.LOW.getId());
@@ -388,24 +387,6 @@ public class DetailsResultsActivity extends Activity {
         if (overview != null && !overview.equals("null")) textOverview.setText(overview,true);
         radioGroupQuality.check(quality);
         switchDimension.setChecked(is3D);
-        fillSeasons(video);
-    }
-
-    private void fillSeasons(Video video) {
-        if(video instanceof Series) {
-            List<Season> seasons = ((Series) video).getSeasons();
-            HashMap<Season, List<Episode>> map = new HashMap<Season, List<Episode>>();
-            for(Season season:seasons) {
-                map.put(season, season.getEpisodes());
-            }
-            //SeasonAdapter adapter = new SeasonAdapter(this,seasons,map);
-            ExpandableListAdapter adapter = new ExpandableListAdapter(this, seasons);
-            testSeason.setText(adapter.getGroupCount() + " seasons"); //A TextView to test adapter
-            listSeason.setAdapter(adapter);
-        }
-        else {
-            layoutSeasons.setVisibility(View.INVISIBLE);
-        }
     }
 
     private void fillRoles(Video video) {
@@ -524,4 +505,19 @@ public class DetailsResultsActivity extends Activity {
         }
     };
 
+    private void seeSeasons() {
+        Intent i = new Intent(this, SeasonsActivity.class);
+        i.putExtra(SeasonsActivity.PARAM_SERIES, video);
+        startActivity(i);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.layout_seasons_title:
+                seeSeasons();
+                break;
+            default: break;
+        }
+    }
 }

@@ -4,14 +4,40 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ExpandableListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.vwuilbea.mymoviecatalog.R;
+import com.vwuilbea.mymoviecatalog.model.Season;
+import com.vwuilbea.mymoviecatalog.model.Series;
 
 public class SeasonsActivity extends Activity {
+
+    public static final String PARAM_SERIES = "series";
+    public static final String PARAM_SEASON = "season";
+
+    private Series series;
+    private Season season;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seasons);
+        ExpandableListView listSeason = (ExpandableListView) findViewById(R.id.season_list);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.containsKey(PARAM_SERIES)) {
+                series = extras.getParcelable(PARAM_SERIES);
+                SeasonAdapter adapter = new SeasonAdapter(this, series.getSeasons());
+                listSeason.setAdapter(adapter);
+            } else if (extras.containsKey(PARAM_SEASON)) {
+                season = extras.getParcelable(PARAM_SEASON);
+            }
+        } else {
+            Toast.makeText(this, "No extras", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
 
