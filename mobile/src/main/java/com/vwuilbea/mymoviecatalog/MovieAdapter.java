@@ -41,6 +41,7 @@ public class MovieAdapter extends ArrayAdapter<Video> {
     private boolean contextSearch=true;
     private View.OnClickListener clickListener;
     private static int[] logosHD =  { R.drawable.logo_720p, R.drawable.logo_1080p, R.drawable.logo_4k};
+    private static int[] iconsFormat =  { R.drawable.icon_format_digital, R.drawable.icon_format_dvd, R.drawable.icon_format_bluray};
 
     public MovieAdapter(Context context, int resourceId) {
         this(context,resourceId,new ArrayList<Video>());
@@ -154,12 +155,15 @@ public class MovieAdapter extends ArrayAdapter<Video> {
             else {
                 holder.logoHD.setVisibility(View.INVISIBLE);
             }
+            int format = video.getFormat();
+            holder.iconFormat.setImageResource(iconsFormat[format]);
         }
         else {
             holder.cornerButton.setImageResource(android.R.drawable.ic_input_add);
             holder.cornerButton.setContentDescription(ADD);
             holder.logo3d.setVisibility(View.INVISIBLE);
             holder.logoHD.setVisibility(View.INVISIBLE);
+            holder.iconFormat.setVisibility(View.INVISIBLE);
         }
         holder.cornerButton.setTag(video);
         if(clickListener !=null) holder.cornerButton.setOnClickListener(clickListener);
@@ -182,6 +186,7 @@ public class MovieAdapter extends ArrayAdapter<Video> {
         TextView videoType;
         ImageView logo3d;
         ImageView logoHD;
+        ImageView iconFormat;
 
         public SearchHolder(View vi) {
             thumbPoster = (ImageView)vi.findViewById(R.id.item_thumb_poster);
@@ -194,6 +199,7 @@ public class MovieAdapter extends ArrayAdapter<Video> {
             videoType = (TextView) vi.findViewById(R.id.item_video_type);
             logo3d = (ImageView) vi.findViewById(R.id.item_3d);
             logoHD = (ImageView) vi.findViewById(R.id.item_quality);
+            iconFormat = (ImageView) vi.findViewById(R.id.item_format);
         }
     }
 }

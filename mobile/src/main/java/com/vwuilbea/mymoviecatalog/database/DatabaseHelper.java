@@ -21,7 +21,7 @@ public class DatabaseHelper
     public static final int ERROR = -30;
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     // Database Name
     private static final String DATABASE_NAME = "movieCatalog.db";

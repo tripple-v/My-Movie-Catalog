@@ -115,13 +115,26 @@
         android:layout_marginLeft="@dimen/minimum_margin"/>
 
     <ImageView
+        android:id="@+id/item_format"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:src="@drawable/icon_format_digital"
+        android:layout_below="@+id/rating_bar"
+        android:layout_toEndOf="@id/item_quality"
+        android:layout_toRightOf="@id/item_quality"
+        android:layout_alignBottom="@id/item_video_type"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginStart="@dimen/minimum_margin"
+        android:layout_marginLeft="@dimen/minimum_margin"/>
+
+    <ImageView
         android:id="@+id/item_3d"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:src="@drawable/logo_3d"
         android:layout_below="@+id/rating_bar"
-        android:layout_toEndOf="@id/item_quality"
-        android:layout_toRightOf="@id/item_quality"
+        android:layout_toEndOf="@id/item_format"
+        android:layout_toRightOf="@id/item_format"
         android:layout_alignBottom="@id/item_video_type"
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginStart="@dimen/minimum_margin"

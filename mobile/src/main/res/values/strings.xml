@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- General -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+
     <!-- Titles -->
     <string name="app_name">My Movie Catalog</string>
     <string name="title_activity_add_to_db" translatable="false">AddToDBActivity</string>
@@ -66,6 +72,10 @@
     <string name="quality_720">720p</string>
     <string name="quality_1080">1080p</string>
     <string name="quality_4k">4k</string>
+    <string name="label_format">Format</string>
+    <string name="format_numeric" translatable="false">Digital</string>
+    <string name="format_dvd" translatable="false">DVD</string>
+    <string name="format_bluray" translatable="false">Blu-Ray</string>
     <string name="movie">movie</string>
     <string name="series">series</string>
     <string name="sort">Sort videos</string>
@@ -77,6 +87,10 @@
     <string name="label_seasons">Seasons</string>
     <string name="label_season_one">Season 1</string>
     <string name="season">Season</string>
-    <string name="title_activity_seasons">SeasonsActivity</string>
+    <string name="title_activity_seasons" translatable="false">SeasonsActivity</string>
+    <string name="label_comment">Comment</string>
+    <string name="comment_hint">Add your comments here</string>
+    <string name="add_comment">Write comment</string>
+    <string name="no_comment">No comment</string>
 
 </resources>

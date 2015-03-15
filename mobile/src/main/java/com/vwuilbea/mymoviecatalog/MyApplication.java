@@ -132,11 +132,7 @@ public class MyApplication extends Application {
         // you will actually use after this query.
         String[] projection = MovieCatalogContract.SeriesEntry.ALL_COLUMNS;
         Cursor cursor = dbR.query(MovieCatalogContract.SeriesEntry.TABLE_NAME,projection,null,null,null,null,null);
-        cursor.moveToFirst();
-        do {
-            Series s = new Series(cursor, dbR);
-            series.add(s);
-        } while(cursor.moveToNext());
+        while(cursor.moveToNext()) series.add(new Series(cursor, dbR));
         return series;
     }
 

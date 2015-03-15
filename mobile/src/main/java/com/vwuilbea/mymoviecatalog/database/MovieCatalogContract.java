@@ -50,15 +50,18 @@ public class MovieCatalogContract {
         public static final String COLUMN_COVER_PATH = "cover_path";
         public static final String COLUMN_BUDGET = "budget";
         public static final String COLUMN_QUALITY = "quality";
+        public static final String COLUMN_FORMAT = "format";
         public static final String COLUMN_THREE_D = "three_d";
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_VOTE_COUNT = "vote_count";
         public static final String COLUMN_VOTE_PRIVATE = "vote_private";
+        public static final String COLUMN_COMMENT = "comment";
 
         public static final String[] ALL_COLUMNS = {
                 _ID, COLUMN_TITLE, COLUMN_ORIGINAL_TITLE, COLUMN_TAG_LINE, COLUMN_OVERVIEW, COLUMN_RUNTIME,
                 COLUMN_DATE, COLUMN_LANGUAGE, COLUMN_SUBTITLE, COLUMN_LOCATION_ID, COLUMN_ADULT, COLUMN_POSTER_PATH,
-                COLUMN_COVER_PATH, COLUMN_BUDGET, COLUMN_QUALITY, COLUMN_THREE_D, COLUMN_VOTE_AVERAGE, COLUMN_VOTE_COUNT, COLUMN_VOTE_PRIVATE
+                COLUMN_COVER_PATH, COLUMN_BUDGET, COLUMN_QUALITY, COLUMN_FORMAT, COLUMN_THREE_D,
+                COLUMN_VOTE_AVERAGE, COLUMN_VOTE_COUNT, COLUMN_VOTE_PRIVATE, COLUMN_COMMENT
         };
 
         // Movie table Create Statements
@@ -78,10 +81,12 @@ public class MovieCatalogContract {
                 + COLUMN_COVER_PATH + TYPE_TEXT + ","
                 + COLUMN_BUDGET + TYPE_INTEGER + ","
                 + COLUMN_QUALITY + TYPE_INTEGER + ","
+                + COLUMN_FORMAT + TYPE_INTEGER + ","
                 + COLUMN_THREE_D + TYPE_BOOLEAN + ","
                 + COLUMN_VOTE_AVERAGE+ TYPE_REAL + ","
                 + COLUMN_VOTE_COUNT+ TYPE_INTEGER + ","
-                + COLUMN_VOTE_PRIVATE+ TYPE_REAL
+                + COLUMN_VOTE_PRIVATE+ TYPE_REAL + ","
+                + COLUMN_COMMENT+ TYPE_TEXT
                 + "%s)";
     }
 

@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -79,10 +80,12 @@ public class DetailsSeriesResponse {
                     runtimes.add(array.getInt(i));
                 }
                 int runtimeAverage=0;
-                for(int runtime:runtimes) {
-                    runtimeAverage+=runtime;
+                if(runtimes.size()>0) {
+                    for(int runtime:runtimes) {
+                        runtimeAverage+=runtime;
+                    }
+                    runtimeAverage/=runtimes.size();
                 }
-                runtimeAverage/=runtimes.size();
                 series.setRuntime(runtimeAverage);
             }
 

@@ -54,4 +54,14 @@
     <string name="sort_by_rating">Trier par note</string>
     <string name="sort_error">Une erreur est survenue durant le tri</string>
     <string name="label_location">Emplacement</string>
+    <string name="cancel">Annuler</string>
+    <string name="comment_hint">Ajouter votre commentaire ici</string>
+    <string name="label_comment">Commentaires</string>
+    <string name="label_format">Format</string>
+    <string name="label_season_one">Saison 1</string>
+    <string name="label_seasons">Saisons</string>
+    <string name="no">Non</string>
+    <string name="ok">Ok</string>
+    <string name="season">Saison</string>
+    <string name="yes">Oui</string>
 </resources>

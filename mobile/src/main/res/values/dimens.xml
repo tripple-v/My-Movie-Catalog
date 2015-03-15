@@ -38,5 +38,6 @@
     <dimen name="thumb_height_details">150dp</dimen>
     <dimen name="thumb_width_details">100dp</dimen>
     <dimen name="icon_size">20dp</dimen>
+    <dimen name="btn_height">20dp</dimen>
 
 </resources>

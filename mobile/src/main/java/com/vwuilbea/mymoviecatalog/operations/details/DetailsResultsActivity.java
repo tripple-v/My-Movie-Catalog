@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
-import android.widget.ExpandableListView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -27,7 +29,6 @@ import com.vwuilbea.mymoviecatalog.MovieCatalog;
 import com.vwuilbea.mymoviecatalog.MyApplication;
 import com.vwuilbea.mymoviecatalog.R;
 import com.vwuilbea.mymoviecatalog.model.Actor;
-import com.vwuilbea.mymoviecatalog.model.Episode;
 import com.vwuilbea.mymoviecatalog.model.Genre;
 import com.vwuilbea.mymoviecatalog.model.Movie;
 import com.vwuilbea.mymoviecatalog.model.Role;
@@ -35,7 +36,6 @@ import com.vwuilbea.mymoviecatalog.model.Season;
 import com.vwuilbea.mymoviecatalog.model.Series;
 import com.vwuilbea.mymoviecatalog.model.Video;
 import com.vwuilbea.mymoviecatalog.operations.add.AddToDBActivity;
-import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonAdapter;
 import com.vwuilbea.mymoviecatalog.operations.details.series.SeasonsActivity;
 import com.vwuilbea.mymoviecatalog.util.textjustify.TextViewEx;
 import com.vwuilbea.mymoviecatalog.tmdb.TmdbService;
@@ -49,7 +49,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class DetailsResultsActivity
@@ -100,8 +99,10 @@ public class DetailsResultsActivity
     private RatingBar ratingBarPrivate;
     private TextViewEx textOverview;
     private RadioGroup radioGroupQuality;
+    private RadioGroup radioGroupFormat;
     private Switch switchDimension;
     private RelativeLayout layoutSeasons;
+    private TextView textComment;
 
     private RestClient.ExecutionListener creditsCallback = new RestClient.ExecutionListener() {
         @Override
@@ -222,6 +223,14 @@ public class DetailsResultsActivity
         public void aa(){}
     };
 
+    private RadioGroup.OnCheckedChangeListener formatChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            video.setFormat(checkedId);
+        }
+        public void aa(){}
+    };
+
     private CompoundButton.OnCheckedChangeListener dimensionChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -258,6 +267,7 @@ public class DetailsResultsActivity
             isVideoInDB = videos.contains(video);
             ratingBarPrivate.setOnRatingBarChangeListener(ratingBarChangeListener);
             radioGroupQuality.setOnCheckedChangeListener(qualityChangeListener);
+            radioGroupFormat.setOnCheckedChangeListener(formatChangeListener);
             switchDimension.setOnCheckedChangeListener(dimensionChangeListener);
             initMapRequests();
             setTitle(video.getTitle());
@@ -305,8 +315,11 @@ public class DetailsResultsActivity
         coverImage = (ImageView) findViewById(R.id.image_cover);
         posterImage = (ImageView) findViewById(R.id.image_poster);
         radioGroupQuality = (RadioGroup) findViewById(R.id.group_quality);
+        radioGroupFormat = (RadioGroup) findViewById(R.id.group_format);
         switchDimension = (Switch) findViewById(R.id.switch_dimension);
         layoutSeasons = (RelativeLayout) findViewById(R.id.layout_seasons);
+        if(isMovie) layoutSeasons.setVisibility(View.INVISIBLE);
+        textComment = (TextView) findViewById(R.id.text_comment);
 
         RadioButton radioButtonLow = (RadioButton) findViewById(R.id.quality_low);
         radioButtonLow.setId(Video.Quality.LOW.getId());
@@ -322,6 +335,15 @@ public class DetailsResultsActivity
 
         RadioButton radioButton4k = (RadioButton) findViewById(R.id.quality_4k);
         radioButton4k.setId(Video.Quality.ULTRAHD.getId());
+
+        RadioButton radioButtonFormatNum = (RadioButton) findViewById(R.id.format_numeric);
+        radioButtonFormatNum.setId(Video.Format.NUMERIC.getId());
+
+        RadioButton radioButtonFormatDVD = (RadioButton) findViewById(R.id.format_dvd);
+        radioButtonFormatDVD.setId(Video.Format.DVD.getId());
+
+        RadioButton radioButtonFormatBR = (RadioButton) findViewById(R.id.format_bluray);
+        radioButtonFormatBR.setId(Video.Format.BLURAY.getId());
     }
 
     @Override
@@ -352,17 +374,21 @@ public class DetailsResultsActivity
         String runtime = minutesToHours(video.getRuntime());
         String oldDate = video.getReleaseDate();
         String newDate = oldDate;
+        String comment = video.getComment();
         float publicRating = video.getVoteAverage();
         float privateRating = video.getVotePrivate();
         int quality = video.getQuality();
+        int format = video.getFormat();
         boolean is3D = video.isThreeD();
         if(video.getCountries().size()>0) {
             runtime += " - " + video.getCountries().get(0).getName();
         }
         try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(oldDate);
-            DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM);
-            newDate = dateFormatter.format(date);
+            if(oldDate!=null) {
+                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(oldDate);
+                DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM);
+                newDate = dateFormatter.format(date);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -386,7 +412,9 @@ public class DetailsResultsActivity
         ratingBarPrivate.setRating(privateRating);
         if (overview != null && !overview.equals("null")) textOverview.setText(overview,true);
         radioGroupQuality.check(quality);
+        radioGroupFormat.check(format);
         switchDimension.setChecked(is3D);
+        if(comment!=null) textComment.setText(comment);
     }
 
     private void fillRoles(Video video) {
@@ -481,8 +509,8 @@ public class DetailsResultsActivity
     private void deleteVideo() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.confirmation))
-                .setPositiveButton("Yes", removeListener)
-                .setNegativeButton("No", removeListener)
+                .setPositiveButton(R.string.yes, removeListener)
+                .setNegativeButton(R.string.no, removeListener)
                 .show();
     }
 
@@ -511,11 +539,41 @@ public class DetailsResultsActivity
         startActivity(i);
     }
 
+    private void addComment() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle(R.string.label_comment);
+        alert.setMessage(R.string.comment_hint);
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        if(video.getComment()!=null) input.setText(video.getComment());
+        alert.setView(input);
+
+        alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String value = input.getText().toString();
+                video.setComment(value);
+                textComment.setText(value);
+            }
+        });
+
+        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+        alert.show();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout_seasons_title:
                 seeSeasons();
+                break;
+            case R.id.button_comment:
+                addComment();
                 break;
             default: break;
         }

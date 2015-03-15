@@ -47,11 +47,34 @@ public abstract class Video
         }
     }
 
+    public enum Format {
+        NUMERIC(0, "Numeric"),
+        DVD(1, "DVD"),
+        BLURAY(2, "Blu-Ray");
+
+        private int id;
+        private String name;
+
+        Format(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     protected int id;
     protected String title;
     protected String originalTitle;
     protected String tagline;
     protected String overview;
+    protected String comment;
     protected int runtime;
     protected String releaseDate;
     protected List<Genre> genres = new ArrayList<Genre>();
@@ -67,6 +90,7 @@ public abstract class Video
     protected String coverPath;
     protected int budget;
     protected int quality = Quality.NORMAL.getId();
+    protected int format = Format.NUMERIC.getId();
     protected boolean threeD = false;
     protected float voteAverage;
     protected int voteCount;
@@ -78,8 +102,11 @@ public abstract class Video
     }
 
     public Video(Cursor cursor, SQLiteDatabase dbR) {
-        this(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry._ID)));
-        initFromCursor(cursor, dbR);
+        super();
+        if(cursor.getCount()>0) {
+            this.id = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.MovieEntry._ID));
+            initFromCursor(cursor, dbR);
+        }
     }
 
     /*
@@ -92,6 +119,7 @@ public abstract class Video
         originalTitle = in.readString();
         tagline = in.readString();
         overview = in.readString();
+        comment = in.readString();
         runtime = in.readInt();
         releaseDate = in.readString();
         in.readList(genres, Genre.class.getClassLoader());
@@ -107,6 +135,7 @@ public abstract class Video
         coverPath = in.readString();
         budget = in.readInt();
         quality = in.readInt();
+        format = in.readInt();
         threeD = Boolean.parseBoolean(in.readString());
         voteAverage = in.readFloat();
         voteCount = in.readInt();
@@ -127,6 +156,7 @@ public abstract class Video
         dest.writeString(originalTitle);
         dest.writeString(tagline);
         dest.writeString(overview);
+        dest.writeString(comment);
         dest.writeInt(runtime);
         dest.writeString(releaseDate);
         dest.writeList(genres);
@@ -142,6 +172,7 @@ public abstract class Video
         dest.writeString(coverPath);
         dest.writeInt(budget);
         dest.writeInt(quality);
+        dest.writeInt(format);
         dest.writeString(String.valueOf(threeD));
         dest.writeFloat(voteAverage);
         dest.writeInt(voteCount);
@@ -155,6 +186,7 @@ public abstract class Video
         values.put(MovieCatalogContract.VideoEntry.COLUMN_ORIGINAL_TITLE, originalTitle);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_TAG_LINE, tagline);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_OVERVIEW, overview);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_COMMENT, comment);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_RUNTIME, runtime);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_DATE, releaseDate);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_LANGUAGE, language);
@@ -167,6 +199,7 @@ public abstract class Video
         values.put(MovieCatalogContract.VideoEntry.COLUMN_COVER_PATH, coverPath);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_BUDGET, budget);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_QUALITY, quality);
+        values.put(MovieCatalogContract.VideoEntry.COLUMN_FORMAT, format);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_THREE_D, threeD);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_VOTE_AVERAGE, voteAverage);
         values.put(MovieCatalogContract.VideoEntry.COLUMN_VOTE_COUNT, voteCount);
@@ -180,6 +213,7 @@ public abstract class Video
         originalTitle = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_ORIGINAL_TITLE));
         tagline = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_TAG_LINE));
         overview = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_OVERVIEW));
+        comment = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_COMMENT));
         runtime = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_RUNTIME));
         releaseDate = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_DATE));
         language = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_LANGUAGE));
@@ -189,6 +223,7 @@ public abstract class Video
         coverPath = cursor.getString(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_COVER_PATH));
         budget = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_BUDGET));
         quality = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_QUALITY));
+        format = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_FORMAT));
         threeD = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_THREE_D))>0;
         voteAverage = cursor.getFloat(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_VOTE_AVERAGE));
         voteCount = cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntry.COLUMN_VOTE_COUNT));
@@ -242,6 +277,14 @@ public abstract class Video
 
     public void setOverview(String overview) {
         this.overview = overview;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public int getRuntime() {
@@ -404,11 +447,12 @@ public abstract class Video
         this.quality = quality;
     }
 
-    public String getQualityString() {
-        for(Quality quality1:Quality.values()) {
-            if(quality == quality1.getId()) return quality1.getName();
-        }
-        return null;
+    public int getFormat() {
+        return format;
+    }
+
+    public void setFormat(int format) {
+        this.format = format;
     }
 
     public boolean isThreeD() {
@@ -456,6 +500,7 @@ public abstract class Video
                 ", adult=" + adult +
                 ", budget=" + budget +
                 ", quality=" + quality +
+                ", format=" + format +
                 ", threeD=" + threeD +
                 ", votePrivate=" + votePrivate +
                 '}';
@@ -479,6 +524,8 @@ public abstract class Video
     public static final Comparator<Video> COMPARATOR_DATE = new Comparator<Video>() {
         @Override
         public int compare(Video video1, Video video2) {
+            if(video1==null || video1.getReleaseDate()==null) return 1;
+            if(video2==null || video2.getReleaseDate()==null) return -1;
             return video2.getReleaseDate().compareTo(video1.getReleaseDate());
         }
 
@@ -489,6 +536,8 @@ public abstract class Video
     public static final Comparator<Video> COMPARATOR_NAME = new Comparator<Video>() {
         @Override
         public int compare(Video video1, Video video2) {
+            if(video1==null || video1.getTitle()==null) return 1;
+            if(video2==null || video2.getTitle()==null) return -1;
            return video1.getTitle().compareTo(video2.getTitle());
         }
 
@@ -499,6 +548,8 @@ public abstract class Video
     public static final Comparator<Video> COMPARATOR_RATING= new Comparator<Video>() {
         @Override
         public int compare(Video video1, Video video2) {
+            if(video1==null || (Float)video1.getVoteAverage()==null) return 1;
+            if(video2==null || (Float)video2.getVoteAverage()==null) return -1;
             return ((Float)video2.getVoteAverage()).compareTo(video1.getVoteAverage());
         }
 
@@ -512,8 +563,7 @@ public abstract class Video
         String[] selectionArgs = {String.valueOf(getId())};
         Cursor cursor = dbR.query(tableName,projection,WHERE,selectionArgs,null,null,null);
         List<T> entities = new ArrayList<T>();
-        cursor.moveToFirst();
-        do {
+        while(cursor.moveToNext()) {
             try {
                 T entity = clazz.newInstance();
                 entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MovieCatalogContract.VideoEntityEntry.COLUMN_ENTITY_ID)));
@@ -524,7 +574,7 @@ public abstract class Video
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-        } while(cursor.moveToNext());
+        }
         return entities;
     }
 

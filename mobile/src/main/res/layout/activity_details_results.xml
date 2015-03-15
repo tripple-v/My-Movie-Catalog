@@ -14,8 +14,10 @@
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
 
     </RelativeLayout>
 
@@ -333,6 +335,61 @@
 
                 </RelativeLayout>
 
+                <!-- Format layout -->
+                <RelativeLayout
+                    android:id="@+id/layout_format"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:layout_marginStart="@dimen/minimum_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:layout_below="@id/layout_quality"
+                    >
+
+                    <!-- android:layout_below="@id/layout_overview"-->
+                    <TextView
+                        android:id="@+id/label_format"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/label_format"
+                        android:textSize="@dimen/section_title_size_details"
+                        tools:ignore="HardcodedText" />
+
+                    <RadioGroup
+                        android:id="@+id/group_format"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:layout_below="@id/label_format"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/format_numeric"
+                            style="@style/ButtonRadio"
+                            android:text="@string/format_numeric"/>
+
+                        <RadioButton
+                            android:id="@+id/format_dvd"
+                            style="@style/ButtonRadio"
+                            android:text="@string/format_dvd"/>
+
+                        <RadioButton
+                            android:id="@+id/format_bluray"
+                            style="@style/ButtonRadio"
+                            android:text="@string/format_bluray"/>
+
+                    </RadioGroup>
+
+
+                </RelativeLayout>
+
                 <!-- Location layout -->
                 <RelativeLayout
                     android:id="@+id/layout_location"
@@ -342,7 +399,7 @@
                     android:layout_marginStart="@dimen/minimum_margin"
                     android:layout_marginTop="@dimen/standard_margin"
                     android:layout_marginBottom="@dimen/standard_margin"
-                    android:layout_below="@id/layout_quality">
+                    android:layout_below="@id/layout_format">
 
                     <TextView
                         android:id="@+id/label_location"
@@ -394,6 +451,56 @@
                             android:background="@android:drawable/ic_menu_view"/>
 
                     </LinearLayout>
+
+                </RelativeLayout>
+
+                <!-- Comment layout -->
+                <RelativeLayout
+                    android:id="@+id/layout_comment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/minimum_margin"
+                    android:layout_below="@id/layout_seasons"
+                    >
+
+                    <TextView
+                        android:id="@+id/label_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/label_comment"
+                        android:textSize="@dimen/section_title_size_details"
+                        tools:ignore="HardcodedText" />
+
+                    <Button
+                        android:id="@+id/button_comment"
+                        style="@style/LittleButton"
+                        android:layout_below="@+id/label_comment"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/add_comment"
+                        android:onClick="onClick"/>
+
+                    <com.vwuilbea.mymoviecatalog.util.textjustify.TextViewEx
+                        android:id="@+id/text_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/button_comment"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:layout_marginStart="@dimen/minimum_margin"
+                        android:layout_marginEnd="@dimen/minimum_margin"
+                        android:layout_marginRight="@dimen/minimum_margin"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:layout_marginBottom="@dimen/standard_margin"
+                        android:text="@string/no_comment"
+                        android:layout_gravity="center_vertical|end"
+                        android:gravity="start"
+                        tools:ignore="HardcodedText" />
 
                 </RelativeLayout>
 
